@@ -7,8 +7,6 @@ const Card = ({ name, repo, triggers, serviceID }: ServiceType) => {
   const navigate = useNavigate();
 
   const handleRunClick = (e: React.MouseEvent) => {
-    console.log('now running the service going to page to show staus!')
-    console.log(serviceID);
     navigate(`/services/${serviceID}`);
   }
 
