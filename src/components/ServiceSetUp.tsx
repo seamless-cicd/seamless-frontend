@@ -13,7 +13,10 @@ const inputBorderStyle = "ml-6 border border-gray-300 rounded-md py-2 px-4 focus
 const schema = yup.object().shape({
   serviceName: yup.string().required(),
   dockerBaseImage: yup.string().required(),
-  checkboxes: yup.array().of(yup.boolean()),
+  // checkboxes: yup.array().of(yup.boolean()),
+  mergeMain: yup.boolean().default(false),
+  openPullRequest: yup.boolean().default(false),
+  pushPullRequest: yup.boolean().default(false),
 });
 
 const ServiceSetUp = () => {
@@ -23,10 +26,12 @@ const ServiceSetUp = () => {
     resolver: yupResolver(schema),
   });
 
+  
+
   const onSubmit = (data: any) => {
     console.log(data, ' ... sending to API with axios');
     console.log('navigating to next step...')
-    // navigate('/service-set-up');
+    // navigate('/next-step...');
   }
 
   return (
@@ -45,25 +50,35 @@ const ServiceSetUp = () => {
 
 
       <div>
-        <label htmlFor="checkbox1">Checkbox 1</label>
-          <input
-            type="checkbox"
-            name="checkboxes[0]"
-            id="checkbox1"
-            // problem is with ref={register}
-            // ref={register}
-            // register={register}
-          />
+      <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">Triggers</h3>
+        <input
+          className="mr-2"
+          type="checkbox"
+          id="mergeMain"
+          {...register('mergeMain', {required: true})}
+          defaultChecked={false}
+        />
+        <label htmlFor="mergeMain">Merge To Main</label>
+
+        <br></br>
+        <input
+          className="mr-2"
+          type="checkbox"
+          id="openPullRequest"
+          {...register('openPullRequest')}
+        />
+        <label htmlFor="openPullRequest">Open Pull Request</label>
       
+        <br></br>
+        <input
+          className="mr-2"
+          type="checkbox"
+          id="Push Pull Request"
+          {...register('Push Pull Request')}
+        />
+        <label htmlFor="mergeMain">Push Pull Request</label>
     
       </div>
-
-
-
-
-
-
-
 
 
 
