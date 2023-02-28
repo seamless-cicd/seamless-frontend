@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { RunType } from "../types/runType";
-import RunsCard from './cards/RunsCard'
+
+import RunsList from "./lists/RunsList";
 
 const sampleRuns = [
   {
@@ -28,9 +29,6 @@ const sampleRuns = [
   },
 ]
 
-
-
-
 const Service = () => {
   const serviceID = useParams();
 
@@ -49,40 +47,10 @@ const Service = () => {
     <div className="mt-8 ml-8">
     <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Runs</h2>
     <div className="border rounded-lg shadow-md p-4 mr-80">
-      {runs.map(run => {
-        return (
-        <RunsCard 
-          key={run.runID} 
-          start={run.start} 
-          end={run.end} 
-          duration={run.duration} 
-          triggerEvent={run.triggerEvent} 
-          commitID={run.commitID} 
-          commitHash={run.commitHash} 
-          commitMessage={run.commitMessage} 
-          status={run.status} 
-        />
-        )
-      })}
+      <RunsList runs={runs} /> 
     </div>
   </div>
   )
 }
-
-/*
-export interface RunType {
-  runID: string;
-  start: string;
-  end: string;
-  duration: string;
-  triggerEvent: string;
-  commitID: string;
-  commitHash: string;
-  commitMessage: string;
-  status: string;
-}
-*/
-
-
 
 export default Service
