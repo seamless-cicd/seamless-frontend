@@ -3,6 +3,7 @@ import Home from './components/Home';
 import PipelineSetUp from './components/PipelineSetUp';
 import Services from './components/Services';
 import ServiceSetUp from './components/ServiceSetUp';
+import Service from './components/Service';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/pipeline-set-up" element={<PipelineSetUp />} />
           <Route path="/service-set-up" element={<ServiceSetUp />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:serviceID" element={<Service />} />
         </Routes>
       </Router>
 

@@ -1,10 +1,15 @@
 import { ServiceType } from "../types/serviceType";
+import { useNavigate } from "react-router-dom";
 
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
 const Card = ({ name, repo, triggers, serviceID }: ServiceType) => {
+  const navigate = useNavigate();
+
   const handleRunClick = (e: React.MouseEvent) => {
     console.log('now running the service going to page to show staus!')
+    console.log(serviceID);
+    navigate(`/services/${serviceID}`);
   }
 
   const handleEditClick = (e: React.MouseEvent) => {

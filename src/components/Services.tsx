@@ -7,13 +7,13 @@ const sampleServices = [
     name: 'Payment Microservice',
     repo: 'https://github.com/seamless-cicd/payment-service',
     triggers: ['Merge into main', 'Open PR', 'Push to PR'],
-    serviceID: 't01 (retrieved)',
+    serviceID: 't01',
   },
   {
     name: 'Ecommerce Microservice',
     repo: 'https://github.com/seamless-cicd/ecommerce-service',
     triggers: ['Merge into main'],
-    serviceID: 't02 (retrieved)',
+    serviceID: 't02',
   },
 ];
 
@@ -28,11 +28,6 @@ const Services = () => {
     }
     fetchServices();
   }, []);
-
-  const handleCardClick = (e: any) => {
-    console.log('card click');
-    console.log(e.target);
-  }
 
   return (
     <div className="mt-8 ml-8">
