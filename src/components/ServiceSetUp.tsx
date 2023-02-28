@@ -1,3 +1,5 @@
+// To Do: create a service ID when this form is submitted either on backend or frontend. ID needed to identify single service
+
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -37,7 +39,7 @@ const ServiceSetUp = () => {
   const onSubmit = (data: any) => {
     console.log(data, ' ... sending to API with axios');
     console.log('navigating to next step...')
-    // navigate('/next-step...');
+    navigate('/services');
   }
 
   return (
