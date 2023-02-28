@@ -22,12 +22,37 @@ interface ServiceType {
   serviceID: string;
 }
 
+const Card = ({ name, repo, triggers, serviceID }: ServiceType) => {
+  return (
+    <div className="border p-4 rounded-md mb-4 mr-2">
+      <h2 className="font-bold">{name}</h2>
+      <p className="text-gray-600">{`ServiceID: ${serviceID}`}</p>
+      <p className="text-gray-600">{`Repo: ${repo}`}</p>
+      <p className="text-gray-600">{`Triggers: ${triggers.join(',')}`}</p>
+    </div>
+  );
+};
+
+const CardList = ({ data }: any) => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {data.map((name: any, repo:any, triggers:any, sercviceID:string) => (
+        <Card name={data.name} repo={data.repo} serviceID={data.serviceID} triggers={data.triggers} />
+      ))}
+    </div>
+  );
+};
+
+
+
+
+
 const Services = () => {
   const [services, setServices] = useState<ServiceType[]>([]);
 
   useEffect(() => {
     const fetchServices = async () => {
-      // normally you would go and get the data
+      // To Do: get data using
       // const result = await axios.get('backendURL')
       setServices(sampleServices);
     }
@@ -42,8 +67,8 @@ const Services = () => {
       })} */}
     
 
-
-    <div className="border rounded-lg shadow-md p-4">
+{/* Old formatting working */}
+    {/* <div className="border rounded-lg shadow-md p-4">
       {services.map(service => {
         return Object.entries(service).map(([key, value]) => {
           return (
@@ -56,7 +81,21 @@ const Services = () => {
 
         
       })}
+    </div> */}
+
+
+
+{/* // EXPERIMENTAL */}
+
+    <div className="border rounded-lg shadow-md p-4 mr-80">
+      {services.map(service => {
+        return <Card name={service.name} repo={service.repo} triggers={service.triggers} serviceID={service.serviceID} />
+      })}
     </div>
+
+
+
+
 
     </div>
   )
