@@ -37,9 +37,27 @@ const Services = () => {
   return (
     <div className="mt-8 ml-8">
       <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Pipeline Services</h2>
-      {services.map(service => {
+      {/* {services.map(service => {
         return <li key={service.serviceID}>{service.name} {service.repo}</li>
+      })} */}
+    
+
+
+    <div className="border rounded-lg shadow-md p-4">
+      {services.map(service => {
+        return Object.entries(service).map(([key, value]) => {
+          return (
+            <div className="mb-2" key={key}>
+            <div className="text-gray-500 font-bold">{key}</div>
+            <div className="text-gray-800">{value}</div>
+            </div>
+          )
+        })
+
+        
       })}
+    </div>
+
     </div>
   )
 }
