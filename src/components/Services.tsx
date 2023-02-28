@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from './Card'
 import { ServiceType } from "../types/serviceType";
+import ServicesList from "./lists/ServicesList";
 
 const sampleServices = [
   {
@@ -29,23 +30,13 @@ const Services = () => {
     fetchServices();
   }, []);
 
-  return (
+  return ( 
     <div className="mt-8 ml-8">
-      <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Pipeline Services</h2>
-      <div className="border rounded-lg shadow-md p-4 mr-80">
-        {services.map(service => {
-          return (
-          <Card 
-            key={service.serviceID} 
-            name={service.name} 
-            repo={service.repo} 
-            triggers={service.triggers} 
-            serviceID={service.serviceID} 
-          />
-          )
-        })}
-      </div>
+    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Runs</h2>
+    <div className="border rounded-lg shadow-md p-4 mr-80">
+      <ServicesList services={services} /> 
     </div>
+  </div>
   )
 }
 
