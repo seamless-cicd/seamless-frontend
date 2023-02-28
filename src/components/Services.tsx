@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Card from './Card'
 
 const sampleServices = [
   {
@@ -15,33 +16,26 @@ const sampleServices = [
   },
 ];
 
-interface ServiceType {
-  name: string;
-  repo: string;
-  triggers: string[];
-  serviceID: string;
-}
+// interface ServiceType {
+//   name: string;
+//   repo: string;
+//   triggers: string[];
+//   serviceID: string;
+// }
 
-const Card = ({ name, repo, triggers, serviceID }: ServiceType) => {
-  return (
-    <div className="border p-4 rounded-md mb-4 mr-2">
-      <h2 className="font-bold">{name}</h2>
-      <p className="text-gray-600">{`ServiceID: ${serviceID}`}</p>
-      <p className="text-gray-600">{`Repo: ${repo}`}</p>
-      <p className="text-gray-600">{`Triggers: ${triggers.join(',')}`}</p>
-    </div>
-  );
-};
+// const Card = ({ name, repo, triggers, serviceID }: ServiceType) => {
+//   return (
+//     <div className="border p-4 rounded-md mb-4 mr-2">
+//       <h2 className="font-bold text-indigo-700">{name}</h2>
+//       <p className="text-gray-600">{`ServiceID: ${serviceID}`}</p>
+//       <p className="text-gray-600">{`Repo: ${repo}`}</p>
+//       <p className="text-gray-600">{`Triggers: ${triggers.join(',')}`}</p>
+//     </div>
+//   );
+// };
 
-const CardList = ({ data }: any) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {data.map((name: any, repo:any, triggers:any, sercviceID:string) => (
-        <Card name={data.name} repo={data.repo} serviceID={data.serviceID} triggers={data.triggers} />
-      ))}
-    </div>
-  );
-};
+
+
 
 
 
@@ -62,41 +56,11 @@ const Services = () => {
   return (
     <div className="mt-8 ml-8">
       <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Pipeline Services</h2>
-      {/* {services.map(service => {
-        return <li key={service.serviceID}>{service.name} {service.repo}</li>
-      })} */}
-    
-
-{/* Old formatting working */}
-    {/* <div className="border rounded-lg shadow-md p-4">
-      {services.map(service => {
-        return Object.entries(service).map(([key, value]) => {
-          return (
-            <div className="mb-2" key={key}>
-            <div className="text-gray-500 font-bold">{key}</div>
-            <div className="text-gray-800">{value}</div>
-            </div>
-          )
-        })
-
-        
-      })}
-    </div> */}
-
-
-
-{/* // EXPERIMENTAL */}
-
-    <div className="border rounded-lg shadow-md p-4 mr-80">
-      {services.map(service => {
-        return <Card name={service.name} repo={service.repo} triggers={service.triggers} serviceID={service.serviceID} />
-      })}
-    </div>
-
-
-
-
-
+      <div className="border rounded-lg shadow-md p-4 mr-80">
+        {services.map(service => {
+          return <Card name={service.name} repo={service.repo} triggers={service.triggers} serviceID={service.serviceID} />
+        })}
+      </div>
     </div>
   )
 }
