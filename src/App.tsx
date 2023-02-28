@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from './components/Home';
 import PipelineSetUp from './components/PipelineSetUp';
+import Services from './components/Services';
 import ServiceSetUp from './components/ServiceSetUp';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/pipeline-set-up" element={<PipelineSetUp />} />
           <Route path="/service-set-up" element={<ServiceSetUp />} />
+          <Route path="/services" element={<Services />} />
         </Routes>
       </Router>
 

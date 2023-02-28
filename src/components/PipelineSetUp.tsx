@@ -119,13 +119,12 @@ const PipelineSetUp = () => {
         {errors.awsFargateClusterName && <p className={errorMsgStyle}>{errors.awsFargateClusterName.message}</p>}
 
 
-
       </div>
  
 
       <button 
       className={submitButtonStyle}
-      type="submit">Submit</button>
+      type="submit">Continue Set Up Services</button>
     </form>
   </div>
   )
