@@ -17,7 +17,7 @@ export interface RunType {
 
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
-const Card = ({ runID, start, end, duration, triggerEvent, commitID, commitHash, commitMessage, status }: RunType) => {
+const RunCard = ({ runID, start, end, duration, triggerEvent, commitID, commitHash, commitMessage, status }: RunType) => {
   const navigate = useNavigate();
 
   const handleViewClick = (e: React.MouseEvent) => {
@@ -46,4 +46,4 @@ const Card = ({ runID, start, end, duration, triggerEvent, commitID, commitHash,
   );
 };
 
-export default Card;
+export default RunCard;
