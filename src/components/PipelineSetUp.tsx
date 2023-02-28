@@ -1,3 +1,5 @@
+// To Do: create pipeline ID either on backend when this is submitted or on front end
+
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,9 +13,9 @@ const inputBorderStyle = "ml-6 border border-gray-300 rounded-md py-2 px-4 focus
 
 
 const schema = yup.object().shape({
-  pipelineName: yup.string().required(),
+  pipelineName: yup.string().required('Name is required'),
   // PAT has a length of 40 chars
-  gitHubPAT: yup.string().required().min(40).max(40),
+  gitHubPAT: yup.string().required().min(40, 'Must be 40 characters').max(40, 'Must be 40 characters'),
   // awsAccountID is a 12 digit number from what I have seen
   awsAccountID: yup.number().required().min(100000000000, 'Must be 12 digits').max(999999999999, 'Must be 12 digits'),
   // will automatically lowercase it
