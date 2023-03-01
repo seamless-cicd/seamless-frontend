@@ -19,8 +19,11 @@ const StageCard = ({ name, duration, status, containerID, attempts }: StageType)
       <p className="text-gray-600">{`Status: ${status}`}</p>
       <p className="text-gray-600">{`Container ID: ${containerID}`}</p>
       <p className="text-gray-600">{`Attempts: ${attempts}`}</p>
-      <button className={submitButtonStyle} onClick={handleViewLogsClick}>View Logs</button>
-      <button className={submitButtonStyle} onClick={handleReRunClick}>Re-Run</button>
+
+      {/* Logic to hide or show buttons based off of status */}
+      {(status === 'Succeeded' || status === 'In Progress') && <button className={submitButtonStyle} onClick={handleViewLogsClick}>View Logs</button>}
+
+      {status !== 'Pending' && <button className={submitButtonStyle} onClick={handleReRunClick}>Re-Run</button>}
     </div>
   );
 };
