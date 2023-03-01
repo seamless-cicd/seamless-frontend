@@ -1,3 +1,5 @@
+import { StageType } from "./stageType";
+
 export interface RunStageType {
   runID: string;
   start: string;
@@ -5,13 +7,4 @@ export interface RunStageType {
   timeElapsed: string;
   status: string;
   stages: StageType[];
-
-}
-
-interface StageType {
-  name: string;
-  duration: string;
-  status: string;
-  containerID: string;
-  attempts: string;
 }
