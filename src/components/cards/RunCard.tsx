@@ -1,20 +1,6 @@
 import { RunType } from "../../types/runType";
 import { useNavigate } from "react-router-dom";
 
-/*
-export interface RunType {
-  runID: string;
-  start: string;
-  end: string;
-  duration: string;
-  triggerEvent: string;
-  commitID: string;
-  commitHash: string;
-  commitMessage: string;
-  status: string;
-}
-*/
-
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
 const RunCard = ({ runID, start, end, duration, triggerEvent, commitID, commitHash, commitMessage, status }: RunType) => {
@@ -22,7 +8,7 @@ const RunCard = ({ runID, start, end, duration, triggerEvent, commitID, commitHa
 
   const handleViewClick = (e: React.MouseEvent) => {
     console.log('navigating to a single run to show info')
-    // navigate(`/runs/${runID}`);
+    navigate(`/runs/${runID}`);
   }
 
   const handleReRunClick = (e: React.MouseEvent) => {
