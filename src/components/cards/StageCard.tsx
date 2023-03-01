@@ -23,7 +23,7 @@ const StageCard = ({ name, duration, status, containerID, attempts }: StageType)
       {/* Logic to hide or show buttons based off of status */}
       {(status === 'Succeeded' || status === 'In Progress') && <button className={submitButtonStyle} onClick={handleViewLogsClick}>View Logs</button>}
 
-      {status !== 'Pending' && <button className={submitButtonStyle} onClick={handleReRunClick}>Re-Run</button>}
+      {(status === 'Succeeded' || status === 'Failed') && <button className={submitButtonStyle} onClick={handleReRunClick}>Re-Run</button>}
     </div>
   );
 };
