@@ -4,7 +4,7 @@ import ServicesList from "./lists/ServicesList";
 import axios from 'axios';
 
 // TESTING WITH HARD CODED URL, EVENTUALLY TO BE REPLACED WITH CURRENT SERVICEID
-const SERVICES_URL = import.meta.env.VITE_SERVICES_URL
+const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL
 
 const Services = () => {
   const [services, setServices] = useState<ServiceType[]>([]);
@@ -12,7 +12,7 @@ const Services = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const result = await axios.get(SERVICES_URL);
+        const result = await axios.get(TEST_SERVICES_URL);
         setServices(result.data);
       } catch (e) {
         console.log(e);

@@ -1,44 +1,25 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { RunType } from "../types/runType";
-
 import RunsList from "./lists/RunsList";
+import axios from 'axios';
 
-const sampleRuns = [
-  {
-    runID: 'r03',
-    start: '2/25/23 9:00:00',
-    end: 'Pending',
-    duration: 'Pending',
-    triggerEvent: 'Push to PR',
-    commitID: 'com03',
-    commitHash: 'chash03',
-    commitMessage: 'Updating Feature',
-    status: 'In Progress'
-  },
-  {
-    runID: 'r02',
-    start: '2/25/23 7:31:00',
-    end: '2/25/23 7:32:00',
-    duration: '1 minute',
-    triggerEvent: 'Open PR',
-    commitID: 'com02',
-    commitHash: 'chash02',
-    commitMessage: 'Works great',
-    status: 'Success'
-  },
-]
+const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
 
 const Service = () => {
-  const serviceID = useParams();
+  const serviceID = useParams().serviceID;
+  console.log(serviceID);
 
   const [runs, setRuns] = useState<RunType[]>([]);
 
   useEffect(() => {
     const fetchServices = async () => {
-      // To Do: get runs data using
-      // const result = await axios.get('backendURL')
-      setRuns(sampleRuns);
+      try {
+        const result = await axios.get(TEST_RUNS_URL + serviceID);
+        setRuns(result.data);
+      } catch (e) {
+        console.log(e);
+      }
     }
     fetchServices();
   }, [])
