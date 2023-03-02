@@ -23,7 +23,7 @@ const Services = () => {
 
   return ( 
     <div className="mt-8 ml-8">
-    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Runs</h2>
+    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Services (Services.tsx)</h2>
     <div className="border rounded-lg shadow-md p-4 mr-80">
       <ServicesList services={services} /> 
     </div>
