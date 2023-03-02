@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Card from './Card'
 import { ServiceType } from "../types/serviceType";
 import ServicesList from "./lists/ServicesList";
+import axios, { AxiosResponse } from 'axios';
 
 const sampleServices = [
   {
@@ -18,16 +18,29 @@ const sampleServices = [
   },
 ];
 
+// has a pipelineID for testing. will get all services associated with that pipelineId
+const LOCAL_URL = 'http://localhost:3001/services/ae8e5bd5-32fd-4b4e-81b7-d7f9fe264927'
+
 const Services = () => {
   const [services, setServices] = useState<ServiceType[]>([]);
 
   useEffect(() => {
-    const fetchServices = async () => {
-      // To Do: get data using
-      // const result = await axios.get('backendURL')
-      setServices(sampleServices);
-    }
-    fetchServices();
+    // const fetchServices = async () => {
+      
+    //   const result = await axios.get(LOCAL_URL);
+    //   console.log(result.data)
+     
+    //   setServices(sampleServices);
+    // }
+    // fetchServices();
+
+    axios.get(LOCAL_URL)
+      .then((response: AxiosResponse<ServiceType[]>) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return ( 

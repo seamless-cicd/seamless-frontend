@@ -7,11 +7,22 @@ const ServicesList = ({services}: ServicesListProps) => {
       {services.map(service => {
         return (
         <ServiceCard 
-          key={service.serviceID} 
-          name={service.name} 
-          repo={service.repo} 
-          triggers={service.triggers} 
-          serviceID={service.serviceID} 
+          key={service.id}    
+          awsEcrRepository={service.awsEcrRepository}
+          awsFargateService={service.awsFargateService}
+          codeQualityCommand={service.codeQualityCommand}
+          createdAt={service.createdAt}
+          dockerfilePath={service.dockerfilePath}
+          githubRepository={service.githubRepository}
+          id={service.id}
+          name={service.name}
+          pipelineId={service.pipelineId}
+          testCommand={service.testCommand}
+          triggerOnCommit={service.triggerOnCommit}
+          triggerOnPrOpen={service.triggerOnPrOpen}
+          triggerOnPrSync={service.triggerOnPrSync}
+          updatedAt={service.updatedAt}
+          useStaging={service.useStaging}
         />
         )
       })}
