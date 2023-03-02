@@ -6,29 +6,15 @@ import StagesList from "./lists/StagesList";
 import StageHeaderCard from "./cards/StageHeaderCard";
 import { StageType } from "../types/stageType";
 
+const TEST_STAGES_URL = import.meta.env.VITE_TEST_STAGES_URL;
+
+// data needed for stage header card - TO DO: fetch from db
 const sampleRun = {
   runID: 'r03',
   start: '2/25/2023 9:00:00',
   end: 'Pending',
   timeElapsed: '4 minutes',
   status: 'In Progress (Build and Push stage)',
-  stages: [
-    {
-      name: 'Prepare', duration: '1 min', status: 'Succeeded', containerID: 'con01', attempts: '1'
-    },
-    {
-      name: 'Lint', duration: '2 min', status: 'Succeeded', containerID: 'con02', attempts: '1'
-    },
-    {
-      name: 'Test', duration: '1 min', status: 'Succeeded', containerID: 'con03', attempts: '1'
-    },
-    {
-      name: 'Build and Push', duration: 'Pending', status: 'In Progress', containerID: 'con04', attempts: '1'
-    },
-    {
-      name: 'Deploy', duration: 'Pending', status: 'Pending', containerID: 'Pending', attempts: 'Pending'
-    },
-  ]
 }
 
 const defaultRunStage = {
@@ -41,21 +27,16 @@ const defaultRunStage = {
 }
 
 const Run = () => {
-  // id needed for axios call to backend
   const runID = useParams().runID;
   const [run, setRun] = useState<RunStageType>(defaultRunStage);
   const [stages, setStages] = useState<StageType[]>([]);
-
-  // fetch data for that run from the database on mount
-
-  const TEST_STAGES_URL = 'http://localhost:3001/stages/';
 
   useEffect(() => {
     const fetchStages = async () => {
       try {
         const result = await axios.get(TEST_STAGES_URL + runID);
         setStages(result.data);
-        console.log(result.data)
+       // update with data that will be fetched, make query
         setRun(sampleRun)
       } catch (e) {
         console.log(e);
@@ -75,7 +56,7 @@ const Run = () => {
 
     <StageHeaderCard run={run} />
     <div className="border rounded-lg shadow-md p-4 mr-80">
-      <StagesList stages={run.stages}/>
+      <StagesList stages={stages}/>
     </div>
   </div>
   )
