@@ -1,8 +1,10 @@
 import { useParams } from "react-router";
 import { useState, useEffect } from 'react';
+import axios from "axios";
 import { RunStageType } from "../types/runStageType";
 import StagesList from "./lists/StagesList";
 import StageHeaderCard from "./cards/StageHeaderCard";
+import { StageType } from "../types/stageType";
 
 const sampleRun = {
   runID: 'r03',
@@ -42,15 +44,25 @@ const Run = () => {
   // id needed for axios call to backend
   const runID = useParams().runID;
   const [run, setRun] = useState<RunStageType>(defaultRunStage);
+  const [stages, setStages] = useState<StageType[]>([]);
 
   // fetch data for that run from the database on mount
+
+  const TEST_STAGES_URL = 'http://localhost:3001/stages/';
+
   useEffect(() => {
-    const fetchRun = async () => {
-      // fetch with axios
-      // const result = await axios.get(backendURL + runID) identifies resource needed
-      setRun(sampleRun)
+    const fetchStages = async () => {
+      try {
+        const result = await axios.get(TEST_STAGES_URL + runID);
+        setStages(result.data);
+        console.log(result.data)
+        setRun(sampleRun)
+      } catch (e) {
+        console.log(e);
+      }
     }
-    fetchRun();
+    fetchStages();
+    console.log(stages);
   }, []);
   
   return (

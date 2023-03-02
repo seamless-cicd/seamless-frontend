@@ -1,7 +1,19 @@
+// export interface StageType {
+//   name: string;
+//   duration: string;
+//   status: string;
+//   containerID: string;
+//   attempts: string;
+// }
+
 export interface StageType {
-  name: string;
+  id: string;
+  createdAt: string;
+  type: string;
+  startedAt: string;
+  endedAt: string;
   duration: string;
   status: string;
-  containerID: string;
-  attempts: string;
+  containerId: string;
+  runId: string;
 }
