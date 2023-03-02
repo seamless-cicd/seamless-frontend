@@ -1,8 +1,9 @@
-import { StageType } from "../../types/stageType";
+import { StageCardProps } from "../../types/stageCardProps";
 
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
-const StageCard = ({ name, duration, status, containerID, attempts }: StageType) => {
+
+const StageCard = ({ stage }: StageCardProps) => {
 
   const handleViewLogsClick = (e: React.MouseEvent): void => {
     console.log('showing the logs below...')
@@ -11,19 +12,23 @@ const StageCard = ({ name, duration, status, containerID, attempts }: StageType)
   const handleReRunClick = (e: React.MouseEvent): void => {
     console.log('going to re-run the stage now!')
   }
-  
+
   return (
     <div className="border p-4 rounded-md mb-4 mr-2">
-      <h2 className="font-bold text-indigo-700">{name}</h2>
-      <p className="text-gray-600">{`Duration: ${duration}`}</p>
-      <p className="text-gray-600">{`Status: ${status}`}</p>
-      <p className="text-gray-600">{`Container ID: ${containerID}`}</p>
-      <p className="text-gray-600">{`Attempts: ${attempts}`}</p>
+      <h2 className="font-bold text-indigo-700">ID: {stage.id}</h2>
+      <p className="text-gray-600">{`Duration: ${stage.duration}`}</p>
+      <p className="text-gray-600">{`Status: ${stage.status}`}</p>
+      <p className="text-gray-600">{`Container ID: ${stage.containerId}`}</p>
+      <p className="text-gray-600">{`Run ID: ${stage.runId}`}</p>
+      <p className="text-gray-600">{`Type: ${stage.type}`}</p>
+      <p className="text-gray-600">{`Created At: ${stage.createdAt}`}</p>
+      <p className="text-gray-600">{`Started At: ${stage.startedAt}`}</p>
+      <p className="text-gray-600">{`Ended At: ${stage.endedAt}`}</p>
 
       {/* Logic to hide or show buttons based off of status */}
-      {(status === 'Succeeded' || status === 'In Progress') && <button className={submitButtonStyle} onClick={handleViewLogsClick}>View Logs</button>}
+      {(stage.status === 'SUCCESS' || stage.status === 'IN_PROGRESS') && <button className={submitButtonStyle} onClick={handleViewLogsClick}>View Logs</button>}
 
-      {(status === 'Succeeded' || status === 'Failed') && <button className={submitButtonStyle} onClick={handleReRunClick}>Re-Run</button>}
+      {(stage.status === 'SUCCESS' || stage.status === 'FAILURE') && <button className={submitButtonStyle} onClick={handleReRunClick}>Re-Run</button>}
     </div>
   );
 };

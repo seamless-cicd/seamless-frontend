@@ -6,14 +6,7 @@ const StagesList = ({stages}: StagesListProps) => {
   <div>
     {stages.map(stage => {
       return (
-      <StageCard 
-        key={stage.containerID}
-        name={stage.name}
-        duration={stage.duration}
-        status={stage.status}
-        containerID={stage.containerID}
-        attempts={stage.attempts}
-      />
+      <StageCard key={stage.id} stage={stage} />
       )
     })}
   </div>

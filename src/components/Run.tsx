@@ -1,56 +1,46 @@
 import { useParams } from "react-router";
 import { useState, useEffect } from 'react';
+import axios from "axios";
 import { RunStageType } from "../types/runStageType";
 import StagesList from "./lists/StagesList";
 import StageHeaderCard from "./cards/StageHeaderCard";
+import { StageType } from "../types/stageType";
 
-const sampleRun = {
-  runID: 'r03',
-  start: '2/25/2023 9:00:00',
-  end: 'Pending',
-  timeElapsed: '4 minutes',
-  status: 'In Progress (Build and Push stage)',
-  stages: [
-    {
-      name: 'Prepare', duration: '1 min', status: 'Succeeded', containerID: 'con01', attempts: '1'
-    },
-    {
-      name: 'Lint', duration: '2 min', status: 'Succeeded', containerID: 'con02', attempts: '1'
-    },
-    {
-      name: 'Test', duration: '1 min', status: 'Succeeded', containerID: 'con03', attempts: '1'
-    },
-    {
-      name: 'Build and Push', duration: 'Pending', status: 'In Progress', containerID: 'con04', attempts: '1'
-    },
-    {
-      name: 'Deploy', duration: 'Pending', status: 'Pending', containerID: 'Pending', attempts: 'Pending'
-    },
-  ]
-}
+const TEST_STAGES_URL = import.meta.env.VITE_TEST_STAGES_URL;
+const TEST_STAGE_HEADER_URL = import.meta.env.VITE_TEST_STAGE_HEADER_URL;
 
 const defaultRunStage = {
-  runID: "",
-  start: "",
-  end: "",
-  timeElapsed: "",
+  id: "",
+  createdAt: "",
+  startedAt: "",
+  endedAt: "",
+  duration: "",
+  commitHash: "",
+  commitMessage: "",
+  committer: "",
   status: "",
-  stages: [],
+  triggerType: "",
+  serviceId: "",
 }
 
 const Run = () => {
-  // id needed for axios call to backend
   const runID = useParams().runID;
   const [run, setRun] = useState<RunStageType>(defaultRunStage);
+  const [stages, setStages] = useState<StageType[]>([]);
 
-  // fetch data for that run from the database on mount
   useEffect(() => {
-    const fetchRun = async () => {
-      // fetch with axios
-      // const result = await axios.get(backendURL + runID) identifies resource needed
-      setRun(sampleRun)
+    const fetchStages = async () => {
+      try {
+        const result = await axios.get(TEST_STAGES_URL + runID);
+        setStages(result.data);
+        const headerResult = await axios.get(TEST_STAGE_HEADER_URL + runID);
+        setRun(headerResult.data);
+      } catch (e) {
+        console.log(e);
+      }
     }
-    fetchRun();
+    fetchStages();
+    console.log(stages);
   }, []);
   
   return (
@@ -63,7 +53,7 @@ const Run = () => {
 
     <StageHeaderCard run={run} />
     <div className="border rounded-lg shadow-md p-4 mr-80">
-      <StagesList stages={run.stages}/>
+      <StagesList stages={stages}/>
     </div>
   </div>
   )
