@@ -7,23 +7,20 @@ import StageHeaderCard from "./cards/StageHeaderCard";
 import { StageType } from "../types/stageType";
 
 const TEST_STAGES_URL = import.meta.env.VITE_TEST_STAGES_URL;
-
-// data needed for stage header card - TO DO: fetch from db
-const sampleRun = {
-  runID: 'r03',
-  start: '2/25/2023 9:00:00',
-  end: 'Pending',
-  timeElapsed: '4 minutes',
-  status: 'In Progress (Build and Push stage)',
-}
+const TEST_STAGE_HEADER_URL = import.meta.env.VITE_TEST_STAGE_HEADER_URL;
 
 const defaultRunStage = {
-  runID: "",
-  start: "",
-  end: "",
-  timeElapsed: "",
+  id: "",
+  createdAt: "",
+  startedAt: "",
+  endedAt: "",
+  duration: "",
+  commitHash: "",
+  commitMessage: "",
+  committer: "",
   status: "",
-  stages: [],
+  triggerType: "",
+  serviceId: "",
 }
 
 const Run = () => {
@@ -36,8 +33,8 @@ const Run = () => {
       try {
         const result = await axios.get(TEST_STAGES_URL + runID);
         setStages(result.data);
-       // update with data that will be fetched, make query
-        setRun(sampleRun)
+        const headerResult = await axios.get(TEST_STAGE_HEADER_URL + runID);
+        setRun(headerResult.data);
       } catch (e) {
         console.log(e);
       }

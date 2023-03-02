@@ -1,10 +1,13 @@
-import { StageType } from "./stageType";
-
 export interface RunStageType {
-  runID: string;
-  start: string;
-  end: string;
-  timeElapsed: string;
+  id: string;
+  createdAt: string;
+  startedAt: string;
+  endedAt: string;
+  duration: string;
+  commitHash: string;
+  commitMessage: string;
+  committer: string;
   status: string;
-  stages: StageType[];
+  triggerType: string;
+  serviceId: string;
 }
