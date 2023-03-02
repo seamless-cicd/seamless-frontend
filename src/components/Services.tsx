@@ -23,7 +23,12 @@ const Services = () => {
 
   return ( 
     <div className="mt-8 ml-8">
-    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Services (Services.tsx)</h2>
+    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Services</h2>
+    
+    {/* DISPLAY INFO TO REMOVE */}
+    <h2 className="text-1xl text-indigo-700 font-bold mb-4">Services.tsx - ServicesList.tsx - ServiceCard.tsx</h2>
+    <h2 className="text-1xl text-indigo-700 font-bold mb-4">/services</h2>
+    
     <div className="border rounded-lg shadow-md p-4 mr-80">
       <ServicesList services={services} /> 
     </div>
