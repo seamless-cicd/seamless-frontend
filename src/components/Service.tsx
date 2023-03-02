@@ -8,7 +8,6 @@ const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
 
 const Service = () => {
   const serviceID = useParams().serviceID;
-  console.log(serviceID);
 
   const [runs, setRuns] = useState<RunType[]>([]);
 
@@ -26,7 +25,7 @@ const Service = () => {
 
   return (
     <div className="mt-8 ml-8">
-    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Runs</h2>
+    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Service Runs (Service.tsx)</h2>
     <div className="border rounded-lg shadow-md p-4 mr-80">
       <RunsList runs={runs} /> 
     </div>

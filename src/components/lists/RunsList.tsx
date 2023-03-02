@@ -6,20 +6,7 @@ const RunsList = ({runs}: RunsListProps) => {
   <div>
     {runs.map(run => {
       return (
-      <RunCard 
-        key={run.id}
-        commitHash={run.commitHash}
-        commitMessage={run.commitMessage}
-        committer={run.committer}
-        createdAt={run.createdAt}
-        duration={run.duration}
-        endedAt={run.endedAt}
-        id={run.id}
-        serviceId={run.serviceId}
-        startedAt={run.startedAt}
-        status={run.status}
-        triggerType={run.triggerType}
-      />
+      <RunCard key={run.id} run={run} />
       )
     })}
   </div>
