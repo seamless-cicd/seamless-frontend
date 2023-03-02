@@ -55,6 +55,12 @@ const Run = () => {
   
   return (
     <div className="mt-8 ml-8">
+    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Run Stages</h2>
+
+    {/* DISPLAY INFO TO REMOVE */}
+    <h2 className="text-1xl text-indigo-700 font-bold mb-4">Run.tsx - StageHeaderCard.tsx - StagesList.tsx - StageCard.tsx</h2>
+    <h2 className="text-1xl text-indigo-700 font-bold mb-4">/runs/:runId</h2>
+
     <StageHeaderCard run={run} />
     <div className="border rounded-lg shadow-md p-4 mr-80">
       <StagesList stages={run.stages}/>

@@ -13,7 +13,6 @@ const StageHeaderCard = ({run}: StageHeaderProps) => {
   
   return (
     <div>
-    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Run</h2>
     <div className="border rounded-lg shadow-md p-4 mr-80 mb-8">
       <h2 className="font-bold text-indigo-700">Status: {run.status}</h2>
       <p className="text-gray-600">{`runID: ${run.runID}`}</p>
