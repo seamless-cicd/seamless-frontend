@@ -14,7 +14,7 @@ const Service = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const result = await axios.get(TEST_RUNS_URL + serviceID);
+        const result = await axios.get(TEST_RUNS_URL + `?serviceID=${serviceID}`);
         setRuns(result.data);
       } catch (e) {
         console.log(e);
