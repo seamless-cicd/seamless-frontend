@@ -7,7 +7,7 @@ import StageHeaderCard from "./cards/StageHeaderCard";
 import { StageType } from "../types/stageType";
 
 const TEST_STAGES_URL = import.meta.env.VITE_TEST_STAGES_URL;
-const TEST_STAGE_HEADER_URL = import.meta.env.VITE_TEST_STAGE_HEADER_URL;
+const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
 
 const defaultRunStage = {
   id: "",
@@ -31,10 +31,10 @@ const Run = () => {
   useEffect(() => {
     const fetchStages = async () => {
       try {
+        const headerResult = await axios.get(TEST_RUNS_URL + runID);
+        setRun(headerResult.data);
         const result = await axios.get(TEST_STAGES_URL + runID);
         setStages(result.data);
-        const headerResult = await axios.get(TEST_STAGE_HEADER_URL + runID);
-        setRun(headerResult.data);
       } catch (e) {
         console.log(e);
       }
