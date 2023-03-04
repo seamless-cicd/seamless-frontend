@@ -1,4 +1,3 @@
-// import { ServiceType } from "../../types/serviceType";
 import { useNavigate } from "react-router-dom";
 import { ServiceCardProps } from "../../types/serviceCardProps";
 
@@ -27,8 +26,8 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
       <p className="text-gray-600">{`Use Staging: ${service.useStaging}`}</p>
       <p className="text-gray-600">{`Code Quality Command: ${service.codeQualityCommand}`}</p>
       <p className="text-gray-600">{`Test Command: ${service.testCommand}`}</p>
-      <p className="text-gray-600">{`AWC ECR Repo: ${service.awsEcrRepository}`}</p>
-      <p className="text-gray-600">{`AWS Fargate: ${service.awsFargateService}`}</p>
+      <p className="text-gray-600">{`AWC ECR Repo: ${service.awsEcrRepo}`}</p>
+      <p className="text-gray-600">{`AWS Fargate: ${service.awsEcsService}`}</p>
       <p className="text-gray-600">{`Dockerfile Path: ${service.dockerfilePath}`}</p>
       <p className="text-gray-600">{`Created At: ${service.createdAt}`}</p>
       <p className="text-gray-600">{`Updated At: ${service.updatedAt}`}</p>
