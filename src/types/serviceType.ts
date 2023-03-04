@@ -11,7 +11,7 @@ export interface ServiceType {
   testCommand: string;
   triggerOnCommit: boolean;
   triggerOnPrOpen: boolean;
-  triggerOnPrSync: string;
+  triggerOnPrSync: boolean;
   updatedAt: string;
   useStaging: boolean;
 }

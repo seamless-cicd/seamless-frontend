@@ -1,5 +1,5 @@
 import { RunType } from "./runType";
 
-export interface StageHeaderProps {
+export interface RunHeaderProps {
   run: RunType
 };
