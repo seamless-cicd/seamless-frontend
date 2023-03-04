@@ -1,6 +1,6 @@
 export interface ServiceType {
-  awsEcrRepository: string;
-  awsFargateService: string;
+  awsEcrRepo: string;
+  awsEcsService: string;
   codeQualityCommand: string;
   createdAt: string;
   dockerfilePath: string;
