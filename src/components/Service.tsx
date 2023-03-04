@@ -7,14 +7,14 @@ import axios from 'axios';
 const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
 
 const Service = () => {
-  const serviceID = useParams().serviceID;
+  const serviceId = useParams().serviceId;
 
   const [runs, setRuns] = useState<RunType[]>([]);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const result = await axios.get(TEST_RUNS_URL + `?serviceID=${serviceID}`);
+        const result = await axios.get(TEST_RUNS_URL + `?serviceId=${serviceId}`);
         setRuns(result.data);
       } catch (e) {
         console.log(e);
