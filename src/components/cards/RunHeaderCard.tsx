@@ -1,8 +1,8 @@
-import { StageHeaderProps } from "../../types/stageHeaderProps";
+import { RunHeaderProps } from "../../types/runHeaderProps";
 
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
-const StageHeaderCard = ({run}: StageHeaderProps) => {
+const RunHeaderCard = ({run}: RunHeaderProps) => {
   const handleAbortClick = (e: React.MouseEvent): void => {
     console.log('aborting the run...');
   }
@@ -33,4 +33,4 @@ const StageHeaderCard = ({run}: StageHeaderProps) => {
   )
 }
 
-export default StageHeaderCard;
+export default RunHeaderCard;
