@@ -36,8 +36,7 @@ const ServiceSetUp = () => {
   const onSubmit = async (data: any) => {
     try {
       console.log('sending data to backend and db')
-      const apiResponse = await axios.post(TEST_SERVICES_URL, data);
-      console.log(apiResponse);
+      await axios.post(TEST_SERVICES_URL, data);
       navigate('/services');
     } catch (e) {
       console.log(e);
