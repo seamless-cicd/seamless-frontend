@@ -24,16 +24,17 @@ const defaultRunStage = {
 }
 
 const Run = () => {
-  const runID = useParams().runID;
+  const runId = useParams().runId;
   const [run, setRun] = useState<RunStageType>(defaultRunStage);
   const [stages, setStages] = useState<StageType[]>([]);
 
   useEffect(() => {
     const fetchStages = async () => {
       try {
-        const headerResult = await axios.get(TEST_RUNS_URL + runID);
+        const headerResult = await axios.get(TEST_RUNS_URL + runId);
         setRun(headerResult.data);
-        const result = await axios.get(TEST_STAGES_URL + runID);
+        // this now uses query string params
+        const result = await axios.get(TEST_STAGES_URL + `?runId=${runId}`);
         setStages(result.data);
       } catch (e) {
         console.log(e);

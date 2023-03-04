@@ -15,8 +15,8 @@ function App() {
           <Route path="/pipeline-set-up" element={<PipelineSetUp />} />
           <Route path="/service-set-up" element={<ServiceSetUp />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/services/:serviceID" element={<Service />} />
-          <Route path="/runs/:runID" element={<Run />} />
+          <Route path="/services/:serviceId" element={<Service />} />
+          <Route path="/runs/:runId" element={<Run />} />
         </Routes>
       </Router>
 
