@@ -23,24 +23,41 @@ const defaultRunStage = {
   serviceId: "",
 }
 
+/*
+    const fetchData = async () => {
+      try {
+        const runsRequest = axios.get(TEST_RUNS_URL + `?serviceId=${serviceId}`);
+        const serviceRequest = axios.get(TEST_SERVICES_URL + serviceId);
+
+        const [runsResponse, serviceResponse] = await axios.all([runsRequest, serviceRequest]);
+
+        setRuns(runsResponse.data);
+        setService(serviceResponse.data);
+      } catch (e) {
+        console.log(e);
+      }
+*/
+
 const Run = () => {
   const runId = useParams().runId;
   const [run, setRun] = useState<RunStageType>(defaultRunStage);
   const [stages, setStages] = useState<StageType[]>([]);
 
   useEffect(() => {
-    const fetchStages = async () => {
+    const fetchData = async () => {
       try {
-        const headerResult = await axios.get(TEST_RUNS_URL + runId);
-        setRun(headerResult.data);
-        // this now uses query string params
-        const result = await axios.get(TEST_STAGES_URL + `?runId=${runId}`);
-        setStages(result.data);
+        const runRequest = axios.get(TEST_RUNS_URL + runId);
+        const stagesRequest = axios.get(TEST_STAGES_URL + `?runId=${runId}`);
+
+        const [runResponse, stagesResponse] = await axios.all([runRequest, stagesRequest]);
+
+        setRun(runResponse.data);
+        setStages(stagesResponse.data);
       } catch (e) {
         console.log(e);
       }
     }
-    fetchStages();
+    fetchData();
     console.log(stages);
   }, []);
   
