@@ -7,19 +7,12 @@ import axios from 'axios';
 
 const defaultPipeline = {
   id: "",
-  createdAt: "",
-  updatedAt: "",
+  createdAt: new Date,
+  updatedAt: new Date,
   name: "",
   githubPat: "",
   awsAccessKey: "",
   awsSecretAccessKey: "",
-  lastRunAt: "",
-  services: [],
-  awsRegion: "",
-  awsRds: "",
-  awsAvailabilityZone: "",
-  awsStepFunction: "",
-  awsEcsCluster: "",
 }
 
 const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;

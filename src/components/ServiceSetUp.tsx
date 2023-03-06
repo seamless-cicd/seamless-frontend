@@ -16,14 +16,17 @@ const inputBorderStyle = "ml-6 border border-gray-300 rounded-md py-2 px-4 focus
 
 const schema = yup.object().shape({
   name: yup.string().required(),
-  triggerOnCommit: yup.boolean().default(false),
+  triggerOnMain: yup.boolean().default(false),
   triggerOnPrOpen: yup.boolean().default(false),
   triggerOnPrSync: yup.boolean().default(false),
   useStaging: yup.boolean().default(false),
-  githubRepository: yup.string().required(),
-  testCommand: yup.string().required(),
+  autoDeploy: yup.boolean().default(false),
+  githubRepoUrl: yup.string().required(),
+  unitTestCommand: yup.string().required(),
+  integrationTestCommand: yup.string().required(),
   codeQualityCommand: yup.string().required(),
   dockerfilePath: yup.string().required(),
+  dockerComposeFilePath: yup.string().required(),
 });
 
 const ServiceSetUp = () => {
@@ -63,11 +66,11 @@ const ServiceSetUp = () => {
         <input
           className="mr-2"
           type="checkbox"
-          id="triggerOnCommit"
-          {...register('triggerOnCommit', {required: true})}
+          id="triggerOnMain"
+          {...register('triggerOnMain', {required: true})}
           defaultChecked={false}
         />
-        <label htmlFor="triggerOnCommit">Trigger On Commit</label>
+        <label htmlFor="triggerOnMain">Trigger On Main</label>
 
         <br></br>
         <input
@@ -97,28 +100,50 @@ const ServiceSetUp = () => {
         />
         <label htmlFor="useStaging">Use Staging</label>
 
-        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">GitHub Repository</h3>
+        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">Auto Deploy</h3>
+        <input
+          className="mr-2"
+          type="checkbox"
+          id="autoDeploy"
+          {...register('autoDeploy', {required: true})}
+          defaultChecked={false}
+        />
+        <label htmlFor="autoDeploy">Auto Deploy</label>
+
+        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">GitHub Repository URL</h3>
         <div className = "flex flex-col gap-2 w-64">
-        <label htmlFor='githubRepository'>GitHub Repository: </label>
+        <label htmlFor='githubRepoUrl'>GitHub Repository URL: </label>
         <input 
           className={inputBorderStyle}
           type="text"
-          id="githubRepository"
-          {...register("githubRepository")}  
+          id="githubRepoUrl"
+          {...register("githubRepoUrl")}  
         />
-        {errors.githubRepository && <p className={errorMsgStyle}>{errors.githubRepository.message}</p>}
+        {errors.githubRepository && <p className={errorMsgStyle}>{errors.githubRepoUrl.message}</p>}
         </div>
 
-        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">Test Command</h3>
+        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">Unit Test Command</h3>
         <div className = "flex flex-col gap-2 w-64">
-        <label htmlFor='githubRepository'>Test Command: </label>
+        <label htmlFor='githubRepository'>Unit Test Command: </label>
         <input 
           className={inputBorderStyle}
           type="text"
-          id="testCommand"
-          {...register("testCommand")}  
+          id="unitTestCommand"
+          {...register("unitTestCommand")}  
         />
-        {errors.testCommand && <p className={errorMsgStyle}>{errors.testCommand.message}</p>}
+        {errors.unitTestCommand && <p className={errorMsgStyle}>{errors.unitTestCommand.message}</p>}
+        </div>
+
+        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">Integration Test Command</h3>
+        <div className = "flex flex-col gap-2 w-64">
+        <label htmlFor='githubRepository'>Integration Test Command: </label>
+        <input 
+          className={inputBorderStyle}
+          type="text"
+          id="integrationTestCommand"
+          {...register("integrationTestCommand")}  
+        />
+        {errors.integrationTestCommand && <p className={errorMsgStyle}>{errors.integrationTestCommand.message}</p>}
         </div>
 
         <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">Code Quality Command</h3>
@@ -144,11 +169,28 @@ const ServiceSetUp = () => {
         />
         {errors.dockerfilePath && <p className={errorMsgStyle}>{errors.dockerfilePath.message}</p>}
         </div>
+
+        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">Docker Compose File Path</h3>
+        <div className = "flex flex-col gap-2 w-64">
+        <label htmlFor='githubRepository'>Docker Compose File Path: </label>
+        <input 
+          className={inputBorderStyle}
+          type="text"
+          id="dockerComposefilePath"
+          {...register("dockerComposeFilePath")}  
+        />
+        {errors.dockerComposeFilePath && <p className={errorMsgStyle}>{errors.dockerComposeFilePath.message}</p>}
+        </div>
+
+
+
+
         </div>
       </div>
 
 
-      <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">AWS ECR Repo</h3>
+      {/* THESE AREN'T PART OF SERVICES */}
+      {/* <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">AWS ECR Repo</h3>
         <div className = "flex flex-col gap-2 w-64">
         <label htmlFor='githubRepository'>AWS ECR Repo: </label>
         <input 
@@ -171,7 +213,7 @@ const ServiceSetUp = () => {
           {...register("awsEcsService")}  
         />
         {errors.awsEcsService && <p className={errorMsgStyle}>{errors.awsEcsService.message}</p>}
-        </div>
+        </div> */}
  
 
     {/* To Do: inactivate submit button if no triggers are selected */}
