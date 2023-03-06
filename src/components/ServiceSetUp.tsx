@@ -27,6 +27,8 @@ const schema = yup.object().shape({
   codeQualityCommand: yup.string().required(),
   dockerfilePath: yup.string().required(),
   dockerComposeFilePath: yup.string().required(),
+  awsEcrRepo: yup.string().required(),
+  awsEcsService: yup.string().required(),
 });
 
 const ServiceSetUp = () => {
@@ -183,7 +185,30 @@ const ServiceSetUp = () => {
         </div>
 
 
+        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">AWS ECR Repo</h3>
+        <div className = "flex flex-col gap-2 w-64">
+        <label htmlFor='githubRepository'>AWS ECR Repo: </label>
+        <input 
+          className={inputBorderStyle}
+          type="text"
+          id="awsEcrRepo"
+          {...register("awsEcrRepo")}  
+        />
+        {errors.awsEcrRepo && <p className={errorMsgStyle}>{errors.awsEcrRepo.message}</p>}
+        </div>
 
+
+        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">AWS ECS Service</h3>
+        <div className = "flex flex-col gap-2 w-64">
+        <label htmlFor='githubRepository'>AWS ECS Service: </label>
+        <input 
+          className={inputBorderStyle}
+          type="text"
+          id="awsEcsService"
+          {...register("awsEcsService")}  
+        />
+        {errors.awsEcsService && <p className={errorMsgStyle}>{errors.awsEcsService.message}</p>}
+        </div>
 
         </div>
       </div>
