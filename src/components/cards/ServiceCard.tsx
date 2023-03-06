@@ -8,8 +8,10 @@ const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-ind
 const ServiceCard = ({ service }: ServiceCardProps) => {
   const navigate = useNavigate();
 
-  const handleRunClick = (e: React.MouseEvent) => {
+  const handleRunClick = async (e: React.MouseEvent) => {
     axios.post(TEST_RUNS_URL + '?serviceId=' + service.id);
+    alert('Run creation in process... the run will be created momentarily');
+
     navigate(`/services/${service.id}`);
   }
 
