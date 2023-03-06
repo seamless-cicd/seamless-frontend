@@ -24,18 +24,20 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
       <h2 className="font-bold text-indigo-700">{service.name}</h2>
       <p className="text-gray-600">{`ServiceId: ${service.id}`}</p>
       <p className="text-gray-600">{`Pipeline ID: ${service.pipelineId}`}</p>
-      <p className="text-gray-600">{`Repo: ${service.githubRepository}`}</p>
-      <p className="text-gray-600">{`Trigger On Commit: ${service.triggerOnCommit}`}</p>
+      <p className="text-gray-600">{`Repo: ${service.githubRepoUrl}`}</p>
+      <p className="text-gray-600">{`Trigger On Commit: ${service.triggerOnMain}`}</p>
       <p className="text-gray-600">{`Trigger On PR Open: ${service.triggerOnPrOpen}`}</p>
       <p className="text-gray-600">{`Trigger On PR Sync: ${service.triggerOnPrSync}`}</p>
       <p className="text-gray-600">{`Use Staging: ${service.useStaging}`}</p>
+      <p className="text-gray-600">{`Auto Deploy: ${service.autoDeploy}`}</p>
       <p className="text-gray-600">{`Code Quality Command: ${service.codeQualityCommand}`}</p>
-      <p className="text-gray-600">{`Test Command: ${service.testCommand}`}</p>
-      <p className="text-gray-600">{`AWC ECR Repo: ${service.awsEcrRepo}`}</p>
-      <p className="text-gray-600">{`AWS Fargate: ${service.awsEcsService}`}</p>
+      <p className="text-gray-600">{`Unit Test Command: ${service.unitTestCommand}`}</p>
+      <p className="text-gray-600">{`Integration Test Command: ${service.integrationTestCommand}`}</p>
       <p className="text-gray-600">{`Dockerfile Path: ${service.dockerfilePath}`}</p>
+      <p className="text-gray-600">{`Docker Compose File Path: ${service.dockerComposeFilePath}`}</p>
       <p className="text-gray-600">{`Created At: ${service.createdAt}`}</p>
       <p className="text-gray-600">{`Updated At: ${service.updatedAt}`}</p>
+      <p className="text-gray-600">{`Last Run At: ${service.lastRunAt}`}</p>
 
       <button className={submitButtonStyle} onClick={handleRunClick}>Run</button>
       <button className={submitButtonStyle} onClick={handleEditClick}>Edit</button>

@@ -1,17 +1,19 @@
 export interface ServiceType {
-  awsEcrRepo: string;
-  awsEcsService: string;
-  codeQualityCommand: string;
-  createdAt: string;
-  dockerfilePath: string;
-  githubRepository: string;
   id: string;
+  createdAt: Date;
+  updatedAt: Date;
   name: string;
-  pipelineId: string;
-  testCommand: string;
-  triggerOnCommit: boolean;
+  lastRunAt: Date;
+  triggerOnMain: boolean;
   triggerOnPrOpen: boolean;
   triggerOnPrSync: boolean;
-  updatedAt: string;
   useStaging: boolean;
+  autoDeploy: boolean;
+  githubRepoUrl: string;
+  unitTestCommand: string;
+  integrationTestCommand: string;
+  codeQualityCommand: string;
+  dockerfilePath: string;
+  dockerComposeFilePath: string;
+  pipelineId: string;
 }

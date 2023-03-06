@@ -1,13 +1,14 @@
 export interface RunType {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  startedAt: Date;
+  endedAt: Date;
+  duration: number;
   commitHash: string;
   commitMessage: string;
   committer: string;
-  createdAt: string;
-  duration: string;
-  endedAt: string;
-  id: string;
-  serviceId: string;
-  startedAt: string;
   status: string;
   triggerType: string;
+  serviceId: string;
 }

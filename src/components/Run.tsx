@@ -1,20 +1,22 @@
 import { useParams } from "react-router";
 import { useState, useEffect } from 'react';
 import axios from "axios";
-import { RunStageType } from "../types/runStageType";
+import { RunType } from "../types/runType";
 import StagesList from "./lists/StagesList";
 import RunHeaderCard from "./cards/RunHeaderCard";
 import { StageType } from "../types/stageType";
 
+
 const TEST_STAGES_URL = import.meta.env.VITE_TEST_STAGES_URL;
 const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
 
-const defaultRunStage = {
+const defaultRun = {
   id: "",
-  createdAt: "",
-  startedAt: "",
-  endedAt: "",
-  duration: "",
+  createdAt: new Date,
+  updatedAt: new Date,
+  startedAt: new Date,
+  endedAt: new Date,
+  duration: 0,
   commitHash: "",
   commitMessage: "",
   committer: "",
@@ -23,24 +25,9 @@ const defaultRunStage = {
   serviceId: "",
 }
 
-/*
-    const fetchData = async () => {
-      try {
-        const runsRequest = axios.get(TEST_RUNS_URL + `?serviceId=${serviceId}`);
-        const serviceRequest = axios.get(TEST_SERVICES_URL + serviceId);
-
-        const [runsResponse, serviceResponse] = await axios.all([runsRequest, serviceRequest]);
-
-        setRuns(runsResponse.data);
-        setService(serviceResponse.data);
-      } catch (e) {
-        console.log(e);
-      }
-*/
-
 const Run = () => {
   const runId = useParams().runId;
-  const [run, setRun] = useState<RunStageType>(defaultRunStage);
+  const [run, setRun] = useState<RunType>(defaultRun);
   const [stages, setStages] = useState<StageType[]>([]);
 
   useEffect(() => {

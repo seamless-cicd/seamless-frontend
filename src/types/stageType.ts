@@ -1,11 +1,11 @@
 export interface StageType {
   id: string;
-  createdAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   type: string;
-  startedAt: string;
-  endedAt: string;
-  duration: string;
+  startedAt: Date;
+  endedAt: Date;
+  duration: number;
   status: string;
-  containerId: string;
   runId: string;
 }
