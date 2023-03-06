@@ -1,12 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { ServiceCardProps } from "../../types/serviceCardProps";
+import axios from "axios";
+const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
 
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
 const ServiceCard = ({ service }: ServiceCardProps) => {
   const navigate = useNavigate();
 
-  const handleRunClick = (e: React.MouseEvent) => {
+  const handleRunClick = async (e: React.MouseEvent) => {
+    axios.post(TEST_RUNS_URL + '?serviceId=' + service.id);
+    alert('Run creation in process... the run will be created momentarily');
+
     navigate(`/services/${service.id}`);
   }
 
