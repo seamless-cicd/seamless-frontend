@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { serviceEditSchema, ServiceEditType } from "../schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
@@ -12,23 +12,6 @@ const submitButtonStyle = "mt-10 mb-10 bg-transparent hover:bg-indigo-500 text-i
 const errorMsgStyle = "bg-red-100 px-4 py-2 text-red-700";
 
 const inputBorderStyle = "ml-6 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500";
-
-const serviceEditFormSchema = z.object({
-  name: z.string().min(1, "Service name is required").max(40),
-  triggerOnMain: z.boolean().default(false),
-  triggerOnPrOpen: z.boolean().default(false),
-  triggerOnPrSync: z.boolean().default(false),
-  useStaging: z.boolean().default(false),
-  autoDeploy: z.boolean().default(false),
-  githubRepoUrl: z.string().min(1, "GitHub Repo is required"),
-  unitTestCommand: z.string().min(1, "Unit test command is required"),
-  integrationTestCommand: z.string().min(1, "Integration test command is required"),
-  codeQualityCommand: z.string().min(1, "Code quality command is required"),
-  dockerfilePath: z.string().min(1, "Dockerfile path is required"),
-  dockerComposeFilePath: z.string().min(1, "Docker compose file path is required"),
-})
-
-type ServiceEditFormSchemaType = z.infer<typeof serviceEditFormSchema>;
 
 const editableFields = [
   'name',
@@ -53,12 +36,12 @@ const ServiceEdit = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<ServiceEditFormSchemaType>({
-    resolver: zodResolver(serviceEditFormSchema),
+    formState: { errors },
+  } = useForm<ServiceEditType>({
+    resolver: zodResolver(serviceEditSchema),
 });
 
-  const onSubmit: SubmitHandler<ServiceEditFormSchemaType> = async (editedData) => {
+  const onSubmit: SubmitHandler<ServiceEditType> = async (editedData) => {
     try {
       await axios.patch(TEST_SERVICES_URL + serviceId, editedData);
       alert('Service is being upated.')
@@ -252,8 +235,7 @@ const ServiceEdit = () => {
       </div>
       <button 
       className={submitButtonStyle}
-      disabled={isSubmitting}
-      type="submit">Continue To View Services</button>
+      type="submit">Update Service</button>
     </form>
   </div>
   )

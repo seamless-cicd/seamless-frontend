@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { serviceSchema, ServiceType } from "../schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
@@ -12,37 +12,18 @@ const errorMsgStyle = "bg-red-100 px-4 py-2 text-red-700";
 
 const inputBorderStyle = "ml-6 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500";
 
-const serviceFormSchema = z.object({
-  name: z.string().min(1, "Service name is required").max(40),
-  triggerOnMain: z.boolean().default(false),
-  triggerOnPrOpen: z.boolean().default(false),
-  triggerOnPrSync: z.boolean().default(false),
-  useStaging: z.boolean().default(false),
-  autoDeploy: z.boolean().default(false),
-  githubRepoUrl: z.string().min(1, "GitHub Repo is required"),
-  unitTestCommand: z.string().min(1, "Unit test command is required"),
-  integrationTestCommand: z.string().min(1, "Integration test command is required"),
-  codeQualityCommand: z.string().min(1, "Code quality command is required"),
-  dockerfilePath: z.string().min(1, "Dockerfile path is required"),
-  dockerComposeFilePath: z.string().min(1, "Docker compose file path is required"),
-  awsEcrRepo: z.string().min(1, "AWS ECR repo is required"),
-  awsEcsService: z.string().min(1, "AWS ECS Service is required"),
-})
-
-type ServiceFormSchemaType = z.infer<typeof serviceFormSchema>;
-
 const ServiceSetUp = () => {
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<ServiceFormSchemaType>({
-    resolver: zodResolver(serviceFormSchema),
+    formState: { errors },
+  } = useForm<ServiceType>({
+    resolver: zodResolver(serviceSchema),
 });
 
-  const onSubmit: SubmitHandler<ServiceFormSchemaType> = async (data) => {
+  const onSubmit: SubmitHandler<ServiceType> = async (data) => {
     try {
       await axios.post(TEST_SERVICES_URL, data);
       navigate('/services');
@@ -254,7 +235,6 @@ const ServiceSetUp = () => {
       </div>
       <button 
       className={submitButtonStyle}
-      disabled={isSubmitting}
       type="submit">Continue To View Services</button>
     </form>
   </div>
