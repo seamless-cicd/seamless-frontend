@@ -48,7 +48,6 @@ const editableFields = [
 const ServiceEdit = () => {
   const navigate = useNavigate();
   const { serviceId } = useParams();
-  const [serviceData, setServiceData] = useState({});
 
   const {
     register,
@@ -59,22 +58,20 @@ const ServiceEdit = () => {
     resolver: zodResolver(serviceEditFormSchema),
 });
 
-  const onSubmit: SubmitHandler<ServiceEditFormSchemaType> = async (data) => {
-    console.log(serviceData);
-    // need to update here
-    // try {
-    //   await axios.post(TEST_SERVICES_URL, data);
-    //   navigate('/services');
-    // } catch (e) {
-    //   console.log(e);
-    // }
+  const onSubmit: SubmitHandler<ServiceEditFormSchemaType> = async (editedData) => {
+    try {
+      await axios.patch(TEST_SERVICES_URL + serviceId, editedData);
+      alert('Service is being upated.')
+      navigate('/services');
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(TEST_SERVICES_URL + serviceId);
-        setServiceData(response.data);
   
         editableFields.forEach(field => {
           setValue(field, response.data[field])

@@ -19,11 +19,11 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   }
 
   const handleViewClick = (e: React.MouseEvent) => {
-    navigate  (`/services/${service.id}`);
+    navigate(`/services/${service.id}`);
   }
 
   const handleEditClick = (e: React.MouseEvent) => {
-    console.log('going to the editing service page!')
+    navigate(`/services/${service.id}/edit`);
   }
 
   const handleDeleteClick = async () => {
