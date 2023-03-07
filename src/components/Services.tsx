@@ -50,7 +50,7 @@ const Services = () => {
     
     <ServicesHeaderCard pipeline={pipeline} />
     <div className="border rounded-lg shadow-md p-4 mr-80">
-      <ServicesList services={services} /> 
+      <ServicesList services={services} setServices={setServices} /> 
     </div>
   </div>
   )
