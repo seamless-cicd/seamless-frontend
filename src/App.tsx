@@ -4,7 +4,8 @@ import PipelineSetUp from './components/PipelineSetUp';
 import Services from './components/Services';
 import ServiceSetUp from './components/ServiceSetUp';
 import Service from './components/Service';
-import Run from './components/Run'
+import Run from './components/Run';
+import ServiceEdit from './components/ServiceEdit';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/service-set-up" element={<ServiceSetUp />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/:serviceId" element={<Service />} />
+          <Route path="/services/:serviceId/edit" element={<ServiceEdit />} />
           <Route path="/runs/:runId" element={<Run />} />
         </Routes>
       </Router>
