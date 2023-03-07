@@ -1,5 +1,3 @@
-// To Do: inactivate submit button if no triggers are selected
-
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -40,7 +38,6 @@ const ServiceSetUp = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      console.log('sending data to backend and db')
       await axios.post(TEST_SERVICES_URL, data);
       navigate('/services');
     } catch (e) {

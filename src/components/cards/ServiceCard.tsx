@@ -2,10 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { ServiceCardProps } from "../../types/serviceCardProps";
 import axios from "axios";
 const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
+const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
 
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
-const ServiceCard = ({ service }: ServiceCardProps) => {
+const deleteButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
+
+const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const navigate = useNavigate();
 
   const handleRunClick = async (e: React.MouseEvent) => {
@@ -18,7 +21,20 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
   const handleEditClick = (e: React.MouseEvent) => {
     console.log('going to the editing service page!')
   }
-  
+
+  const handleDeleteClick = async () => {
+    try {
+      alert('Confirm delete:')
+      await axios.delete(TEST_SERVICES_URL + service.id);
+      alert('Deletion in process.')
+      const remainingServices = await axios.get(TEST_SERVICES_URL);
+      console.log(remainingServices);
+      setServices(remainingServices.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <div className="border p-4 rounded-md mb-4 mr-2">
       <h2 className="font-bold text-indigo-700">{service.name}</h2>
@@ -41,6 +57,7 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
 
       <button className={submitButtonStyle} onClick={handleRunClick}>Run</button>
       <button className={submitButtonStyle} onClick={handleEditClick}>Edit</button>
+      <button className={deleteButtonStyle} onClick={handleDeleteClick}>Delete</button>
     </div>
   );
 };
