@@ -18,6 +18,10 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
     navigate(`/services/${service.id}`);
   }
 
+  const handleViewClick = (e: React.MouseEvent) => {
+    navigate  (`/services/${service.id}`);
+  }
+
   const handleEditClick = (e: React.MouseEvent) => {
     console.log('going to the editing service page!')
   }
@@ -55,6 +59,7 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
       <p className="text-gray-600">{`Last Run At: ${service.lastRunAt}`}</p>
 
       <button className={submitButtonStyle} onClick={handleRunClick}>Run</button>
+      <button className={submitButtonStyle} onClick={handleViewClick}>View</button>
       <button className={submitButtonStyle} onClick={handleEditClick}>Edit</button>
       <button className={deleteButtonStyle} onClick={handleDeleteClick}>Delete</button>
     </div>
