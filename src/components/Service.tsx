@@ -10,21 +10,23 @@ const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
 const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
 
 const defaultService = {
-  awsEcrRepository: "",
-  awsFargateService: "",
-  codeQualityCommand: "",
-  createdAt: "",
-  dockerfilePath: "",
-  githubRepository: "",
   id: "",
+  createdAt: new Date,
+  updatedAt: new Date,
   name: "",
-  pipelineId: "",
-  testCommand: "",
-  triggerOnCommit: false,
+  lastRunAt: new Date,
+  triggerOnMain: false,
   triggerOnPrOpen: false,
   triggerOnPrSync: false,
-  updatedAt: "",
   useStaging: false,
+  autoDeploy: false,
+  githubRepoUrl: "",
+  unitTestCommand: "",
+  integrationTestCommand: "",
+  codeQualityCommand: "",
+  dockerfilePath: "",
+  dockerComposeFilePath: "",
+  pipelineId: "",
 }
 
 const Service = () => {
@@ -60,7 +62,7 @@ const Service = () => {
     
     <ServiceHeaderCard service={service} />
     <div className="border rounded-lg shadow-md p-4 mr-80">
-      <RunsList runs={runs} /> 
+      <RunsList runs={runs} setRuns={setRuns} /> 
     </div>
   </div>
   )

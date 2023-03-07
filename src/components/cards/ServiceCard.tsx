@@ -24,11 +24,10 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
 
   const handleDeleteClick = async () => {
     try {
-      alert('Confirm delete:')
+      alert('Confirm delete:');
       await axios.delete(TEST_SERVICES_URL + service.id);
-      alert('Deletion in process.')
+      alert('Deletion in process.');
       const remainingServices = await axios.get(TEST_SERVICES_URL);
-      console.log(remainingServices);
       setServices(remainingServices.data);
     } catch (e) {
       console.log(e);
