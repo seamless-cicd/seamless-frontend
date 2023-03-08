@@ -47,6 +47,7 @@ export const pipelineSchema = z.object({
   awsAccessKey: z.string().min(1, "20 character AWS Access Key is required").max(20),
   // after testing change min to 40
   awsSecretAccessKey: z.string().min(1, "40 character AWS Secret Access Key is required").max(40),
+  id: z.string().optional(),
 });
 
 export type PipelineType = z.infer<typeof pipelineSchema>;

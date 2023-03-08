@@ -1,10 +1,12 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { serviceSchema, ServiceType } from "../schema/formSchema";
+import { serviceSchema, ServiceType, PipelineType } from "../schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
 const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
+const TEST_PIPELINES_URL = import.meta.env.VITE_TEST_PIPELINES_URL;
 
 const submitButtonStyle = "mt-10 mb-10 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
@@ -13,6 +15,7 @@ const errorMsgStyle = "bg-red-100 px-4 py-2 text-red-700";
 const inputBorderStyle = "ml-6 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500";
 
 const ServiceSetUp = () => {
+  const [pipelineId, setPipelineId] = useState("");
   const navigate = useNavigate();
 
   const {
@@ -32,10 +35,19 @@ const ServiceSetUp = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchPipeline = async () => {
+      const response = await axios.get(TEST_PIPELINES_URL);
+      setPipelineId(response.data[0].id);
+    }
+    fetchPipeline();
+  }, []);
+  
+
   return (
     <div className="mt-8 ml-8">
     <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Service Set Up</h2>
-    <p className="mb-4">Pipeline ID: (retrieve from backend)</p>
+    <p className="mb-4">Pipeline ID: {pipelineId}</p>
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className = "flex flex-col gap-2 w-64">
 
