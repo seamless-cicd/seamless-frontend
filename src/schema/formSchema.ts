@@ -16,6 +16,7 @@ export const serviceSchema = z.object({
   dockerComposeFilePath: z.string().min(1, "Docker compose file path is required"),
   awsEcrRepo: z.string().min(1, "AWS ECR repo is required"),
   awsEcsService: z.string().min(1, "AWS ECS Service is required"),
+  pipelineId: z.string().optional(),
 })
 
 export type ServiceType = z.infer<typeof serviceSchema>;
