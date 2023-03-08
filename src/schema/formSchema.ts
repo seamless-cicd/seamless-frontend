@@ -16,6 +16,7 @@ export const serviceSchema = z.object({
   dockerComposeFilePath: z.string().min(1, "Docker compose file path is required"),
   awsEcrRepo: z.string().min(1, "AWS ECR repo is required"),
   awsEcsService: z.string().min(1, "AWS ECS Service is required"),
+  pipelineId: z.string().optional(),
 })
 
 export type ServiceType = z.infer<typeof serviceSchema>;
@@ -47,7 +48,6 @@ export const pipelineSchema = z.object({
   awsAccessKey: z.string().min(1, "20 character AWS Access Key is required").max(20),
   // after testing change min to 40
   awsSecretAccessKey: z.string().min(1, "40 character AWS Secret Access Key is required").max(40),
-  id: z.string().optional(),
 });
 
 export type PipelineType = z.infer<typeof pipelineSchema>;

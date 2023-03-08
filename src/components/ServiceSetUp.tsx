@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { serviceSchema, ServiceType, PipelineType } from "../schema/formSchema";
+import { serviceSchema, ServiceType } from "../schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
@@ -27,6 +27,7 @@ const ServiceSetUp = () => {
   });
 
   const onSubmit: SubmitHandler<ServiceType> = async (data) => {
+    data.pipelineId = pipelineId;
     try {
       await axios.post(TEST_SERVICES_URL, data);
       navigate('/services');
@@ -43,7 +44,6 @@ const ServiceSetUp = () => {
     fetchPipeline();
   }, []);
   
-
   return (
     <div className="mt-8 ml-8">
     <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Service Set Up</h2>
