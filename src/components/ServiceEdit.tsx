@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { serviceEditSchema, ServiceEditType } from "../schema/formSchema";
+import { serviceEditFormSchema, ServiceEditFormType } from "../schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
@@ -37,11 +37,11 @@ const ServiceEdit = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ServiceEditType>({
-    resolver: zodResolver(serviceEditSchema),
+  } = useForm<ServiceEditFormType>({
+    resolver: zodResolver(serviceEditFormSchema),
 });
 
-  const onSubmit: SubmitHandler<ServiceEditType> = async (editedData) => {
+  const onSubmit: SubmitHandler<ServiceEditFormType> = async (editedData) => {
     try {
       await axios.patch(TEST_SERVICES_URL + serviceId, editedData);
       alert('Service is being upated.')
