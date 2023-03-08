@@ -1,9 +1,10 @@
-// To Do: create pipeline ID either on backend when this is submitted or on front end
-
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { SubmitHandler, useForm } from "react-hook-form";
+import { pipelineSchema, PipelineType } from "../schema/formSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+
+const TEST_PIPELINES_URL = import.meta.env.VITE_TEST_PIPELINES_URL;
 
 const submitButtonStyle = "mt-10 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
@@ -11,31 +12,25 @@ const errorMsgStyle = "bg-red-100 px-4 py-2 text-red-700";
 
 const inputBorderStyle = "ml-6 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500";
 
-
-const schema = yup.object().shape({
-  pipelineName: yup.string().required('Name is required'),
-  // PAT has a length of 40 chars
-  gitHubPAT: yup.string().required().min(40, 'Must be 40 characters').max(40, 'Must be 40 characters'),
-  // awsAccountID is a 12 digit number from what I have seen
-  awsAccountID: yup.number().required().min(100000000000, 'Must be 12 digits').max(999999999999, 'Must be 12 digits'),
-  // will automatically lowercase it
-  awsRegion: yup.string().lowercase().required(),
-  awsAvailabilityZone: yup.string().lowercase().required(),
-  awsAccessKeyID: yup.string().required(),
-  awsSecretAccessKey: yup.string().required(),
-  awsFargateClusterName: yup.string().required(),
-});
-
 const PipelineSetUp = () => {
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema),
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<PipelineType>({
+    resolver: zodResolver(pipelineSchema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data, ' ... sending to API with axios');
-    navigate('/service-set-up');
+  const onSubmit: SubmitHandler<PipelineType> = async (data) => {
+    try {
+      console.log(data);
+      await axios.post(TEST_PIPELINES_URL, data);
+      navigate('/service-set-up');
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -43,88 +38,69 @@ const PipelineSetUp = () => {
     <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Pipeline Set Up</h2>
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className = "flex flex-col gap-2 w-64">
-      <label htmlFor='pipelineName'>Pipeline Name: </label>
+      <label htmlFor='name'>Pipeline Name: </label>
         <input 
           className={inputBorderStyle}
           type="text"
-          id="pipelineName"
-          {...register("pipelineName")}  
+          id="name"
+          {...register("name")}  
         />
-        {errors.pipelineName && <p className={errorMsgStyle}>{errors.pipelineName.message}</p>}
+        {errors.name && (
+            <span className={errorMsgStyle}>
+              {errors.name?.message}
+            </span>
+        )}
+      </div>
 
-
-      <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">GitHub</h3>
-      <label>GitHub PAT: </label>
+      <div className = "flex flex-col gap-2 w-64">
+      <label htmlFor='githubPat'>GitHub PAT: </label>
         <input 
           className={inputBorderStyle}
           type="text"
-          id="gitHubPAT"
-          {...register("gitHubPAT")} 
+          id="githubPat"
+          {...register("githubPat")}  
         />
-        {errors.gitHubPAT && <p className={errorMsgStyle}>{errors.gitHubPAT.message}</p>}
+        {errors.githubPat && (
+            <span className={errorMsgStyle}>
+              {errors.githubPat?.message}
+            </span>
+        )}
+      </div>
 
-        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">AWS</h3>
-        <label>AWS Account ID: </label>
+      <div className = "flex flex-col gap-2 w-64">
+      <label htmlFor='awsAccessKey'>AWS Access Key: </label>
         <input 
           className={inputBorderStyle}
           type="text"
-          id="awsAccountID"
-          {...register("awsAccountID")} 
+          id="awsAccessKey"
+          {...register("awsAccessKey")}  
         />
-        {errors.awsAccountID && <p className={errorMsgStyle}>{errors.awsAccountID.message}</p>}
+        {errors.awsAccessKey && (
+            <span className={errorMsgStyle}>
+              {errors.awsAccessKey?.message}
+            </span>
+        )}
+      </div>
 
-        <label>AWS Region: </label>
-        <input 
-          className={inputBorderStyle}
-          type="text"
-          id="awsRegion"
-          {...register("awsRegion")} 
-        />
-        {errors.awsRegion && <p className={errorMsgStyle}>{errors.awsRegion.message}</p>}
-
-        <label>AWS Availability Zone: </label>
-        <input 
-          className={inputBorderStyle}
-          type="text"
-          id="awsAvailabilityZone"
-          {...register("awsAvailabilityZone")} 
-        />
-        {errors.awsAvailabilityZone && <p className={errorMsgStyle}>{errors.awsAvailabilityZone.message}</p>}
-
-        <label>AWS Access Key ID: </label>
-        <input 
-          className={inputBorderStyle}
-          type="text"
-          id="awsAccessKeyID"
-          {...register("awsAccessKeyID")} 
-        />
-        {errors.awsAccessKeyID && <p className={errorMsgStyle}>{errors.awsAccessKeyID.message}</p>}
-
-        <label>AWS Secret Access Key: </label>
+      <div className = "flex flex-col gap-2 w-64">
+      <label htmlFor='awsSecretAccessKey'>AWS Secret Access Key: </label>
         <input 
           className={inputBorderStyle}
           type="text"
           id="awsSecretAccessKey"
-          {...register("awsSecretAccessKey")} 
+          {...register("awsSecretAccessKey")}  
         />
-        {errors.awsSecretAccessKey && <p className={errorMsgStyle}>{errors.awsSecretAccessKey.message}</p>}
-
-        <label>AWS Fargate Cluster Name: </label>
-        <input 
-          className={inputBorderStyle}
-          type="text"
-          id="awsFargateClusterName"
-          {...register("awsFargateClusterName")} 
-        />
-        {errors.awsFargateClusterName && <p className={errorMsgStyle}>{errors.awsFargateClusterName.message}</p>}
-
-
+        {errors.awsSecretAccessKey && (
+            <span className={errorMsgStyle}>
+              {errors.awsSecretAccessKey?.message}
+            </span>
+        )}
       </div>
- 
+
 
       <button 
       className={submitButtonStyle}
-      type="submit">Continue Set Up Services</button>
+      type="submit">Continue To View Services</button>
     </form>
   </div>
   )
