@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-export const runSchema = z.object({
-  id: z.string().optional(),
-  createdAt: z.date().optional(),
-});
+// export const runSchema = z.object({
+//   id: z.string().optional(),
+//   createdAt: z.date().optional(),
+// });
 
-export type RunType = z.infer<typeof runSchema>;
+// export type RunType = z.infer<typeof runSchema>;
 
 // SERVICE SET UP FORM
 export const serviceFormSchema = z.object({
@@ -28,7 +28,7 @@ export const serviceFormSchema = z.object({
   awsEcrRepo: z.string().min(1, "AWS ECR repo is required"),
   awsEcsService: z.string().min(1, "AWS ECS Service is required"),
   pipelineId: z.string().optional(),
-  run: z.array(runSchema).optional(),
+  // run: z.array(runSchema).optional(),
 });
 
 export type ServiceFormType = z.infer<typeof serviceFormSchema>;
@@ -51,7 +51,7 @@ export const serviceSchema = z.object({
   dockerfilePath: z.string().min(1, "Dockerfile path is required"),
   dockerComposeFilePath: z.string().min(1, "Docker compose file path is required"),
   pipelineId: z.string().optional(),
-  run: z.array(runSchema).optional(),
+  // run: z.array(runSchema).optional(),
 });
 
 export type ServiceType = z.infer<typeof serviceSchema>;
