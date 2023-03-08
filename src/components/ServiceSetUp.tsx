@@ -21,7 +21,7 @@ const ServiceSetUp = () => {
     formState: { errors },
   } = useForm<ServiceType>({
     resolver: zodResolver(serviceSchema),
-});
+  });
 
   const onSubmit: SubmitHandler<ServiceType> = async (data) => {
     try {
