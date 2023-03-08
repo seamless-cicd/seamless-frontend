@@ -1,6 +1,4 @@
-// service header
-
-import { ServiceHeaderProps } from "../../types/serviceHeaderProps";
+import { ServiceHeaderProps } from "../../schema/serviceSchema";
 
 const ServiceHeaderCard = ({service}: ServiceHeaderProps) => {
   

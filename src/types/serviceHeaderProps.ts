@@ -1,5 +1,5 @@
-import { ServiceType } from "./serviceType";
+// import { ServiceType } from "./serviceType";
 
-export interface ServiceHeaderProps {
-  service: ServiceType
-};
+// export interface ServiceHeaderProps {
+//   service: ServiceType
+// };

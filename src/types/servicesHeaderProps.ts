@@ -1,5 +1,5 @@
-import { PipelineType } from "./pipelineType";
+// import { PipelineType } from "./pipelineType";
 
-export interface ServicesHeaderProps {
-  pipeline: PipelineType
-}
+// export interface ServicesHeaderProps {
+//   pipeline: PipelineType
+// }

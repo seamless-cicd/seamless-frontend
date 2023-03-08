@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { RunType } from "../schema/runSchema";
 import RunsList from "./lists/RunsList";
 import ServiceHeaderCard from "./cards/ServiceHeaderCard";
-import { ServiceType } from "../types/serviceType";
+import { ServiceType } from "../schema/serviceSchema";
 import axios from 'axios';
 
 const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
@@ -27,6 +27,7 @@ const defaultService = {
   dockerfilePath: "",
   dockerComposeFilePath: "",
   pipelineId: "",
+  runs: [],
 }
 
 const Service = () => {

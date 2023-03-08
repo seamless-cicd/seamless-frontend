@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ServiceType } from "../types/serviceType";
+import { ServiceType } from "../schema/serviceSchema";
 import ServicesList from "./lists/ServicesList";
 import ServicesHeaderCard from "./cards/ServicesHeaderCard";
 import { PipelineType } from "../types/pipelineType";
