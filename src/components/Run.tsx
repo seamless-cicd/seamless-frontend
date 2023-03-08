@@ -4,7 +4,7 @@ import axios from "axios";
 import { RunType } from "../types/runType";
 import StagesList from "./lists/StagesList";
 import RunHeaderCard from "./cards/RunHeaderCard";
-import { StageType } from "../types/stageType";
+import { StageType } from "../schema/stageSchema";
 
 
 const TEST_STAGES_URL = import.meta.env.VITE_TEST_STAGES_URL;

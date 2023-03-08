@@ -1,5 +1,5 @@
 import StageCard from "../cards/StageCard";
-import { StagesListProps } from "../../types/stagesListProps";
+import { StagesListProps } from "../../schema/stageSchema";
 
 const StagesList = ({stages}: StagesListProps) => {
   return (
@@ -11,6 +11,6 @@ const StagesList = ({stages}: StagesListProps) => {
     })}
   </div>
   )
-}
+};
 
 export default StagesList;

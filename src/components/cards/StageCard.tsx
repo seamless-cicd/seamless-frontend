@@ -1,7 +1,6 @@
-import { StageCardProps } from "../../types/stageCardProps";
+import { StageCardProps } from "../../schema/stageSchema";
 
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
-
 
 const StageCard = ({ stage }: StageCardProps) => {
 
