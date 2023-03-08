@@ -1,8 +1,6 @@
 import { z } from "zod";
 import { runSchema } from "./runSchema";
-
-// needed last export - can change for pipeline schema
-import { PipelineType } from "../types/pipelineType";
+import { PipelineType } from "./pipelineSchema";
 
 export const serviceSchema = z.object({
   id: z.string(),

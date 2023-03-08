@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { pipelineSchema, PipelineType } from "../schema/formSchema";
+import { pipelineFormSchema, PipelineFormType } from "../schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
@@ -19,11 +19,11 @@ const PipelineSetUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PipelineType>({
-    resolver: zodResolver(pipelineSchema),
+  } = useForm<PipelineFormType>({
+    resolver: zodResolver(pipelineFormSchema),
   });
 
-  const onSubmit: SubmitHandler<PipelineType> = async (data) => {
+  const onSubmit: SubmitHandler<PipelineFormType> = async (data) => {
     try {
       console.log(data);
       await axios.post(TEST_PIPELINES_URL, data);

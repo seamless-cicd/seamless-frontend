@@ -75,7 +75,7 @@ export const serviceEditSchema = z.object({
 export type ServiceEditType = z.infer<typeof serviceEditSchema>;
 
 // PIPELINE SET UP FORM
-export const pipelineSchema = z.object({
+export const pipelineFormSchema = z.object({
   name: z.string().min(1, "Pipeline name is required").max(40),
   // after testing change min to 40
   githubPat: z.string().min(1, "40 character GitHub PAT is required").max(40),
@@ -83,10 +83,7 @@ export const pipelineSchema = z.object({
   awsAccessKey: z.string().min(1, "20 character AWS Access Key is required").max(20),
   // after testing change min to 40
   awsSecretAccessKey: z.string().min(1, "40 character AWS Secret Access Key is required").max(40),
-  id: z.string().optional(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
 });
 
-export type PipelineType = z.infer<typeof pipelineSchema>;
+export type PipelineFormType = z.infer<typeof pipelineFormSchema>;
 
