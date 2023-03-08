@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { ServiceType } from "../schema/serviceSchema";
 import ServicesList from "./lists/ServicesList";
 import ServicesHeaderCard from "./cards/ServicesHeaderCard";
-// import { PipelineType } from "../types/pipelineType";
 import { PipelineType } from "../schema/pipelineSchema";
 import axios from 'axios';
 
