@@ -47,7 +47,7 @@ const Logs = ({ stageId }: LogsProps) => {
     <>
       <p className="mb-4 mt-4">Stage ID: {stageId}</p>
       {logs.map((log) => (
-        <p key={log.id}>{log.log}</p>
+        <p className='terminal' key={log.id}>{log.timestamp} {log.log}</p>
       ))}
     </>
   );
