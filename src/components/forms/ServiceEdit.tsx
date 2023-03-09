@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { serviceFormSchema, ServiceFormType } from "../schema/formSchema";
+import { serviceEditFormSchema, ServiceEditFormType } from "../../schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
 const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
-const TEST_PIPELINES_URL = import.meta.env.VITE_TEST_PIPELINES_URL;
 
 const submitButtonStyle = "mt-10 mb-10 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
 
@@ -14,22 +13,38 @@ const errorMsgStyle = "bg-red-100 px-4 py-2 text-red-700";
 
 const inputBorderStyle = "ml-6 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500";
 
-const ServiceSetUp = () => {
-  const [pipelineId, setPipelineId] = useState("");
+const editableFields = [
+  'name',
+  'triggerOnMain',
+  'triggerOnPrOpen',
+  'triggerOnPrSync',
+  'useStaging',
+  'autoDeploy',
+  'githubRepoUrl',
+  'unitTestCommand',
+  'integrationTestCommand',
+  'codeQualityCommand',
+  'dockerfilePath',
+  'dockerComposeFilePath',
+]
+
+const ServiceEdit = () => {
   const navigate = useNavigate();
+  const { serviceId } = useParams();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<ServiceFormType>({
-    resolver: zodResolver(serviceFormSchema),
-  });
+  } = useForm<ServiceEditFormType>({
+    resolver: zodResolver(serviceEditFormSchema),
+});
 
-  const onSubmit: SubmitHandler<ServiceFormType> = async (data) => {
-    data.pipelineId = pipelineId;
+  const onSubmit: SubmitHandler<ServiceEditFormType> = async (editedData) => {
     try {
-      await axios.post(TEST_SERVICES_URL, data);
+      await axios.patch(TEST_SERVICES_URL + serviceId, editedData);
+      alert('Service is being upated.')
       navigate('/services');
     } catch (e) {
       console.log(e);
@@ -37,17 +52,24 @@ const ServiceSetUp = () => {
   }
 
   useEffect(() => {
-    const fetchPipeline = async () => {
-      const response = await axios.get(TEST_PIPELINES_URL);
-      setPipelineId(response.data[0].id);
-    }
-    fetchPipeline();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(TEST_SERVICES_URL + serviceId);
   
+        editableFields.forEach(field => {
+          setValue(field, response.data[field])
+        })
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="mt-8 ml-8">
     <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Service Set Up</h2>
-    <p className="mb-4">Pipeline ID: {pipelineId}</p>
+    <p className="mb-4">Pipeline ID: (retrieve from backend)</p>
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className = "flex flex-col gap-2 w-64">
 
@@ -209,48 +231,14 @@ const ServiceSetUp = () => {
           )}
         </div>
 
-
-        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">AWS ECR Repo</h3>
-        <div className = "flex flex-col gap-2 w-64">
-          <label htmlFor='awsEcrRepo'>AWS ECR Repo: </label>
-          <input 
-            className={inputBorderStyle}
-            type="text"
-            id="awsEcrRepo"
-            {...register("awsEcrRepo")}  
-          />
-          {errors.awsEcrRepo && (
-            <span className={errorMsgStyle}>
-              {errors.awsEcrRepo?.message}
-            </span>
-          )}
-        </div>
-
-
-        <h3 className="text-xl text-indigo-700 font-bold mb-4 mt-8">AWS ECS Service</h3>
-        <div className = "flex flex-col gap-2 w-64">
-          <label htmlFor='awsEcsService'>AWS ECS Service: </label>
-          <input 
-            className={inputBorderStyle}
-            type="text"
-            id="awsEcsService"
-            {...register("awsEcsService")}  
-          />
-          {errors.awsEcsService && (
-            <span className={errorMsgStyle}>
-              {errors.awsEcsService?.message}
-            </span>
-          )}
-        </div>
-
         </div>
       </div>
       <button 
       className={submitButtonStyle}
-      type="submit">Continue To View Services</button>
+      type="submit">Update Service</button>
     </form>
   </div>
   )
 }
 
-export default ServiceSetUp
+export default ServiceEdit;

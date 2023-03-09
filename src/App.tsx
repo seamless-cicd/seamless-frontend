@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
-import PipelineSetUp from './components/PipelineSetUp';
-import Services from './components/Services';
-import ServiceSetUp from './components/ServiceSetUp';
-import Service from './components/Service';
-import Run from './components/Run';
-import ServiceEdit from './components/ServiceEdit';
+import PipelineSetUp from './components/forms/PipelineSetUp';
+import Services from './components/services/Services';
+import ServiceSetUp from './components/forms/ServiceSetUp';
+import Service from './components/service/Service';
+import Run from './components/run/Run';
+import ServiceEdit from './components/forms/ServiceEdit';
 
 function App() {
   return (

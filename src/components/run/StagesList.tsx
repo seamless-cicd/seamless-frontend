@@ -1,4 +1,4 @@
-import StageCard from "../cards/StageCard";
+import StageCard from "./StageCard";
 import { StagesListProps } from "../../schema/stageSchema";
 
 const StagesList = ({stages}: StagesListProps) => {
