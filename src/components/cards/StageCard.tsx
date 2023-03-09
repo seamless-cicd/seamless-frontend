@@ -20,7 +20,7 @@ const StageCard = ({ stage }: StageCardProps) => {
       <p className="text-gray-600">{`Status: ${stage.status}`}</p>
       <p className="text-gray-600">{`Run ID: ${stage.runId}`}</p>
       <p className="text-gray-600">{`Created At: ${stage.createdAt}`}</p>
-      <p className="text-gray-600">{`Created At: ${stage.updatedAt}`}</p>
+      <p className="text-gray-600">{`Updated At: ${stage.updatedAt}`}</p>
       <p className="text-gray-600">{`Started At: ${stage.startedAt}`}</p>
       <p className="text-gray-600">{`Ended At: ${stage.endedAt}`}</p>
 

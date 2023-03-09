@@ -7,7 +7,7 @@ export const stageSchema = z.object({
   type: z.string(),
   startedAt: z.date().optional(),
   endedAt: z.date().optional(),
-  durationAt: z.number().optional(),
+  duration: z.number().optional(),
   status: z.string(),
   runId: z.string().optional(),
 });
