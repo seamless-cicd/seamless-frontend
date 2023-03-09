@@ -20,4 +20,6 @@ export interface StagesListProps {
 
 export interface StageCardProps {
   stage: StageType;
+  viewType: string;
+  setViewType: React.Dispatch<React.SetStateAction<string>>;
 }
