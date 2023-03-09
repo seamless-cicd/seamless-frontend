@@ -1,15 +1,13 @@
-import { useState } from 'react';
 import { StageCardProps } from '../../schema/stageSchema';
 import Logs from '../logs_display/Logs';
 
 const submitButtonStyle =
   'mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded';
 
-const StageCard = ({ stage }: StageCardProps) => {
-  const [logsDisplayed, setLogsDisplayed] = useState(false);
+const StageCard = ({ stage, viewType, setViewType }: StageCardProps) => {
 
   const handleViewLogsClick = (e: React.MouseEvent): void => {
-    setLogsDisplayed(!logsDisplayed);
+    stage.type === viewType ? setViewType("") : setViewType(stage.type);
   };
 
   const handleReRunClick = (e: React.MouseEvent): void => {
@@ -33,8 +31,10 @@ const StageCard = ({ stage }: StageCardProps) => {
       <button className={submitButtonStyle} onClick={handleViewLogsClick}>
         View Logs
       </button>
-      {logsDisplayed && <Logs stageId={stage.id} />}
-      {/* )} */}
+
+      {/* This will only show one log at a time and can toggle */}
+      {(viewType === stage.type) && <Logs stageId={stage.id} />}
+    
       {(stage.status === 'SUCCESS' || stage.status === 'FAILURE') && (
         <button className={submitButtonStyle} onClick={handleReRunClick}>
           Re-Run
