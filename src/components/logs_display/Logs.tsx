@@ -1,38 +1,28 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { LogType, LogsProps } from '../../schema/logSchema';
 const TEST_LOGS_URL = import.meta.env.VITE_TEST_LOGS_URL;
 
 const sampleLogs = [
   {
     id: '1',
-    log: 'log info 1',
+    log: 'npm install',
     stageId: '1',
     timestamp: '11:09',
   },
   {
     id: '2',
-    log: 'log info 2',
+    log: '... now installing',
     stageId: '1',
     timestamp: '11:10',
   },
   {
     id: '3',
-    log: 'log info 3',
+    log: 'installed successfully',
     stageId: '1',
     timestamp: '11:11',
   },
 ];
-
-interface LogsProps {
-  stageId: string;
-}
-
-interface LogType {
-  id: string;
-  log: string;
-  stageId: string;
-  timestamp: string;
-}
 
 const Logs = ({ stageId }: LogsProps) => {
   const [logs, setLogs] = useState<LogType[]>([]);
@@ -55,7 +45,7 @@ const Logs = ({ stageId }: LogsProps) => {
 
   return (
     <>
-      <p>{stageId}</p>
+      <p className="mb-4 mt-4">Stage ID: {stageId}</p>
       {logs.map((log) => (
         <p key={log.id}>{log.log}</p>
       ))}
