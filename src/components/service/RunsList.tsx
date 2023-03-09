@@ -1,4 +1,4 @@
-import RunCard from "../cards/RunCard";
+import RunCard from "./RunCard";
 import { RunsListProps } from "../../schema/runSchema";
 
 const RunsList = ({runs, setRuns}: RunsListProps) => {

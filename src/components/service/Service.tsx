@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { RunType } from "../schema/runSchema";
-import RunsList from "./lists/RunsList";
-import ServiceHeaderCard from "./cards/ServiceHeaderCard";
-import { ServiceType } from "../schema/serviceSchema";
+import { RunType } from "../../schema/runSchema";
+import RunsList from "./RunsList";
+import ServiceHeaderCard from "./ServiceHeaderCard";
+import { ServiceType } from "../../schema/serviceSchema";
 import axios from 'axios';
 
 const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
@@ -55,11 +55,7 @@ const Service = () => {
 
   return (
     <div className="mt-8 ml-8">
-    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Service Runs</h2>
-
-    {/* DISPLAY INFO TO REMOVE */}
-    <h2 className="text-1xl text-indigo-700 font-bold mb-4">Service.tsx - ServiceHeaderCard - RunsList.tsx - RunCard.tsx</h2>
-    <h2 className="text-1xl text-indigo-700 font-bold mb-4">/services/:serviceId</h2>
+    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Service</h2>
     
     <ServiceHeaderCard service={service} />
     <div className="border rounded-lg shadow-md p-4 mr-80">
