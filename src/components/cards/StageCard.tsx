@@ -1,7 +1,6 @@
-import { StageCardProps } from "../../types/stageCardProps";
+import { StageCardProps } from "../../schema/stageSchema";
 
 const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
-
 
 const StageCard = ({ stage }: StageCardProps) => {
 
@@ -21,7 +20,7 @@ const StageCard = ({ stage }: StageCardProps) => {
       <p className="text-gray-600">{`Status: ${stage.status}`}</p>
       <p className="text-gray-600">{`Run ID: ${stage.runId}`}</p>
       <p className="text-gray-600">{`Created At: ${stage.createdAt}`}</p>
-      <p className="text-gray-600">{`Created At: ${stage.updatedAt}`}</p>
+      <p className="text-gray-600">{`Updated At: ${stage.updatedAt}`}</p>
       <p className="text-gray-600">{`Started At: ${stage.startedAt}`}</p>
       <p className="text-gray-600">{`Ended At: ${stage.endedAt}`}</p>
 

@@ -1,5 +1,5 @@
 import RunCard from "../cards/RunCard";
-import { RunsListProps } from "../../types/runsListProps";
+import { RunsListProps } from "../../schema/runSchema";
 
 const RunsList = ({runs, setRuns}: RunsListProps) => {
   return (

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ServiceCardProps } from "../../types/serviceCardProps";
+import { ServiceCardProps } from "../../schema/serviceSchema";
 import axios from "axios";
 const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
 const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;

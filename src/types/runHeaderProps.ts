@@ -1,5 +1,5 @@
-import { RunType } from "./runType";
+// import { RunType } from "./runType";
 
-export interface RunHeaderProps {
-  run: RunType
-};
+// export interface RunHeaderProps {
+//   run: RunType
+// };

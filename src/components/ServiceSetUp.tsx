@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { serviceSchema, ServiceType } from "../schema/formSchema";
+import { serviceFormSchema, ServiceFormType } from "../schema/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
@@ -22,11 +22,11 @@ const ServiceSetUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ServiceType>({
-    resolver: zodResolver(serviceSchema),
+  } = useForm<ServiceFormType>({
+    resolver: zodResolver(serviceFormSchema),
   });
 
-  const onSubmit: SubmitHandler<ServiceType> = async (data) => {
+  const onSubmit: SubmitHandler<ServiceFormType> = async (data) => {
     data.pipelineId = pipelineId;
     try {
       await axios.post(TEST_SERVICES_URL, data);

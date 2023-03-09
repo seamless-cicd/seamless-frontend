@@ -1,6 +1,6 @@
-import { RunType } from "./runType";
+// import { RunType } from "./runType";
 
-export interface RunCardProps {
-  run: RunType;
-  setRuns: React.Dispatch<React.SetStateAction<RunType[]>>;
-}
+// export interface RunCardProps {
+//   run: RunType;
+//   setRuns: React.Dispatch<React.SetStateAction<RunType[]>>;
+// }

@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { RunCardProps } from "../../types/runCardProps";
+import { RunCardProps } from "../../schema/runSchema";
 import axios from "axios";
 
 const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;

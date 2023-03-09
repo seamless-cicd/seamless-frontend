@@ -1,4 +1,4 @@
-import { ServicesHeaderProps } from "../../types/servicesHeaderProps";
+import { ServicesHeaderProps } from "../../schema/serviceSchema";
 
 const ServicesHeaderCard = ({pipeline}: ServicesHeaderProps) => {
   

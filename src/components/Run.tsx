@@ -1,10 +1,10 @@
 import { useParams } from "react-router";
 import { useState, useEffect } from 'react';
 import axios from "axios";
-import { RunType } from "../types/runType";
+import { RunType } from "../schema/runSchema";
 import StagesList from "./lists/StagesList";
 import RunHeaderCard from "./cards/RunHeaderCard";
-import { StageType } from "../types/stageType";
+import { StageType } from "../schema/stageSchema";
 
 
 const TEST_STAGES_URL = import.meta.env.VITE_TEST_STAGES_URL;
@@ -23,6 +23,7 @@ const defaultRun = {
   status: "",
   triggerType: "",
   serviceId: "",
+  stages: [],
 }
 
 const Run = () => {

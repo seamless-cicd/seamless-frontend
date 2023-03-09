@@ -1,5 +1,5 @@
 import ServiceCard from "../cards/ServiceCard";
-import { ServicesListProps } from "../../types/servicesListProps";
+import { ServicesListProps } from "../../schema/serviceSchema";
 
 const ServicesList = ({services, setServices}: ServicesListProps) => {
   return (
