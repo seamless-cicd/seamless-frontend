@@ -46,7 +46,7 @@ const Services = () => {
     <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Services</h2>
     
     <ServicesHeaderCard pipeline={pipeline} />
-    <div className="border rounded-lg shadow-md p-4 mr-80">
+    <div className="border rounded-lg shadow-xl p-4 mr-80">
       <ServicesList services={services} setServices={setServices} /> 
     </div>
   </div>
