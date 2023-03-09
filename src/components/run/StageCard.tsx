@@ -13,7 +13,7 @@ const StageCard = ({ stage }: StageCardProps) => {
   }
 
   return (
-    <div className="border p-4 rounded-md mb-4 mr-2">
+    <div className="border p-4 rounded-md shadow-md shadow-indigo-300 mb-4 mr-2">
       <h2 className="font-bold text-indigo-700">Type: {stage.type}</h2>
       <p className="text-gray-600">{`ID: ${stage.id}`}</p>
       <p className="text-gray-600">{`Duration: ${stage.duration}`}</p>

@@ -39,7 +39,7 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   }
 
   return (
-    <div className="border p-4 rounded-md mb-4 mr-2">
+    <div className="border p-4 rounded-md shadow-md shadow-indigo-300 mb-4 mr-2">
       <h2 className="font-bold text-indigo-700">{service.name}</h2>
       <p className="text-gray-600">{`ServiceId: ${service.id}`}</p>
       <p className="text-gray-600">{`Pipeline ID: ${service.pipelineId}`}</p>

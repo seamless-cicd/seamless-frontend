@@ -13,7 +13,7 @@ const RunHeaderCard = ({run}: RunHeaderProps) => {
   
   return (
     <div>
-    <div className="border rounded-lg shadow-md p-4 mr-80 mb-8">
+    <div className="border rounded-lg shadow-md shadow-slate-300 p-4 mr-80 mb-8">
       <h2 className="font-bold text-indigo-700">STAGE HEADER (RUN INFO)</h2>
       <h2 className="font-bold text-indigo-700">Status: {run.status}</h2>
       <p className="text-gray-600">{`Run ID: ${run.id}`}</p>
