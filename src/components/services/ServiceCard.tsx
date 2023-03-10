@@ -1,67 +1,165 @@
-import { useNavigate } from "react-router-dom";
-import { ServiceCardProps } from "../../schema/serviceSchema";
-import axios from "axios";
-const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
-const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
+import axios from 'axios';
+import { CheckCircle, CircleSlashed } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ServiceCardProps } from '../../schema/serviceSchema';
 
-const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
+import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
+const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
+const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
-const deleteButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
+const submitButtonStyle =
+  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
+
+const deleteButtonStyle =
+  'bg-transparent hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded';
 
 const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const navigate = useNavigate();
 
-  const handleRunClick = async (e: React.MouseEvent) => {
-    axios.post(TEST_RUNS_URL + '?serviceId=' + service.id);
+  const handleRunClick = async () => {
+    axios.post(
+      RUNS_URL,
+      {},
+      {
+        params: {
+          serviceId: service.id,
+        },
+      }
+    );
     alert('Run creation in process... the run will be created momentarily');
 
     navigate(`/services/${service.id}`);
-  }
+  };
 
-  const handleViewClick = (e: React.MouseEvent) => {
+  const handleViewClick = () => {
     navigate(`/services/${service.id}`);
-  }
+  };
 
-  const handleEditClick = (e: React.MouseEvent) => {
+  const handleEditClick = () => {
     navigate(`/services/${service.id}/edit`);
-  }
+  };
 
   const handleDeleteClick = async () => {
     try {
       alert('Confirm delete:');
-      await axios.delete(TEST_SERVICES_URL + service.id);
+      await axios.delete(`${SERVICES_URL}/${service.id}`);
       alert('Deletion in process.');
-      const remainingServices = await axios.get(TEST_SERVICES_URL);
+      const remainingServices = await axios.get(SERVICES_URL);
       setServices(remainingServices.data);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
+
+  const triggerIcon = (bool: boolean | undefined) => {
+    return bool ? (
+      <CheckCircle className="h-5 w-5 stroke-2 text-indigo-700" />
+    ) : (
+      <CircleSlashed className="h-5 w-5 stroke-2 text-stone-500" />
+    );
+  };
 
   return (
-    <div className="border p-4 rounded-md shadow-md shadow-indigo-300 mb-4 mr-2">
-      <h2 className="font-bold text-indigo-700">{service.name}</h2>
-      <p className="text-gray-600">{`ServiceId: ${service.id}`}</p>
-      <p className="text-gray-600">{`Pipeline ID: ${service.pipelineId}`}</p>
-      <p className="text-gray-600">{`Repo: ${service.githubRepoUrl}`}</p>
-      <p className="text-gray-600">{`Trigger On Commit: ${service.triggerOnMain}`}</p>
-      <p className="text-gray-600">{`Trigger On PR Open: ${service.triggerOnPrOpen}`}</p>
-      <p className="text-gray-600">{`Trigger On PR Sync: ${service.triggerOnPrSync}`}</p>
-      <p className="text-gray-600">{`Use Staging: ${service.useStaging}`}</p>
-      <p className="text-gray-600">{`Auto Deploy: ${service.autoDeploy}`}</p>
-      <p className="text-gray-600">{`Code Quality Command: ${service.codeQualityCommand}`}</p>
-      <p className="text-gray-600">{`Unit Test Command: ${service.unitTestCommand}`}</p>
-      <p className="text-gray-600">{`Integration Test Command: ${service.integrationTestCommand}`}</p>
-      <p className="text-gray-600">{`Dockerfile Path: ${service.dockerfilePath}`}</p>
-      <p className="text-gray-600">{`Docker Compose File Path: ${service.dockerComposeFilePath}`}</p>
-      <p className="text-gray-600">{`Created At: ${service.createdAt}`}</p>
-      <p className="text-gray-600">{`Updated At: ${service.updatedAt}`}</p>
-      <p className="text-gray-600">{`Last Run At: ${service.lastRunAt}`}</p>
+    <div className="rounded-lg border border-stone-200 bg-white p-8 text-sm text-stone-600 shadow-lg shadow-stone-200">
+      <h2 className="text-2xl font-medium text-indigo-700">{service.name}</h2>
+      <span className="font-mono text-xs text-stone-300">{`${service.id}`}</span>
 
-      <button className={submitButtonStyle} onClick={handleRunClick}>Run</button>
-      <button className={submitButtonStyle} onClick={handleViewClick}>View</button>
-      <button className={submitButtonStyle} onClick={handleEditClick}>Edit</button>
-      <button className={deleteButtonStyle} onClick={handleDeleteClick}>Delete</button>
+      <div className="mt-3">
+        <a
+          href={service.githubRepoUrl}
+          target="_blank"
+          className="text-stone-500 underline hover:text-indigo-700"
+        >{`${service.githubRepoUrl}`}</a>
+        <p className="mt-1">
+          Last Run: {new Date(service.createdAt).toLocaleString()}
+        </p>
+      </div>
+
+      <div className="mt-5 flex flex-col gap-y-2">
+        <p className="font-semibold uppercase text-stone-500">Triggers on:</p>
+        <div className="flex items-center gap-x-2">
+          {triggerIcon(service.triggerOnMain)}
+          <span>Pushing or merging into Main</span>
+        </div>
+        <div className="flex items-center gap-x-2">
+          {triggerIcon(service.triggerOnPrOpen)}
+          <span>Opening a Pull Request</span>
+        </div>
+        <div className="flex items-center gap-x-2">
+          {triggerIcon(service.triggerOnPrSync)}
+          <span>Pushing to an existing Pull Request</span>
+        </div>
+      </div>
+      <div className="mt-5 flex flex-col gap-y-2">
+        <p className="font-semibold uppercase text-stone-500">Pipeline Flow</p>
+        <p className="">
+          Use Staging Environment?{' '}
+          <span className="font-semibold">
+            {service.useStaging ? 'Yes' : 'No'}
+          </span>
+        </p>
+        <p className="">
+          Auto deploy to Prod?{' '}
+          <span className="font-semibold">
+            {service.autoDeploy ? 'Yes' : 'No'}
+          </span>
+        </p>
+      </div>
+      <div className="mt-5 flex flex-col gap-y-2">
+        <p className="font-semibold uppercase text-stone-500">Commands</p>
+        <p className="">
+          Code quality:{' '}
+          <span className="font-mono font-medium text-indigo-700">
+            {service.codeQualityCommand}
+          </span>
+        </p>
+        <p className="">
+          Unit testing:{' '}
+          <span className="font-mono font-medium text-indigo-700">
+            {service.unitTestCommand}
+          </span>
+        </p>
+        <p className="">
+          Integration testing:{' '}
+          <span className="font-mono font-medium text-indigo-700">
+            {service.integrationTestCommand || 'None'}
+          </span>
+        </p>
+      </div>
+      <div className="mt-5 flex flex-col gap-y-2">
+        <p className="font-semibold uppercase text-stone-500">Docker</p>
+        <p className="">
+          Dockerfile path:{' '}
+          <span className="font-mono font-medium text-indigo-700">
+            {service.dockerfilePath || 'None'}
+          </span>
+        </p>
+        <p className="">
+          Docker Compose file path:{' '}
+          <span className="font-mono font-medium text-indigo-700">
+            {service.dockerComposeFilePath || 'None'}
+          </span>
+        </p>
+      </div>
+
+      <div className="mt-8 flex justify-between">
+        <div className="flex gap-x-3">
+          <button className={submitButtonStyle} onClick={handleRunClick}>
+            Run
+          </button>
+          <button className={submitButtonStyle} onClick={handleViewClick}>
+            View
+          </button>
+          <button className={submitButtonStyle} onClick={handleEditClick}>
+            Edit
+          </button>
+        </div>
+        <div>
+          <button className={deleteButtonStyle} onClick={handleDeleteClick}>
+            Delete
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

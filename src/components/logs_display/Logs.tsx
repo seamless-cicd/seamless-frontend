@@ -1,7 +1,24 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { LogType, LogsProps } from '../../schema/logSchema';
-const TEST_LOGS_URL = import.meta.env.VITE_TEST_LOGS_URL;
+import { LogsProps, LogType } from '../../schema/logSchema';
+
+import { API_BASE_URL, LOGS_PATH } from '../../constants';
+import LoadingSpinner from '../ui/LoadingSpinner';
+const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
+
+const formatDateTime = (dateString: string) => {
+  const date = new Date(dateString);
+  const formattedDateTime = date.toLocaleString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+  });
+  return formattedDateTime;
+};
 
 const Logs = ({ stageId }: LogsProps) => {
   const [logs, setLogs] = useState<LogType[]>([]);
@@ -9,24 +26,38 @@ const Logs = ({ stageId }: LogsProps) => {
   useEffect(() => {
     const pollInterval = setInterval(async () => {
       try {
-        const logsResponse = await axios.get(
-          // for some stageIds logs are in cache
-          TEST_LOGS_URL + `?stageId=${stageId}`
-        );
+        // Query Redis cache for logs
+        const logsResponse = await axios.get(LOGS_URL, { params: { stageId } });
         setLogs(logsResponse.data);
       } catch (e) {
         console.log(e);
       }
-    }, 1000)
+    }, 1000);
 
     return () => clearInterval(pollInterval);
   }, []);
 
   return (
-    <div className='mt-4'>
+    <div className="min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">
       {logs.map((log) => (
-        <p className='terminal' key={log.id}>{log.timestamp} {log.log}</p>
+        <div key={log.id} className="mb-2 flex gap-x-3 font-mono text-xs">
+          <p
+            className={`flex-shrink-0 ${
+              log.type === 'stderr' ? 'text-red-500' : 'text-stone-400'
+            }`}
+          >
+            {formatDateTime(log.timestamp)}
+          </p>
+          <p
+            className={`${
+              log.type === 'stderr' ? 'text-red-500' : 'text-stone-50'
+            }`}
+          >
+            {log.log}
+          </p>
+        </div>
       ))}
+      {logs.length === 0 && <LoadingSpinner mode="night" size="small" />}
     </div>
   );
 };

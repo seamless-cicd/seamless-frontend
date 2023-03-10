@@ -1,23 +1,24 @@
-import { useState, useEffect } from "react";
-import { ServiceType } from "../../schema/serviceSchema";
-import ServicesList from "./ServicesList";
-import ServicesHeaderCard from "./ServicesHeaderCard";
-import { PipelineType } from "../../schema/pipelineSchema";
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { PipelineType } from '../../schema/pipelineSchema';
+import { ServiceType } from '../../schema/serviceSchema';
+import LoadingSpinner from '../ui/LoadingSpinner';
+
+import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH } from '../../constants';
+import ServicesList from './ServicesList';
+const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
+const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 
 const defaultPipeline = {
-  id: "",
-  createdAt: new Date,
-  updatedAt: new Date,
-  name: "",
-  githubPat: "",
-  awsAccessKey: "",
-  awsSecretAccessKey: "",
+  id: '',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  name: '',
+  githubPat: '',
+  awsAccessKey: '',
+  awsSecretAccessKey: '',
   services: [],
-}
-
-const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
-const TEST_PIPELINES_URL = import.meta.env.VITE_TEST_PIPELINES_URL;
+};
 
 const Services = () => {
   const [services, setServices] = useState<ServiceType[]>([]);
@@ -26,31 +27,38 @@ const Services = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const servicesRequest = axios.get(TEST_SERVICES_URL);
-        const pipelineRequest = axios.get(TEST_PIPELINES_URL);
+        const servicesRequest = axios.get(SERVICES_URL);
+        const pipelineRequest = axios.get(PIPELINES_URL);
 
-        const [servicesResponse, pipelineResponse] = await axios.all([servicesRequest, pipelineRequest]);
+        const [servicesResponse, pipelineResponse] = await axios.all([
+          servicesRequest,
+          pipelineRequest,
+        ]);
 
         setServices(servicesResponse.data);
-        // assumming one pipeline in the data structure
+        // assuming one pipeline in the data structure
         setPipeline(pipelineResponse.data[0]);
       } catch (e) {
         console.log(e);
       }
-    }
+    };
     fetchData();
   }, []);
 
-  return ( 
-    <div className="mt-8 ml-8">
-    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Services</h2>
-    
-    <ServicesHeaderCard pipeline={pipeline} />
-    <div className="border rounded-lg shadow-xl p-4 mr-80">
-      <ServicesList services={services} setServices={setServices} /> 
+  return (
+    <div className="">
+      <h1 className="text-3xl font-medium text-stone-700">
+        Pipeline: <span className="text-indigo-700">{pipeline.name}</span>
+      </h1>
+      <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.id}`}</p>
+
+      <h2 className="mt-8 text-2xl font-medium text-stone-700">
+        Services Using This Pipeline
+      </h2>
+      <ServicesList services={services} setServices={setServices} />
+      {services.length === 0 && <LoadingSpinner />}
     </div>
-  </div>
-  )
-}
+  );
+};
 
 export default Services;

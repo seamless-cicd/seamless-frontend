@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RunType } from '../../schema/runSchema';
-import RunsList from './RunsList';
-import ServiceHeaderCard from './ServiceHeaderCard';
 import { ServiceType } from '../../schema/serviceSchema';
-import axios from 'axios';
+import RunsList from './RunsList';
 
-const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
-const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
+import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
+import LoadingSpinner from '../ui/LoadingSpinner';
+const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
+const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const defaultService = {
   id: '',
@@ -40,7 +41,7 @@ const Service = () => {
     // service data fetched once - no need to poll, this is header info
     const fetchData = async () => {
       try {
-        const serviceResponse = await axios.get(TEST_SERVICES_URL + serviceId);
+        const serviceResponse = await axios.get(SERVICES_URL + serviceId);
         setService(serviceResponse.data);
       } catch (e) {
         console.log(e);
@@ -52,9 +53,9 @@ const Service = () => {
     const pollInterval = setInterval(async () => {
       try {
         const runsResponse = await axios.get(
-          TEST_RUNS_URL + `?serviceId=${serviceId}`
+          RUNS_URL + `?serviceId=${serviceId}`
         );
-
+        
         setRuns(runsResponse.data);
       } catch (e) {
         console.log(e);
@@ -65,13 +66,22 @@ const Service = () => {
   }, []);
 
   return (
-    <div className="mt-8 ml-8">
-      <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Service</h2>
+    <div className="">
+      <h1 className="text-3xl font-medium text-stone-700">
+        Service: <span className="text-indigo-700">{service.name}</span>
+      </h1>
+      <p className="mt-2 font-mono text-xs text-stone-400">{`${service.id}`}</p>
+      <a
+        href={service.githubRepoUrl}
+        target="_blank"
+        className="mt-2 block text-stone-600 underline hover:text-indigo-700"
+      >{`${service.githubRepoUrl}`}</a>
 
-      <ServiceHeaderCard service={service} />
-      <div className="border rounded-lg shadow-md p-4 mr-80">
-        <RunsList runs={runs} setRuns={setRuns} />
-      </div>
+      <h2 className="mt-8 text-2xl font-medium text-stone-700">
+        Pipeline Runs for this Service
+      </h2>
+      <RunsList runs={runs} setRuns={setRuns} />
+      {runs.length === 0 && <LoadingSpinner />}
     </div>
   );
 };
