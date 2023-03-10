@@ -1,30 +1,30 @@
-import { useParams } from "react-router";
-import { useState, useEffect } from 'react';
-import axios from "axios";
-import { RunType } from "../../schema/runSchema";
-import StagesList from "./StagesList";
-import RunHeaderCard from "./RunHeaderCard";
-import { StageType } from "../../schema/stageSchema";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { RunType } from '../../schema/runSchema';
+import { StageType } from '../../schema/stageSchema';
+import RunHeaderCard from './RunHeaderCard';
+import StagesList from './StagesList';
 
-
-const TEST_STAGES_URL = import.meta.env.VITE_TEST_STAGES_URL;
-const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
+import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../constants';
+const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
+const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const defaultRun = {
-  id: "",
-  createdAt: new Date,
-  updatedAt: new Date,
-  startedAt: new Date,
-  endedAt: new Date,
+  id: '',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  startedAt: new Date(),
+  endedAt: new Date(),
   duration: 0,
-  commitHash: "",
-  commitMessage: "",
-  committer: "",
-  status: "",
-  triggerType: "",
-  serviceId: "",
+  commitHash: '',
+  commitMessage: '',
+  committer: '',
+  status: '',
+  triggerType: '',
+  serviceId: '',
   stages: [],
-}
+};
 
 const Run = () => {
   const runId = useParams().runId;
@@ -34,31 +34,34 @@ const Run = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const runRequest = axios.get(TEST_RUNS_URL + runId);
-        const stagesRequest = axios.get(TEST_STAGES_URL + `?runId=${runId}`);
+        const runRequest = axios.get(RUNS_URL + runId);
+        const stagesRequest = axios.get(STAGES_URL + `?runId=${runId}`);
 
-        const [runResponse, stagesResponse] = await axios.all([runRequest, stagesRequest]);
+        const [runResponse, stagesResponse] = await axios.all([
+          runRequest,
+          stagesRequest,
+        ]);
 
         setRun(runResponse.data);
         setStages(stagesResponse.data);
       } catch (e) {
         console.log(e);
       }
-    }
+    };
     fetchData();
     console.log(stages);
   }, []);
-  
+
   return (
     <div className="mt-8 ml-8">
-    <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Run</h2>
+      <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Run</h2>
 
-    <RunHeaderCard run={run} />
-    <div className="border rounded-lg shadow-md p-4 mr-80">
-      <StagesList stages={stages}/>
+      <RunHeaderCard run={run} />
+      <div className="border rounded-lg shadow-md p-4 mr-80">
+        <StagesList stages={stages} />
+      </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
 export default Run;

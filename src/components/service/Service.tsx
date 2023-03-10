@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RunType } from '../../schema/runSchema';
+import { ServiceType } from '../../schema/serviceSchema';
 import RunsList from './RunsList';
 import ServiceHeaderCard from './ServiceHeaderCard';
-import { ServiceType } from '../../schema/serviceSchema';
-import axios from 'axios';
 
-const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
-const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
+import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../constants';
+const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
+const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const defaultService = {
   id: '',
@@ -39,10 +40,8 @@ const Service = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const runsRequest = axios.get(
-          TEST_RUNS_URL + `?serviceId=${serviceId}`
-        );
-        const serviceRequest = axios.get(TEST_SERVICES_URL + serviceId);
+        const runsRequest = axios.get(RUNS_URL + `?serviceId=${serviceId}`);
+        const serviceRequest = axios.get(SERVICES_URL + serviceId);
 
         const [runsResponse, serviceResponse] = await axios.all([
           runsRequest,

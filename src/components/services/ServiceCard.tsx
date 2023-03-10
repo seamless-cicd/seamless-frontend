@@ -1,42 +1,46 @@
-import { useNavigate } from "react-router-dom";
-import { ServiceCardProps } from "../../schema/serviceSchema";
-import axios from "axios";
-const TEST_RUNS_URL = import.meta.env.VITE_TEST_RUNS_URL;
-const TEST_SERVICES_URL = import.meta.env.VITE_TEST_SERVICES_URL;
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { ServiceCardProps } from '../../schema/serviceSchema';
 
-const submitButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
+import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../constants';
+const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
+const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
-const deleteButtonStyle = "mt-4 mr-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded";
+const submitButtonStyle =
+  'mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded';
+
+const deleteButtonStyle =
+  'mt-4 mr-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded';
 
 const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const navigate = useNavigate();
 
   const handleRunClick = async (e: React.MouseEvent) => {
-    axios.post(TEST_RUNS_URL + '?serviceId=' + service.id);
+    axios.post(RUNS_URL + '?serviceId=' + service.id);
     alert('Run creation in process... the run will be created momentarily');
 
     navigate(`/services/${service.id}`);
-  }
+  };
 
   const handleViewClick = (e: React.MouseEvent) => {
     navigate(`/services/${service.id}`);
-  }
+  };
 
   const handleEditClick = (e: React.MouseEvent) => {
     navigate(`/services/${service.id}/edit`);
-  }
+  };
 
   const handleDeleteClick = async () => {
     try {
       alert('Confirm delete:');
-      await axios.delete(TEST_SERVICES_URL + service.id);
+      await axios.delete(SERVICES_URL + service.id);
       alert('Deletion in process.');
-      const remainingServices = await axios.get(TEST_SERVICES_URL);
+      const remainingServices = await axios.get(SERVICES_URL);
       setServices(remainingServices.data);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <div className="border p-4 rounded-md shadow-md shadow-indigo-300 mb-4 mr-2">
@@ -58,10 +62,18 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
       <p className="text-gray-600">{`Updated At: ${service.updatedAt}`}</p>
       <p className="text-gray-600">{`Last Run At: ${service.lastRunAt}`}</p>
 
-      <button className={submitButtonStyle} onClick={handleRunClick}>Run</button>
-      <button className={submitButtonStyle} onClick={handleViewClick}>View</button>
-      <button className={submitButtonStyle} onClick={handleEditClick}>Edit</button>
-      <button className={deleteButtonStyle} onClick={handleDeleteClick}>Delete</button>
+      <button className={submitButtonStyle} onClick={handleRunClick}>
+        Run
+      </button>
+      <button className={submitButtonStyle} onClick={handleViewClick}>
+        View
+      </button>
+      <button className={submitButtonStyle} onClick={handleEditClick}>
+        Edit
+      </button>
+      <button className={deleteButtonStyle} onClick={handleDeleteClick}>
+        Delete
+      </button>
     </div>
   );
 };
