@@ -37,7 +37,19 @@ const Service = () => {
   const [service, setService] = useState<ServiceType>(defaultService);
 
   useEffect(() => {
+    // service data fetched once - no need to poll, this is header info
     const fetchData = async () => {
+      try {
+        const serviceResponse = await axios.get(TEST_SERVICES_URL + serviceId);
+        setService(serviceResponse.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+
+    // run data polled to update status, happens continuously at intervals
+    const pollInterval = setInterval(async () => {
       try {
         const runsRequest = axios.get(
           TEST_RUNS_URL + `?serviceId=${serviceId}`
@@ -54,8 +66,9 @@ const Service = () => {
       } catch (e) {
         console.log(e);
       }
-    };
-    fetchData();
+    }, 1000);
+
+    return () => clearInterval(pollInterval);
   }, []);
 
   return (
