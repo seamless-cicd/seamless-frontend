@@ -51,18 +51,11 @@ const Service = () => {
     // run data polled to update status, happens continuously at intervals
     const pollInterval = setInterval(async () => {
       try {
-        const runsRequest = axios.get(
+        const runsResponse = await axios.get(
           TEST_RUNS_URL + `?serviceId=${serviceId}`
         );
-        const serviceRequest = axios.get(TEST_SERVICES_URL + serviceId);
-
-        const [runsResponse, serviceResponse] = await axios.all([
-          runsRequest,
-          serviceRequest,
-        ]);
 
         setRuns(runsResponse.data);
-        setService(serviceResponse.data);
       } catch (e) {
         console.log(e);
       }

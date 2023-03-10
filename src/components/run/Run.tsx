@@ -32,7 +32,9 @@ const Run = () => {
   const [stages, setStages] = useState<StageType[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+
+    // BOTH run and stages data polled to update status, happens continuously at intervals - the header also needs to be updated that's why both
+    const pollInterval = setInterval(async () => {
       try {
         const runRequest = axios.get(TEST_RUNS_URL + runId);
         const stagesRequest = axios.get(TEST_STAGES_URL + `?runId=${runId}`);
@@ -44,10 +46,30 @@ const Run = () => {
       } catch (e) {
         console.log(e);
       }
-    }
-    fetchData();
-    console.log(stages);
+    }, 1000);
+
+    return () => clearInterval(pollInterval);
   }, []);
+
+
+  // PREVIOUS USE EFFECT WITHOUT POLLING
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const runRequest = axios.get(TEST_RUNS_URL + runId);
+  //       const stagesRequest = axios.get(TEST_STAGES_URL + `?runId=${runId}`);
+
+  //       const [runResponse, stagesResponse] = await axios.all([runRequest, stagesRequest]);
+
+  //       setRun(runResponse.data);
+  //       setStages(stagesResponse.data);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  //   fetchData();
+  //   console.log(stages);
+  // }, []);
   
   return (
     <div className="mt-8 ml-8">
