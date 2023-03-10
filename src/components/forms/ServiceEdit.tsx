@@ -62,9 +62,9 @@ const ServiceEdit = () => {
       try {
         const response = await axios.get(`${SERVICES_URL}/${serviceId}`);
 
-        editableFields.forEach((field) => {
-          setValue(field, response.data[field]);
-        });
+        editableFields.forEach((field) =>
+          setValue(field, response.data[field])
+        );
       } catch (e) {
         console.log(e);
       }
@@ -132,7 +132,7 @@ const ServiceEdit = () => {
             </h3>
             <div className="mt-4 flex items-center">
               <input
-                className="mr-2"
+                className="mr-2 h-4 w-4"
                 type="checkbox"
                 id="useStaging"
                 {...register('useStaging', { required: true })}
@@ -144,7 +144,7 @@ const ServiceEdit = () => {
             </div>
             <div className="mt-2 flex items-center">
               <input
-                className="mr-2"
+                className="mr-2 h-4 w-4"
                 type="checkbox"
                 id="autoDeploy"
                 {...register('autoDeploy', { required: true })}

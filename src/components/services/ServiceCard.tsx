@@ -16,7 +16,7 @@ const deleteButtonStyle =
 const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const navigate = useNavigate();
 
-  const handleRunClick = async (e: React.MouseEvent) => {
+  const handleRunClick = async () => {
     axios.post(
       RUNS_URL,
       {},
@@ -31,11 +31,11 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
     navigate(`/services/${service.id}`);
   };
 
-  const handleViewClick = (e: React.MouseEvent) => {
+  const handleViewClick = () => {
     navigate(`/services/${service.id}`);
   };
 
-  const handleEditClick = (e: React.MouseEvent) => {
+  const handleEditClick = () => {
     navigate(`/services/${service.id}/edit`);
   };
 
