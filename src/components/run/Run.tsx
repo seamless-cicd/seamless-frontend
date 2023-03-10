@@ -33,7 +33,9 @@ const Run = () => {
   const [stages, setStages] = useState<StageType[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+
+    // BOTH run and stages data polled to update status, happens continuously at intervals - the header also needs to be updated that's why both
+    const pollInterval = setInterval(async () => {
       try {
         const runRequest = axios.get(`${RUNS_URL}/${runId}`);
         const stagesRequest = axios.get(STAGES_URL, {
@@ -50,9 +52,9 @@ const Run = () => {
       } catch (e) {
         console.log(e);
       }
-    };
-    fetchData();
-    console.log(stages);
+    }, 1000);
+    
+    return () => clearInterval(pollInterval);
   }, []);
 
   return (
