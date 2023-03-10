@@ -3,7 +3,7 @@ import RunCard from './RunCard';
 
 const RunsList = ({ runs, setRuns }: RunsListProps) => {
   return (
-    <div>
+    <div className="mt-4 w-full space-y-8">
       {runs.map((run) => {
         return <RunCard key={run.id} run={run} setRuns={setRuns} />;
       })}

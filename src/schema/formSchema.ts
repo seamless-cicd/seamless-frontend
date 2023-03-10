@@ -8,7 +8,7 @@ export const serviceFormSchema = z.object({
   triggerOnPrSync: z.boolean().default(false),
   useStaging: z.boolean().default(false),
   autoDeploy: z.boolean().default(false),
-  githubRepoUrl: z.string().min(1, 'GitHub Repo is required'),
+  githubRepoUrl: z.string().min(1, 'GitHub repo is required'),
   unitTestCommand: z.string().min(1, 'Unit test command is required'),
   integrationTestCommand: z
     .string()
@@ -34,7 +34,7 @@ export const serviceEditFormSchema = z.object({
   triggerOnPrSync: z.boolean().default(false),
   useStaging: z.boolean().default(false),
   autoDeploy: z.boolean().default(false),
-  githubRepoUrl: z.string().min(1, 'GitHub Repo is required'),
+  githubRepoUrl: z.string().min(1, 'GitHub sepo is required'),
   unitTestCommand: z.string().min(1, 'Unit test command is required'),
   integrationTestCommand: z
     .string()

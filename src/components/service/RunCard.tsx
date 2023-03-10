@@ -6,60 +6,84 @@ import { API_BASE_URL, RUNS_PATH } from '../../constants';
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const submitButtonStyle =
-  'mt-4 mr-2 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded';
+  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
 
 const deleteButtonStyle =
-  'mt-4 mr-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded';
+  'bg-transparent hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded';
 
 const RunCard = ({ run, setRuns }: RunCardProps) => {
   const navigate = useNavigate();
   const { serviceId } = useParams();
 
-  const handleViewClick = (e: React.MouseEvent) => {
-    console.log('navigating to a single run to show info');
+  const handleViewClick = () => {
     navigate(`/runs/${run.id}`);
   };
 
-  const handleReRunClick = (e: React.MouseEvent) => {
-    console.log('going to re-run the service now!');
+  const handleReRunClick = () => {
+    window.alert('The Re-Run feature is under development.');
   };
 
   const handleDeleteClick = async () => {
     try {
-      alert('Confirm delete:');
-      await axios.delete(`${RUNS_URL}/${runId}`);
-      alert('Deletion in process.');
-      const remainingRuns = await axios.get(RUNS_URL, {
-        params: { serviceId },
-      });
-      setRuns(remainingRuns.data);
+      if (window.confirm('Are you sure you want to delete this Run?')) {
+        await axios.delete(`${RUNS_URL}/${run.id}`);
+        const remainingRuns = await axios.get(RUNS_URL, {
+          params: { serviceId },
+        });
+        setRuns(remainingRuns.data);
+      }
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <div className="border p-4 rounded-md shadow-md shadow-indigo-300 mb-4 mr-2">
-      <h2 className="font-bold text-indigo-700">Status: {run.status}</h2>
-      <p className="text-gray-600">{`Run ID: ${run.id}`}</p>
-      <p className="text-gray-600">{`Comitter: ${run.committer}`}</p>
-      <p className="text-gray-600">{`Created At: ${run.createdAt}`}</p>
-      <p className="text-gray-600">{`Duration: ${run.duration}`}</p>
-      <p className="text-gray-600">{`Started At: ${run.startedAt}`}</p>
-      <p className="text-gray-600">{`Ended At: ${run.endedAt}`}</p>
-      <p className="text-gray-600">{`Service ID: ${run.serviceId}`}</p>
-      <p className="text-gray-600">{`Trigger Type: ${run.triggerType}`}</p>
-      <p className="text-gray-600">{`Commit Hash: ${run.commitHash}`}</p>
-      <p className="text-gray-600">{`Commit Message: ${run.commitMessage}`}</p>
-      <button className={submitButtonStyle} onClick={handleViewClick}>
-        View
-      </button>
-      <button className={submitButtonStyle} onClick={handleReRunClick}>
-        Re-Run
-      </button>
-      <button className={deleteButtonStyle} onClick={handleDeleteClick}>
-        Delete
-      </button>
+    <div className="rounded-lg border border-stone-200 bg-white p-8 text-sm text-stone-600 shadow-lg shadow-stone-200">
+      <h2 className="text-lg text-stone-400">Run {run.id}</h2>
+      <h3 className="mt-2 text-xl font-semibold text-indigo-700">
+        Status: {run.status}
+      </h3>
+
+      <div className="mt-5 flex flex-col gap-y-2">
+        <p className="">{`Start: ${new Date(
+          run.startedAt
+        ).toLocaleString()}`}</p>
+        <p className="">{`End: ${run.endedAt || 'Still running'}`}</p>
+        <p className="">{`Duration: ${run.duration || 'Still running'}`}</p>
+      </div>
+
+      <div className="mt-5 flex flex-col gap-y-2">
+        <p className="font-semibold uppercase text-stone-500">GIT COMMIT</p>
+        <p className="">
+          Message: <span className="font-semibold">{run.commitMessage}</span>
+        </p>
+        <p className="">
+          Committer: <span className="font-semibold">{run.committer}</span>
+        </p>
+        <p className="">
+          Hash:{' '}
+          <span className="font-mono font-medium text-indigo-700">
+            {run.commitHash}
+          </span>
+        </p>
+        <p className="">
+          Trigger Type: <span className="font-semibold">{run.triggerType}</span>
+        </p>
+      </div>
+
+      <div className="mt-8 flex justify-between">
+        <div className="flex gap-x-3">
+          <button className={submitButtonStyle} onClick={handleViewClick}>
+            View
+          </button>
+          <button className={submitButtonStyle} onClick={handleReRunClick}>
+            Re-Run
+          </button>
+        </div>
+        <button className={deleteButtonStyle} onClick={handleDeleteClick}>
+          Delete
+        </button>
+      </div>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
 
 import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../../constants';
+import LoadingSpinner from '../ui/LoadingSpinner';
 const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
@@ -55,13 +56,17 @@ const Run = () => {
   }, []);
 
   return (
-    <div className="mt-8 ml-8">
-      <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Run</h2>
-
+    <div className="">
+      <h1 className="text-3xl font-medium text-stone-700">
+        Run <span className="text-xl text-stone-500">{runId}</span>
+      </h1>
       <RunHeaderCard run={run} />
-      <div className="border rounded-lg shadow-md p-4 mr-80">
-        <StagesList stages={stages} />
-      </div>
+
+      <h2 className="mt-8 text-2xl font-medium text-stone-700">
+        Stages of this Run
+      </h2>
+      <StagesList stages={stages} />
+      {stages.length === 0 && <LoadingSpinner />}
     </div>
   );
 };

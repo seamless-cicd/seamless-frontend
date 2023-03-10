@@ -4,8 +4,9 @@ import StageCard from './StageCard';
 
 const StagesList = ({ stages }: StagesListProps) => {
   const [viewType, setViewType] = useState('');
+
   return (
-    <div>
+    <div className="mt-4 w-full space-y-8">
       {stages.map((stage) => {
         return (
           <StageCard

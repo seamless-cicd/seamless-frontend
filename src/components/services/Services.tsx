@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { PipelineType } from '../../schema/pipelineSchema';
 import { ServiceType } from '../../schema/serviceSchema';
-import ServicesHeaderCard from './ServicesHeaderCard';
-import ServicesList from './ServicesList';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH } from '../../constants';
+import ServicesList from './ServicesList';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 
@@ -46,16 +46,17 @@ const Services = () => {
   }, []);
 
   return (
-    <div className="mt-8 ml-8">
-      <h1 className="text-3xl text-indigo-700 font-extrabold mb-4">Pipeline</h1>
-      <ServicesHeaderCard pipeline={pipeline} />
+    <div className="">
+      <h1 className="text-3xl font-medium text-stone-700">
+        Pipeline: <span className="text-indigo-700">{pipeline.name}</span>
+      </h1>
+      <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.id}`}</p>
 
-      <h2 className="text-2xl text-indigo-700 font-bold mb-4">
+      <h2 className="mt-8 text-2xl font-medium text-stone-700">
         Services Using This Pipeline
       </h2>
-      <div className="border rounded-lg shadow-xl p-4 mr-80">
-        <ServicesList services={services} setServices={setServices} />
-      </div>
+      <ServicesList services={services} setServices={setServices} />
+      {services.length === 0 && <LoadingSpinner />}
     </div>
   );
 };

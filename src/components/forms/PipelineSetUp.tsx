@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import { ArrowRightCircle } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
@@ -8,12 +9,12 @@ import { API_BASE_URL, PIPELINES_PATH } from '../../constants';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 
 const submitButtonStyle =
-  'mt-10 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded';
+  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
 
-const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700';
+const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
 
 const inputBorderStyle =
-  'ml-6 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
+  'border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
 
 const PipelineSetUp = () => {
   const navigate = useNavigate();
@@ -37,13 +38,17 @@ const PipelineSetUp = () => {
   };
 
   return (
-    <div className="mt-8 ml-8">
-      <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">
-        Pipeline Set Up
-      </h2>
+    <div className="">
+      <h1 className="text-3xl font-medium text-stone-700">Pipeline Setup</h1>
+      <p className="mt-4 max-w-prose text-stone-600">
+        Please enter your credentials so we can clone code and provision AWS
+        infrastructure on your behalf.
+      </p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-2 w-64">
-          <label htmlFor="name">Pipeline Name: </label>
+        <div className="mt-8 flex w-80 flex-col gap-2">
+          <label htmlFor="name" className="">
+            Pipeline Name
+          </label>
           <input
             className={inputBorderStyle}
             type="text"
@@ -55,8 +60,8 @@ const PipelineSetUp = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-2 w-64">
-          <label htmlFor="githubPat">GitHub PAT: </label>
+        <div className="mt-6 flex w-80 flex-col gap-2">
+          <label htmlFor="githubPat">GitHub PAT (Classic)</label>
           <input
             className={inputBorderStyle}
             type="text"
@@ -68,8 +73,8 @@ const PipelineSetUp = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-2 w-64">
-          <label htmlFor="awsAccessKey">AWS Access Key: </label>
+        <div className="mt-6 flex w-80 flex-col gap-2">
+          <label htmlFor="awsAccessKey">AWS Access Key</label>
           <input
             className={inputBorderStyle}
             type="text"
@@ -83,8 +88,8 @@ const PipelineSetUp = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-2 w-64">
-          <label htmlFor="awsSecretAccessKey">AWS Secret Access Key: </label>
+        <div className="mt-6 flex w-80 flex-col gap-2">
+          <label htmlFor="awsSecretAccessKey">AWS Secret Access Key</label>
           <input
             className={inputBorderStyle}
             type="text"
@@ -98,8 +103,11 @@ const PipelineSetUp = () => {
           )}
         </div>
 
-        <button className={submitButtonStyle} type="submit">
-          Continue To View Services
+        <button
+          className={submitButtonStyle + ` mt-16 flex items-center gap-x-2`}
+          type="submit"
+        >
+          <span>Continue To Service Setup</span> <ArrowRightCircle />
         </button>
       </form>
     </div>

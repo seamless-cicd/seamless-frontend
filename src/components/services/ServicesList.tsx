@@ -3,7 +3,7 @@ import ServiceCard from './ServiceCard';
 
 const ServicesList = ({ services, setServices }: ServicesListProps) => {
   return (
-    <div>
+    <div className="mt-4 w-full space-y-8">
       {services.map((service) => {
         return (
           <ServiceCard
