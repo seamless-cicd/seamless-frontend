@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
 
-import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH } from '../constants';
+import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH } from '../../constants';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 

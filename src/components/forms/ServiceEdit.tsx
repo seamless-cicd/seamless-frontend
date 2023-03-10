@@ -8,7 +8,7 @@ import {
   ServiceEditFormType,
 } from '../../schema/formSchema';
 
-import { API_BASE_URL, SERVICES_PATH } from '../constants';
+import { API_BASE_URL, SERVICES_PATH } from '../../constants';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 
 const submitButtonStyle =
@@ -49,8 +49,8 @@ const ServiceEdit = () => {
 
   const onSubmit: SubmitHandler<ServiceEditFormType> = async (editedData) => {
     try {
-      await axios.patch(SERVICES_URL + serviceId, editedData);
-      alert('Service is being upated.');
+      await axios.patch(`${SERVICES_URL}/${serviceId}`, editedData);
+      alert('Service is being updated.');
       navigate('/services');
     } catch (e) {
       console.log(e);
@@ -60,7 +60,7 @@ const ServiceEdit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(SERVICES_URL + serviceId);
+        const response = await axios.get(`${SERVICES_URL}/${serviceId}`);
 
         editableFields.forEach((field) => {
           setValue(field, response.data[field]);

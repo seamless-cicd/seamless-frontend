@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
 import PipelineSetUp from './components/forms/PipelineSetUp';
-import Services from './components/services/Services';
-import ServiceSetUp from './components/forms/ServiceSetUp';
-import Service from './components/service/Service';
-import Run from './components/run/Run';
 import ServiceEdit from './components/forms/ServiceEdit';
+import ServiceSetUp from './components/forms/ServiceSetUp';
+import Home from './components/Home';
+import Run from './components/run/Run';
+import Service from './components/service/Service';
+import Services from './components/services/Services';
 
 function App() {
   return (
@@ -21,9 +21,8 @@ function App() {
           <Route path="/runs/:runId" element={<Run />} />
         </Routes>
       </Router>
-
     </div>
   );
 }
 
-export default App
+export default App;

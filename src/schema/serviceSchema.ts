@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { runSchema } from "./runSchema";
-import { PipelineType } from "./pipelineSchema";
+import { z } from 'zod';
+import { PipelineType } from './pipelineSchema';
+import { runSchema } from './runSchema';
 
 export const serviceSchema = z.object({
   id: z.string(),
@@ -27,12 +27,12 @@ export type ServiceType = z.infer<typeof serviceSchema>;
 
 export interface ServicesListProps {
   services: ServiceType[];
-  setServices: React.Dispatch<React.SetStateAction<ServiceType[]>>
+  setServices: React.Dispatch<React.SetStateAction<ServiceType[]>>;
 }
 
 export interface ServiceHeaderProps {
-  service: ServiceType
-};
+  service: ServiceType;
+}
 
 export interface ServiceCardProps {
   service: ServiceType;
@@ -40,6 +40,5 @@ export interface ServiceCardProps {
 }
 
 export interface ServicesHeaderProps {
-  pipeline: PipelineType
+  pipeline: PipelineType;
 }
-

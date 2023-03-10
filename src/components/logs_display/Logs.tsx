@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { LogsProps, LogType } from '../../schema/logSchema';
 
-import { API_BASE_URL, LOGS_PATH } from '../constants';
+import { API_BASE_URL, LOGS_PATH } from '../../constants';
 const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
 
 const Logs = ({ stageId }: LogsProps) => {
@@ -11,10 +11,8 @@ const Logs = ({ stageId }: LogsProps) => {
   useEffect(() => {
     const pollInterval = setInterval(async () => {
       try {
-        const logsResponse = await axios.get(
-          // for some stageIds logs are in cache
-          LOGS_URL + `?stageId=${stageId}`
-        );
+        // for some stageIds logs are in cache
+        const logsResponse = await axios.get(LOGS_URL, { params: { stageId } });
         setLogs(logsResponse.data);
       } catch (e) {
         console.log(e);

@@ -6,7 +6,7 @@ import { StageType } from '../../schema/stageSchema';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
 
-import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../constants';
+import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../../constants';
 const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
@@ -34,8 +34,10 @@ const Run = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const runRequest = axios.get(RUNS_URL + runId);
-        const stagesRequest = axios.get(STAGES_URL + `?runId=${runId}`);
+        const runRequest = axios.get(`${RUNS_URL}/${runId}`);
+        const stagesRequest = axios.get(STAGES_URL, {
+          params: { runId },
+        });
 
         const [runResponse, stagesResponse] = await axios.all([
           runRequest,

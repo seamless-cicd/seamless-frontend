@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { serviceSchema } from "./serviceSchema";
+import { z } from 'zod';
+import { serviceSchema } from './serviceSchema';
 
 export const pipelineSchema = z.object({
   id: z.string(),

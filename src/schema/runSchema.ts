@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { stageSchema } from "./stageSchema";
+import { z } from 'zod';
+import { stageSchema } from './stageSchema';
 
 export const runSchema = z.object({
   id: z.string(),
@@ -21,7 +21,7 @@ export type RunType = z.infer<typeof runSchema>;
 
 export interface RunsListProps {
   runs: RunType[];
-  setRuns: React.Dispatch<React.SetStateAction<RunType[]>>
+  setRuns: React.Dispatch<React.SetStateAction<RunType[]>>;
 }
 
 export interface RunCardProps {
@@ -30,5 +30,5 @@ export interface RunCardProps {
 }
 
 export interface RunHeaderProps {
-  run: RunType
-};
+  run: RunType;
+}

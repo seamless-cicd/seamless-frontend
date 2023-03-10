@@ -6,7 +6,7 @@ import { ServiceType } from '../../schema/serviceSchema';
 import RunsList from './RunsList';
 import ServiceHeaderCard from './ServiceHeaderCard';
 
-import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../constants';
+import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
@@ -40,8 +40,10 @@ const Service = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const runsRequest = axios.get(RUNS_URL + `?serviceId=${serviceId}`);
-        const serviceRequest = axios.get(SERVICES_URL + serviceId);
+        const runsRequest = axios.get(RUNS_URL, {
+          params: { serviceId },
+        });
+        const serviceRequest = axios.get(`${SERVICES_URL}/${serviceId}`);
 
         const [runsResponse, serviceResponse] = await axios.all([
           runsRequest,

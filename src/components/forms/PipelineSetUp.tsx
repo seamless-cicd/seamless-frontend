@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
 
-import { API_BASE_URL, PIPELINES_PATH } from '../constants';
+import { API_BASE_URL, PIPELINES_PATH } from '../../constants';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 
 const submitButtonStyle =

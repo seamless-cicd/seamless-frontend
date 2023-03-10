@@ -5,7 +5,7 @@ import { ServiceType } from '../../schema/serviceSchema';
 import ServicesHeaderCard from './ServicesHeaderCard';
 import ServicesList from './ServicesList';
 
-import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH } from '../constants';
+import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH } from '../../constants';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 
@@ -36,7 +36,7 @@ const Services = () => {
         ]);
 
         setServices(servicesResponse.data);
-        // assumming one pipeline in the data structure
+        // assuming one pipeline in the data structure
         setPipeline(pipelineResponse.data[0]);
       } catch (e) {
         console.log(e);
@@ -47,9 +47,12 @@ const Services = () => {
 
   return (
     <div className="mt-8 ml-8">
-      <h2 className="text-3xl text-indigo-700 font-extrabold mb-4">Services</h2>
-
+      <h1 className="text-3xl text-indigo-700 font-extrabold mb-4">Pipeline</h1>
       <ServicesHeaderCard pipeline={pipeline} />
+
+      <h2 className="text-2xl text-indigo-700 font-bold mb-4">
+        Services Using This Pipeline
+      </h2>
       <div className="border rounded-lg shadow-xl p-4 mr-80">
         <ServicesList services={services} setServices={setServices} />
       </div>

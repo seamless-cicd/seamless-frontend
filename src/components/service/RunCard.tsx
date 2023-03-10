@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RunCardProps } from '../../schema/runSchema';
 
-import { API_BASE_URL, RUNS_PATH } from '../constants';
+import { API_BASE_URL, RUNS_PATH } from '../../constants';
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const submitButtonStyle =
@@ -27,11 +27,11 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
   const handleDeleteClick = async () => {
     try {
       alert('Confirm delete:');
-      await axios.delete(RUNS_URL + run.id);
+      await axios.delete(`${RUNS_URL}/${runId}`);
       alert('Deletion in process.');
-      const remainingRuns = await axios.get(
-        RUNS_URL + `?serviceId=${serviceId}`
-      );
+      const remainingRuns = await axios.get(RUNS_URL, {
+        params: { serviceId },
+      });
       setRuns(remainingRuns.data);
     } catch (e) {
       console.log(e);
