@@ -41,7 +41,7 @@ const Service = () => {
     // service data fetched once - no need to poll, this is header info
     const fetchData = async () => {
       try {
-        const serviceResponse = await axios.get(TEST_SERVICES_URL + serviceId);
+        const serviceResponse = await axios.get(SERVICES_URL + serviceId);
         setService(serviceResponse.data);
       } catch (e) {
         console.log(e);
@@ -53,7 +53,7 @@ const Service = () => {
     const pollInterval = setInterval(async () => {
       try {
         const runsResponse = await axios.get(
-          TEST_RUNS_URL + `?serviceId=${serviceId}`
+          RUNS_URL + `?serviceId=${serviceId}`
         );
         
         setRuns(runsResponse.data);
