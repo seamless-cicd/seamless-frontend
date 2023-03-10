@@ -33,7 +33,6 @@ const Run = () => {
   const [stages, setStages] = useState<StageType[]>([]);
 
   useEffect(() => {
-
     // BOTH run and stages data polled to update status, happens continuously at intervals - the header also needs to be updated that's why both
     const pollInterval = setInterval(async () => {
       try {
@@ -53,7 +52,7 @@ const Run = () => {
         console.log(e);
       }
     }, 1000);
-    
+
     return () => clearInterval(pollInterval);
   }, []);
 

@@ -1,4 +1,5 @@
 import { RunHeaderProps } from '../../schema/runSchema';
+import { StatusToName } from '../../schema/stageSchema';
 
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
@@ -19,7 +20,7 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
     <div className="mt-3 border-b border-stone-200 pt-4 pb-8 text-sm text-stone-600">
       <div className="flex items-start justify-between">
         <h3 className="text-2xl font-semibold text-indigo-700">
-          Status: {run.status}
+          {`Status: ${StatusToName[run.status]}`}
         </h3>
         <div className="flex gap-x-3">
           <button className={submitButtonStyle} onClick={handleReRunClick}>
