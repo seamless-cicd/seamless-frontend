@@ -19,8 +19,13 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
     navigate(`/runs/${run.id}`);
   };
 
-  const handleReRunClick = () => {
-    window.alert('The Re-Run feature is under development.');
+  const handleReRunClick = async () => {
+    try {
+      axios.post(`${RUNS_URL}/${run.id}/start`);
+      navigate(`/runs/${run.id}`);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleDeleteClick = async () => {
