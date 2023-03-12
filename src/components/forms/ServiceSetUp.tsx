@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
 
 import { ArrowRightCircle } from 'lucide-react';
-import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH } from '../../constants';
+import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
+const WEBHOOKS_URL = `${API_BASE_URL}/${WEBHOOKS_PATH}`;
 
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
@@ -20,6 +21,7 @@ const inputBorderStyle =
 
 const ServiceSetUp = () => {
   const [pipelineId, setPipelineId] = useState('');
+  const [githubPat, setGithubPat] = useState('');
   const navigate = useNavigate();
 
   const {
@@ -31,10 +33,28 @@ const ServiceSetUp = () => {
   });
 
   const onSubmit: SubmitHandler<ServiceFormType> = async (data) => {
+    const triggerOnMain = data.triggerOnMain;
+    const triggerOnPrSync = data.triggerOnPrSync;
+    const triggerOnPrOpen = data.triggerOnPrOpen;
+    const githubRepoUrl = data.githubRepoUrl;
+    const webhooksData = { 
+      triggerOnMain, triggerOnPrOpen, triggerOnPrSync, githubPat, githubRepoUrl
+    }
+    
     data.pipelineId = pipelineId;
     try {
-      await axios.post(SERVICES_URL, data);
-      navigate('/services');
+      // create the webhook for the user
+      // send githubRepoUrl, PAT from .env table
+      // send triggers
+      await axios.post(WEBHOOKS_URL + '/create', webhooksData);
+   
+      // console.log(data.githubRepoUrl);
+      // console.log(data.triggerOnMain);
+      // console.log(githubPat, '<pat');
+      console.log(webhooksData);
+
+      // await axios.post(SERVICES_URL, data);
+      // navigate('/services');
     } catch (e) {
       console.log(e);
     }
@@ -43,7 +63,9 @@ const ServiceSetUp = () => {
   useEffect(() => {
     const fetchPipeline = async () => {
       const response = await axios.get(PIPELINES_URL);
+      // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
       setPipelineId(response.data[0].id);
+      setGithubPat(response.data[0].githubPat);
     };
     fetchPipeline();
   }, []);
