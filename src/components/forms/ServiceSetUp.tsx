@@ -42,19 +42,11 @@ const ServiceSetUp = () => {
     }
     
     data.pipelineId = pipelineId;
+    
     try {
-      // create the webhook for the user
-      // send githubRepoUrl, PAT from .env table
-      // send triggers
       await axios.post(WEBHOOKS_URL + '/create', webhooksData);
-   
-      // console.log(data.githubRepoUrl);
-      // console.log(data.triggerOnMain);
-      // console.log(githubPat, '<pat');
-      console.log(webhooksData);
-
-      // await axios.post(SERVICES_URL, data);
-      // navigate('/services');
+      await axios.post(SERVICES_URL, data);
+      navigate('/services');
     } catch (e) {
       console.log(e);
     }
