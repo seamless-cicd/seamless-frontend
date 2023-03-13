@@ -34,7 +34,7 @@ const editableFields = [
   'dockerComposeFilePath',
 ];
 
-const ServiceEdit = () => {
+const ServiceEdit = ({ webhookId }) => {
   const navigate = useNavigate();
   const { serviceId } = useParams();
 
@@ -58,6 +58,7 @@ const ServiceEdit = () => {
   };
 
   useEffect(() => {
+    console.log(webhookId);
     const fetchData = async () => {
       try {
         const response = await axios.get(`${SERVICES_URL}/${serviceId}`);
