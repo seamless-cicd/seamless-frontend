@@ -19,7 +19,7 @@ const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
 const inputBorderStyle =
   'border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
 
-const ServiceSetUp = ({ setWebhookId }) => {
+const ServiceSetUp = () => {
   const [pipelineId, setPipelineId] = useState('');
   const [githubPat, setGithubPat] = useState('');
   const navigate = useNavigate();
@@ -44,9 +44,7 @@ const ServiceSetUp = ({ setWebhookId }) => {
     data.pipelineId = pipelineId;
     
     try {
-      const response = await axios.post(WEBHOOKS_URL + '/create', webhooksData);
-      console.log(response);
-      setWebhookId(response.data.id);
+      await axios.post(WEBHOOKS_URL + '/create', webhooksData);
       
       await axios.post(SERVICES_URL, data);
       navigate('/services');

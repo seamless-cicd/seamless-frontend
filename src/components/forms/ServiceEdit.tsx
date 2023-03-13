@@ -36,10 +36,11 @@ const editableFields = [
   'dockerComposeFilePath',
 ];
 
-const ServiceEdit = ({ webhookId }) => {
+const ServiceEdit = () => {
   const navigate = useNavigate();
   const { serviceId } = useParams();
   const [githubPat, setGithubPat] = useState('');
+  const [pipelineId, setPipelineIdId] = useState();
 
   const {
     register,
@@ -56,13 +57,9 @@ const ServiceEdit = ({ webhookId }) => {
     const triggerOnPrSync = editedData.triggerOnPrSync;
     const triggerOnPrOpen = editedData.triggerOnPrOpen;
     const githubRepoUrl = editedData.githubRepoUrl;
-    const hookId = webhookId;
     const webhooksData = { 
-      triggerOnMain, triggerOnPrOpen, triggerOnPrSync, githubPat, githubRepoUrl, hookId
+      triggerOnMain, triggerOnPrOpen, triggerOnPrSync, githubPat, githubRepoUrl
     }
-    
-    console.log(webhooksData);
-    console.log(webhookId);
     
     try {
       // this will go to backend to edit webhook
@@ -77,8 +74,6 @@ const ServiceEdit = ({ webhookId }) => {
   };
 
   useEffect(() => {
-    console.log(webhookId);
-
     const fetchData = async () => {
       try {
         const response = await axios.get(`${SERVICES_URL}/${serviceId}`);
@@ -96,6 +91,7 @@ const ServiceEdit = ({ webhookId }) => {
     const fetchPipeline = async () => {
       const response = await axios.get(PIPELINES_URL);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
+      setPipelineIdId(response.data[0].id);
       setGithubPat(response.data[0].githubPat);
     };
     fetchPipeline();
@@ -105,9 +101,9 @@ const ServiceEdit = ({ webhookId }) => {
     <div className="w-[900px]">
       <h1 className="text-3xl font-medium text-stone-700">Edit Service</h1>
       <p className="mt-4 max-w-prose text-stone-600">
-        Pipeline ID:
+        Pipeline ID:{' '}
         <span className="font-mono text-indigo-700">
-          (retrieve from backend)
+           {pipelineId}
         </span>
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
