@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -8,8 +8,10 @@ import {
   ServiceEditFormType,
 } from '../../schema/formSchema';
 
-import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import { API_BASE_URL, SERVICES_PATH, PIPELINES_PATH, WEBHOOKS_PATH } from '../../constants';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
+const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
+const WEBHOOKS_URL = `${API_BASE_URL}/${WEBHOOKS_PATH}`;
 
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
@@ -37,6 +39,8 @@ const editableFields = [
 const ServiceEdit = () => {
   const navigate = useNavigate();
   const { serviceId } = useParams();
+  const [githubPat, setGithubPat] = useState('');
+  const [pipelineId, setPipelineIdId] = useState();
 
   const {
     register,
@@ -48,7 +52,19 @@ const ServiceEdit = () => {
   });
 
   const onSubmit: SubmitHandler<ServiceEditFormType> = async (editedData) => {
+    // new, to set data to be sent to webhook at github
+    const triggerOnMain = editedData.triggerOnMain;
+    const triggerOnPrSync = editedData.triggerOnPrSync;
+    const triggerOnPrOpen = editedData.triggerOnPrOpen;
+    const githubRepoUrl = editedData.githubRepoUrl;
+    const webhooksData = { 
+      triggerOnMain, triggerOnPrOpen, triggerOnPrSync, githubPat, githubRepoUrl
+    }
+    
     try {
+      // this will go to backend to edit webhook
+      await axios.patch(WEBHOOKS_URL + '/patch', webhooksData);
+
       await axios.patch(`${SERVICES_URL}/${serviceId}`, editedData);
       alert('Service is being updated.');
       navigate('/services');
@@ -70,15 +86,24 @@ const ServiceEdit = () => {
       }
     };
     fetchData();
+
+    // need pat to edit triggers
+    const fetchPipeline = async () => {
+      const response = await axios.get(PIPELINES_URL);
+      // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
+      setPipelineIdId(response.data[0].id);
+      setGithubPat(response.data[0].githubPat);
+    };
+    fetchPipeline();
   }, []);
 
   return (
     <div className="w-[900px]">
       <h1 className="text-3xl font-medium text-stone-700">Edit Service</h1>
       <p className="mt-4 max-w-prose text-stone-600">
-        Pipeline ID:
+        Pipeline ID:{' '}
         <span className="font-mono text-indigo-700">
-          (retrieve from backend)
+           {pipelineId}
         </span>
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>

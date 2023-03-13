@@ -45,6 +45,7 @@ const ServiceSetUp = () => {
     
     try {
       await axios.post(WEBHOOKS_URL + '/create', webhooksData);
+      
       await axios.post(SERVICES_URL, data);
       navigate('/services');
     } catch (e) {
