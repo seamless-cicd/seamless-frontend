@@ -40,13 +40,14 @@ const Logs = ({ stageId }: LogsProps) => {
     const eventSource = new EventSource(STREAM_URL);
     eventSource.onmessage = (e) => {
       const logsArray = JSON.parse(e.data)
+      console.log(logsArray);
       setLogs(logsArray);
     }
 
     return () => {
       eventSource.close();
     };
-  }, [logs]); // logs dependency
+  }, []);
 
   return (
     <div className="min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">
