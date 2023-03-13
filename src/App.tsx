@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PipelineSetUp from './components/forms/PipelineSetUp';
 import ServiceEdit from './components/forms/ServiceEdit';
@@ -9,6 +10,13 @@ import Service from './components/service/Service';
 import Services from './components/services/Services';
 
 function App() {
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const codeParam = urlParams.get('code');
+    console.log(codeParam);
+  }, []);
+
   return (
     <div className="flex min-h-screen">
       <Router>

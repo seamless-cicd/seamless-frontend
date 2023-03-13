@@ -2,6 +2,7 @@ import { ArrowRightCircle, LucideIcon, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logoWithText from '../../assets/logo/PNG 1.png';
 import profileIcon from '../../assets/ProfileIcon.png';
+import { loginWithGithub } from '../../utils/github_oauth';
 
 const links = [
   { to: '/', title: 'Home', icon: ArrowRightCircle },
@@ -47,8 +48,13 @@ const UserProfile = () => {
     <div className="mt-12 flex items-center gap-x-4 border-b border-stone-200 pb-12">
       <img src={profileIcon} className="h-9 w-9" />
       <div>
-        <p className="text-sm font-medium text-stone-700">Seamless User</p>
-        <p className="text-xs text-stone-400">seamlessuser@gmail.com</p>
+        <button
+          className="rounded border border-gray-400 bg-white py-2 px-4 font-semibold text-gray-800 shadow hover:bg-gray-100"
+          onClick={loginWithGithub}
+        >
+          Login
+        </button>
+        {/* <p className="text-sm font-medium text-stone-700">Github Username</p> */}
       </div>
     </div>
   );
