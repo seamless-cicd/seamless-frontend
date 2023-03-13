@@ -5,6 +5,7 @@ import { LogsProps, LogType } from '../../schema/logSchema';
 import { API_BASE_URL, LOGS_PATH } from '../../constants';
 import LoadingSpinner from '../ui/LoadingSpinner';
 const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
+const STREAM_URL = `${LOGS_URL}/stream`;
 
 const formatDateTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -24,18 +25,28 @@ const Logs = ({ stageId }: LogsProps) => {
   const [logs, setLogs] = useState<LogType[]>([]);
 
   useEffect(() => {
-    const pollInterval = setInterval(async () => {
-      try {
-        // Query Redis cache for logs
+    // get initial logs if any - needed
+    const getLogs = async () => {
+      try {   
         const logsResponse = await axios.get(LOGS_URL, { params: { stageId } });
         setLogs(logsResponse.data);
       } catch (e) {
         console.log(e);
       }
-    }, 1000);
+    }
+    getLogs();
 
-    return () => clearInterval(pollInterval);
-  }, []);
+    // stream logs
+    const eventSource = new EventSource(STREAM_URL);
+    eventSource.onmessage = (e) => {
+      const logsArray = JSON.parse(e.data)
+      setLogs(logsArray);
+    }
+
+    return () => {
+      eventSource.close();
+    };
+  }, [logs]); // logs dependency
 
   return (
     <div className="min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">
