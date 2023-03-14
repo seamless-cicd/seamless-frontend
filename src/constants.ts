@@ -5,3 +5,6 @@ export const RUNS_PATH = 'api/runs';
 export const STAGES_PATH = 'api/stages';
 export const LOGS_PATH = 'api/logs';
 export const WEBHOOKS_PATH = 'api/webhooks';
+export const AUTH_PATH = 'api/auth';
+export const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
+export const GITHUB_CLIENT_ID = '00f815f3b5fbdc1b6371';
