@@ -52,7 +52,7 @@ const Run = () => {
       } catch (e) {
         console.log(e);
       }
-    }, 1000);
+    }, 1000); // edited to slow it down for testing
 
     return () => clearInterval(pollInterval);
   }, []);
