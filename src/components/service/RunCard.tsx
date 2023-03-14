@@ -1,8 +1,12 @@
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RunCardProps } from '../../schema/runSchema';
 
 import { API_BASE_URL, RUNS_PATH } from '../../constants';
+import {
+  axiosDeleteAuthenticated,
+  axiosGetAuthenticated,
+  axiosPostAuthenticated,
+} from '../../utils/authentication';
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const submitButtonStyle =
@@ -21,7 +25,7 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
 
   const handleReRunClick = async () => {
     try {
-      axios.post(`${RUNS_URL}/${run.id}/start`);
+      axiosPostAuthenticated(`${RUNS_URL}/${run.id}/start`);
       navigate(`/runs/${run.id}`);
     } catch (e) {
       console.error(e);
@@ -31,8 +35,8 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
   const handleDeleteClick = async () => {
     try {
       if (window.confirm('Are you sure you want to delete this Run?')) {
-        await axios.delete(`${RUNS_URL}/${run.id}`);
-        const remainingRuns = await axios.get(RUNS_URL, {
+        await axiosDeleteAuthenticated(`${RUNS_URL}/${run.id}`);
+        const remainingRuns = await axiosGetAuthenticated(RUNS_URL, {
           params: { serviceId },
         });
         setRuns(remainingRuns.data);

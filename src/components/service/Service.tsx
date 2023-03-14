@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RunType } from '../../schema/runSchema';
@@ -6,6 +5,7 @@ import { ServiceType } from '../../schema/serviceSchema';
 import RunsList from './RunsList';
 
 import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
+import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
@@ -41,7 +41,9 @@ const Service = () => {
     // service data fetched once - no need to poll, this is header info
     const fetchData = async () => {
       try {
-        const serviceResponse = await axios.get(`${SERVICES_URL}/${serviceId}`);
+        const serviceResponse = await axiosGetAuthenticated(
+          `${SERVICES_URL}/${serviceId}`
+        );
         setService(serviceResponse.data);
       } catch (e) {
         console.log(e);
@@ -52,7 +54,7 @@ const Service = () => {
     // run data polled to update status, happens continuously at intervals
     const pollInterval = setInterval(async () => {
       try {
-        const runsResponse = await axios.get(RUNS_URL, {
+        const runsResponse = await axiosGetAuthenticated(RUNS_URL, {
           params: { serviceId },
         });
 

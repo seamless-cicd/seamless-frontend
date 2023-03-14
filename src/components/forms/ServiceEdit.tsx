@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,6 +8,10 @@ import {
 } from '../../schema/formSchema';
 
 import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import {
+  axiosGetAuthenticated,
+  axiosPatchAuthenticated,
+} from '../../utils/authentication';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 
 const submitButtonStyle =
@@ -49,7 +52,7 @@ const ServiceEdit = () => {
 
   const onSubmit: SubmitHandler<ServiceEditFormType> = async (editedData) => {
     try {
-      await axios.patch(`${SERVICES_URL}/${serviceId}`, editedData);
+      await axiosPatchAuthenticated(`${SERVICES_URL}/${serviceId}`, editedData);
       alert('Service is being updated.');
       navigate('/services');
     } catch (e) {
@@ -60,7 +63,9 @@ const ServiceEdit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${SERVICES_URL}/${serviceId}`);
+        const response = await axiosGetAuthenticated(
+          `${SERVICES_URL}/${serviceId}`
+        );
 
         editableFields.forEach((field) =>
           setValue(field, response.data[field])

@@ -1,12 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
 
 import { ArrowRightCircle } from 'lucide-react';
-import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
+import {
+  API_BASE_URL,
+  PIPELINES_PATH,
+  SERVICES_PATH,
+  WEBHOOKS_PATH,
+} from '../../constants';
+import {
+  axiosGetAuthenticated,
+  axiosPostAuthenticated,
+} from '../../utils/authentication';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const WEBHOOKS_URL = `${API_BASE_URL}/${WEBHOOKS_PATH}`;
@@ -37,15 +45,19 @@ const ServiceSetUp = () => {
     const triggerOnPrSync = data.triggerOnPrSync;
     const triggerOnPrOpen = data.triggerOnPrOpen;
     const githubRepoUrl = data.githubRepoUrl;
-    const webhooksData = { 
-      triggerOnMain, triggerOnPrOpen, triggerOnPrSync, githubPat, githubRepoUrl
-    }
-    
+    const webhooksData = {
+      triggerOnMain,
+      triggerOnPrOpen,
+      triggerOnPrSync,
+      githubPat,
+      githubRepoUrl,
+    };
+
     data.pipelineId = pipelineId;
-    
+
     try {
-      await axios.post(WEBHOOKS_URL + '/create', webhooksData);
-      await axios.post(SERVICES_URL, data);
+      await axiosPostAuthenticated(WEBHOOKS_URL + '/create', webhooksData);
+      await axiosPostAuthenticated(SERVICES_URL, data);
       navigate('/services');
     } catch (e) {
       console.log(e);
@@ -54,7 +66,7 @@ const ServiceSetUp = () => {
 
   useEffect(() => {
     const fetchPipeline = async () => {
-      const response = await axios.get(PIPELINES_URL);
+      const response = await axiosGetAuthenticated(PIPELINES_URL);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
       setPipelineId(response.data[0].id);
       setGithubPat(response.data[0].githubPat);

@@ -1,9 +1,12 @@
-import axios from 'axios';
 import { CheckCircle, CircleSlashed } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ServiceCardProps } from '../../schema/serviceSchema';
 
 import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
+import {
+  axiosGetAuthenticated,
+  axiosPostAuthenticated,
+} from '../../utils/authentication';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
@@ -17,7 +20,7 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const navigate = useNavigate();
 
   const handleRunClick = async () => {
-    axios.post(
+    axiosPostAuthenticated(
       RUNS_URL,
       {},
       {
@@ -42,9 +45,9 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const handleDeleteClick = async () => {
     try {
       alert('Confirm delete:');
-      await axios.delete(`${SERVICES_URL}/${service.id}`);
+      await axiosDeleteAuthenticated(`${SERVICES_URL}/${service.id}`);
       alert('Deletion in process.');
-      const remainingServices = await axios.get(SERVICES_URL);
+      const remainingServices = await axiosGetAuthenticated(SERVICES_URL);
       setServices(remainingServices.data);
     } catch (e) {
       console.log(e);

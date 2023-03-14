@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { LogsProps, LogType } from '../../schema/logSchema';
 
 import { API_BASE_URL, LOGS_PATH } from '../../constants';
+import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
 
@@ -27,7 +27,9 @@ const Logs = ({ stageId }: LogsProps) => {
     const pollInterval = setInterval(async () => {
       try {
         // Query Redis cache for logs
-        const logsResponse = await axios.get(LOGS_URL, { params: { stageId } });
+        const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
+          params: { stageId },
+        });
         setLogs(logsResponse.data);
       } catch (e) {
         console.log(e);
