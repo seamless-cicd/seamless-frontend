@@ -4,6 +4,7 @@ import {
   AUTH_PATH,
   GITHUB_CLIENT_ID,
   GITHUB_OAUTH_URL,
+  USER_PATH,
 } from '../constants';
 
 // If user is not logged in, directs to Github
@@ -30,7 +31,7 @@ export const tryAuthorize = async () => {
 };
 
 export const getUserData = async () => {
-  const GET_USER_URL = `${API_BASE_URL}/${AUTH_PATH}/user-data`;
+  const GET_USER_URL = `${API_BASE_URL}/${USER_PATH}`;
 
   const response = await axios.get(GET_USER_URL, {
     headers: {
