@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,7 +8,14 @@ import {
   ServiceEditFormType,
 } from '../../schema/formSchema';
 
+
+import {
+  axiosGetAuthenticated,
+  axiosPatchAuthenticated,
+} from '../../utils/authentication';
+
 import { API_BASE_URL, SERVICES_PATH, PIPELINES_PATH, WEBHOOKS_PATH } from '../../constants';
+
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 const WEBHOOKS_URL = `${API_BASE_URL}/${WEBHOOKS_PATH}`;
@@ -62,10 +69,8 @@ const ServiceEdit = () => {
     }
     
     try {
-      // this will go to backend to edit webhook
-      await axios.patch(WEBHOOKS_URL + '/patch', webhooksData);
-
-      await axios.patch(`${SERVICES_URL}/${serviceId}`, editedData);
+      await axiosPatchAuthenticated(WEBHOOKS_URL + '/patch', webhooksData);
+      await axiosPatchAuthenticated(`${SERVICES_URL}/${serviceId}`, editedData);4
       alert('Service is being updated.');
       navigate('/services');
     } catch (e) {
@@ -76,7 +81,9 @@ const ServiceEdit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${SERVICES_URL}/${serviceId}`);
+        const response = await axiosGetAuthenticated(
+          `${SERVICES_URL}/${serviceId}`
+        );
 
         editableFields.forEach((field) =>
           setValue(field, response.data[field])

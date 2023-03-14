@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { LogsProps, LogType } from '../../schema/logSchema';
 
 import { API_BASE_URL, LOGS_PATH } from '../../constants';
+import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
 const STREAM_URL = `${LOGS_URL}/stream`;

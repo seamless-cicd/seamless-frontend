@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { ArrowRightCircle } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
+import { axiosPostAuthenticated } from '../../utils/authentication';
 
 import { API_BASE_URL, PIPELINES_PATH } from '../../constants';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
@@ -30,7 +30,7 @@ const PipelineSetUp = () => {
   const onSubmit: SubmitHandler<PipelineFormType> = async (data) => {
     try {
       console.log(data);
-      await axios.post(PIPELINES_URL, data);
+      await axiosPostAuthenticated(PIPELINES_URL, data);
       navigate('/service-set-up');
     } catch (e) {
       console.log(e);

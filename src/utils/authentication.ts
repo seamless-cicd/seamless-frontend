@@ -1,9 +1,11 @@
-import axios from 'axios';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios, { AxiosRequestConfig } from 'axios';
 import {
   API_BASE_URL,
   AUTH_PATH,
   GITHUB_CLIENT_ID,
   GITHUB_OAUTH_URL,
+  USER_PATH,
 } from '../constants';
 
 // If user is not logged in, directs to Github
@@ -22,7 +24,7 @@ export const tryAuthorize = async () => {
     const ACCESS_TOKEN_URL = `${API_BASE_URL}/${AUTH_PATH}/access-token?code=${codeParam}`;
     console.log(ACCESS_TOKEN_URL);
 
-    const response = await axios.get(ACCESS_TOKEN_URL);
+    const response = await axiosGetAuthenticated(ACCESS_TOKEN_URL);
     if (response.data.token) {
       localStorage.setItem('accessToken', response.data.token);
     }
@@ -30,9 +32,9 @@ export const tryAuthorize = async () => {
 };
 
 export const getUserData = async () => {
-  const GET_USER_URL = `${API_BASE_URL}/${AUTH_PATH}/user-data`;
+  const GET_USER_URL = `${API_BASE_URL}/${USER_PATH}`;
 
-  const response = await axios.get(GET_USER_URL, {
+  const response = await axiosGetAuthenticated(GET_USER_URL, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
@@ -44,11 +46,52 @@ export const logout = async () => {
   const LOGOUT_URL = `${API_BASE_URL}/${AUTH_PATH}/logout`;
 
   try {
-    await axios.get(LOGOUT_URL);
+    await axiosGetAuthenticated(LOGOUT_URL);
   } catch (error) {
     console.log(error);
   } finally {
     localStorage.removeItem('accessToken');
     window.location.reload();
   }
+};
+
+export const axiosGetAuthenticated = (
+  url: string,
+  config?: AxiosRequestConfig<any> | undefined
+) => {
+  return axios.get(url, {
+    ...config,
+    headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+  });
+};
+
+export const axiosPostAuthenticated = (
+  url: string,
+  data?: any,
+  config?: AxiosRequestConfig<any> | undefined
+) => {
+  return axios.post(url, data, {
+    ...config,
+    headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+  });
+};
+export const axiosPatchAuthenticated = (
+  url: string,
+  data?: any,
+  config?: AxiosRequestConfig<any> | undefined
+) => {
+  return axiosPatchAuthenticated(url, data, {
+    ...config,
+    headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+  });
+};
+
+export const axiosDeleteAuthenticated = (
+  url: string,
+  config?: AxiosRequestConfig<any> | undefined
+) => {
+  return axios.delete(url, {
+    ...config,
+    headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+  });
 };

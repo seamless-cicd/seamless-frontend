@@ -7,6 +7,7 @@ import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
 
 import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../../constants';
+import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
@@ -36,8 +37,8 @@ const Run = () => {
     // BOTH run and stages data polled to update status, happens continuously at intervals - the header also needs to be updated that's why both
     const pollInterval = setInterval(async () => {
       try {
-        const runRequest = axios.get(`${RUNS_URL}/${runId}`);
-        const stagesRequest = axios.get(STAGES_URL, {
+        const runRequest = axiosGetAuthenticated(`${RUNS_URL}/${runId}`);
+        const stagesRequest = axiosGetAuthenticated(STAGES_URL, {
           params: { runId },
         });
 
