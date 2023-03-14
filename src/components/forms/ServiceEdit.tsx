@@ -96,7 +96,7 @@ const ServiceEdit = () => {
 
     // need pat to edit triggers
     const fetchPipeline = async () => {
-      const response = await axios.get(PIPELINES_URL);
+      const response = await axiosGetAuthenticated(PIPELINES_URL);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
       setPipelineIdId(response.data[0].id);
       setGithubPat(response.data[0].githubPat);

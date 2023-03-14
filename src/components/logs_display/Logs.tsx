@@ -28,7 +28,7 @@ const Logs = ({ stageId }: LogsProps) => {
     // get initial logs if any - needed
     const getLogs = async () => {
       try {   
-        const logsResponse = await axios.get(LOGS_URL, { params: { stageId } });
+        const logsResponse = await axiosGetAuthenticated.get(LOGS_URL, { params: { stageId } });
         setLogs(logsResponse.data);
       } catch (e) {
         console.log(e);
