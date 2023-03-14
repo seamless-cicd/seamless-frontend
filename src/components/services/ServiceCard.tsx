@@ -1,6 +1,7 @@
 import { CheckCircle, CircleSlashed } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ServiceCardProps } from '../../schema/serviceSchema';
+import { axiosDeleteAuthenticated } from '../../utils/authentication';
 
 import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
 import {

@@ -80,7 +80,7 @@ export const axiosPatchAuthenticated = (
   data?: any,
   config?: AxiosRequestConfig<any> | undefined
 ) => {
-  return axiosPatchAuthenticated(url, data, {
+  return axios.patch(url, data, {
     ...config,
     headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
   });

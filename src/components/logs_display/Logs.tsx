@@ -28,7 +28,7 @@ const Logs = ({ stageId }: LogsProps) => {
     // get initial logs if any - needed
     const getLogs = async () => {
       try {   
-        const logsResponse = await axios.get(LOGS_URL, { params: { stageId } });
+        const logsResponse = await axiosGetAuthenticated(LOGS_URL, { params: { stageId } });
         setLogs(logsResponse.data);
       } catch (e) {
         console.log(e);
@@ -40,7 +40,6 @@ const Logs = ({ stageId }: LogsProps) => {
     const eventSource = new EventSource(STREAM_URL);
     eventSource.onmessage = (e) => {
       const logsArray = JSON.parse(e.data)
-      console.log(logsArray);
       setLogs(logsArray);
     }
 
