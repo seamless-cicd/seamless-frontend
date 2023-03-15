@@ -7,16 +7,49 @@ import { PipelineType } from '../schema/pipelineSchema';
 import { ServiceType } from '../schema/serviceSchema';
 import { RunType } from '../schema/runSchema';
 import { StageType } from '../schema/stageSchema';
-import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH, RUNS_PATH, STAGES_PATH } from '../constants';
+import { LogType } from '../schema/logSchema';
+import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH, RUNS_PATH, STAGES_PATH, LOGS_PATH } from '../constants';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
+const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
 
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { Radar } from 'react-chartjs-2';
+import {
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+} from 'chart.js';
+
+// ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+  ArcElement,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
+
+
+
+
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
+
+
 
 const defaultPipeline = {
   id: '',
@@ -36,6 +69,8 @@ const Home = () => {
   const [runs, setRuns] = useState<RunType[]>([]);
   const [services, setServices] = useState<ServiceType[]>([]);
   const [stages, setStages] = useState<StageType[]>([]);
+  const [logs, setLogs] = useState<LogType[]>([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +85,8 @@ const Home = () => {
         setServices(servicesRequest.data);
         // assuming one pipeline in the data structure
         setPipeline(pipelineRequest.data[0]);
+        console.log(pipeline.services[0].runs)
+
       } catch (e) {
         console.log(e);
       }
@@ -70,6 +107,22 @@ const Home = () => {
     ],
   };
 
+  console.log(services, '< services')
+  const radarData = {
+    // labels: pipeline.services.map(service => service.name),
+    labels: ['payments', 'messages', 'inventory', 'users'],
+    datasets: [
+      {
+        label: '# Runs',
+        // data: services.map(service => service.runs.length),
+        data: [5, 7, 11, 8],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <div>
       <h1 className="text-3xl font-medium text-indigo-700">
@@ -85,10 +138,20 @@ const Home = () => {
       )}
 
       {user && (
-        <div className="mt-4 bg-white p-4 rounded-md shadow-md max-w-sm">
+        <div className="flex flex-row">
+
+        <div className="w-1/2 mt-4 mr-4 bg-white p-4 rounded-md shadow-md max-w-sm">
         <h1 className="text-3xl font-medium text-stone-700">Data Breakdown</h1>
         <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
         <Pie data={data} />
+        </div>
+
+        <div className="w-1/2 mt-4 mr-4 bg-white p-4 rounded-md shadow-md max-w-sm">
+        <h1 className="text-3xl font-medium text-stone-700">Data Breakdown</h1>
+        <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
+        <Radar data={radarData} />
+        </div>
+
         </div>
       )}
     </div>
