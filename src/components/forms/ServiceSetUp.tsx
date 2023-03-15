@@ -68,6 +68,7 @@ const ServiceSetUp = () => {
   };
 
   useEffect(() => {
+    console.log(user);
     if (!user) {
       navigate('/');
       return

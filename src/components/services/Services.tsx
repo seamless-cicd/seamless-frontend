@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context_providers/UserContextProvider';
 import { PipelineType } from '../../schema/pipelineSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -22,10 +24,17 @@ const defaultPipeline = {
 };
 
 const Services = () => {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   const [services, setServices] = useState<ServiceType[]>([]);
   const [pipeline, setPipeline] = useState<PipelineType>(defaultPipeline);
 
   useEffect(() => {
+    if (!user) {
+      navigate('/');
+      return
+    }
+
     const fetchData = async () => {
       try {
         const servicesRequest = axiosGetAuthenticated(SERVICES_URL);
