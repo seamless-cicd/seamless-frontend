@@ -27,22 +27,24 @@ const Logs = ({ stageId }: LogsProps) => {
   useEffect(() => {
     // get initial logs if any - needed
     const getLogs = async () => {
-      try {   
-        const logsResponse = await axiosGetAuthenticated.get(LOGS_URL, { params: { stageId } });
+      try {
+        const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
+          params: { stageId },
+        });
         setLogs(logsResponse.data);
       } catch (e) {
         console.log(e);
       }
-    }
+    };
     getLogs();
 
     // stream logs
     const eventSource = new EventSource(STREAM_URL);
     eventSource.onmessage = (e) => {
-      const logsArray = JSON.parse(e.data)
+      const logsArray = JSON.parse(e.data);
       console.log(logsArray);
       setLogs(logsArray);
-    }
+    };
 
     return () => {
       eventSource.close();
