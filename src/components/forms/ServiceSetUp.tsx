@@ -68,12 +68,12 @@ const ServiceSetUp = () => {
   };
 
   useEffect(() => {
-    console.log(user);
+    console.log(user, '<ServiceSetUp user in use effect/>');
     if (!user) {
       navigate('/');
       return
     }
-
+    
     const fetchPipeline = async () => {
       const response = await axiosGetAuthenticated(PIPELINES_URL);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
@@ -82,6 +82,7 @@ const ServiceSetUp = () => {
     };
     fetchPipeline();
   }, []);
+  
 
   return (
       <div className="w-[900px]">

@@ -4,6 +4,7 @@ import { UserContext } from './context_providers/UserContextProvider';
 
 const Home = () => {
   const { user } = useContext(UserContext);
+  console.log(user, '< Home user/>');
 
   return (
     <div>
