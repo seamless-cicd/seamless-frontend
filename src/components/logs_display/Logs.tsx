@@ -41,8 +41,7 @@ const Logs = ({ stageId }: LogsProps) => {
     // stream logs
     const eventSource = new EventSource(STREAM_URL);
     eventSource.onmessage = (e) => {
-      const logsArray = JSON.parse(e.data);
-      console.log(logsArray);
+      const logsArray = JSON.parse(e.data)
       setLogs(logsArray);
     };
 

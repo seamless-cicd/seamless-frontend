@@ -70,7 +70,7 @@ const ServiceEdit = () => {
     
     try {
       await axiosPatchAuthenticated(WEBHOOKS_URL + '/patch', webhooksData);
-      await axiosPatchAuthenticated(`${SERVICES_URL}/${serviceId}`, editedData);4
+      await axiosPatchAuthenticated(`${SERVICES_URL}/${serviceId}`, editedData);
       alert('Service is being updated.');
       navigate('/services');
     } catch (e) {
