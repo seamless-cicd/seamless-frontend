@@ -66,7 +66,7 @@ const Logs = ({ stageId }: LogsProps) => {
               log.type === 'stderr' ? 'text-red-500' : 'text-stone-50'
             }`}
           >
-            {log.log}
+            {log.message}
           </p>
         </div>
       ))}

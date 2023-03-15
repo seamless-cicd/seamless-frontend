@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const logSchema = z.object({
   id: z.string(),
-  log: z.string(),
+  message: z.string(),
   stageId: z.string(),
   timestamp: z.string(),
   type: z.string(),
