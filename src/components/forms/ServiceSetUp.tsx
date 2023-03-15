@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
+import { useContext } from 'react';
+import { UserContext } from '../context_providers/UserContextProvider';
 
 import { ArrowRightCircle } from 'lucide-react';
 import {
@@ -28,6 +30,7 @@ const inputBorderStyle =
   'border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
 
 const ServiceSetUp = () => {
+  const { user } = useContext(UserContext);
   const [pipelineId, setPipelineId] = useState('');
   const [githubPat, setGithubPat] = useState('');
   const navigate = useNavigate();
@@ -65,6 +68,11 @@ const ServiceSetUp = () => {
   };
 
   useEffect(() => {
+    if (!user) {
+      navigate('/');
+      return
+    }
+
     const fetchPipeline = async () => {
       const response = await axiosGetAuthenticated(PIPELINES_URL);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
@@ -75,7 +83,7 @@ const ServiceSetUp = () => {
   }, []);
 
   return (
-    <div className="w-[900px]">
+      <div className="w-[900px]">
       <h1 className="text-3xl font-medium text-stone-700">Service Setup</h1>
       <p className="mt-4 max-w-prose text-stone-600">
         Your new Pipeline ID is:{' '}
