@@ -11,7 +11,10 @@ import {
 // If user is not logged in, directs to Github
 // If user is logged in, immediately redirects back to app
 export const login = () => {
-  window.location.assign(GITHUB_OAUTH_URL + `?client_id=${GITHUB_CLIENT_ID}`);
+  window.location.assign(
+    GITHUB_OAUTH_URL +
+      `?client_id=${GITHUB_CLIENT_ID}&scope=repo%20write:repo_hook`
+  );
 };
 
 export const tryAuthorize = async () => {
