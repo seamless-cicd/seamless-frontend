@@ -110,12 +110,12 @@ const Home = () => {
   console.log(services, '< services')
   const radarData = {
     // labels: pipeline.services.map(service => service.name),
-    labels: ['payments', 'messages', 'inventory', 'users'],
+    labels: ['payments', 'messages', 'inventory', 'users', 'admin'],
     datasets: [
       {
         label: '# Runs',
         // data: services.map(service => service.runs.length),
-        data: [5, 7, 11, 8],
+        data: [5, 7, 11, 8, 9],
         backgroundColor: 'rgba(197, 202, 233, 0.2)',
         borderColor: 'rgba(63, 81, 181, 1)',
         borderWidth: 1,
