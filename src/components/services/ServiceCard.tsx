@@ -43,6 +43,10 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
     navigate(`/services/${service.id}/edit`);
   };
 
+  const handleRollBackClick = () => {
+    console.log('starting to roll back...');
+  };
+
   const handleDeleteClick = async () => {
     try {
       alert('Confirm delete:');
@@ -156,6 +160,9 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
           </button>
           <button className={submitButtonStyle} onClick={handleEditClick}>
             Edit
+          </button>
+          <button className={submitButtonStyle} onClick={handleRollBackClick}>
+            Rollback
           </button>
         </div>
         <div>
