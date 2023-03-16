@@ -1,19 +1,35 @@
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, SERVICES_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
+import { axiosPostAuthenticated } from '../../utils/authentication';
 
+const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
 
-const deleteButtonStyle =
-  'bg-transparent hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded';
-
 const RunHeaderCard = ({ run }: RunHeaderProps) => {
-  const handleAbortClick = (): void => {
-    window.alert('The Abort feature is under development.');
-  };
+  const navigate = useNavigate();
 
-  const handleReRunClick = (): void => {
-    window.alert('The Re-Run feature is under development.');
+  // const handleAbortClick = (): void => {
+  //   window.alert('The Abort feature is under development.');
+  // };
+
+  const handleReRunClick = async () => {
+    try {
+      const response = await axiosPostAuthenticated(
+        `${SERVICES_URL}/${run.serviceId}/start`
+      );
+
+      if (response.status !== 200) {
+        window.alert(response.data.message);
+      } else {
+        const runId = response.data;
+        navigate(`/runs/${runId}`);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -26,9 +42,9 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
           <button className={submitButtonStyle} onClick={handleReRunClick}>
             Re-Run
           </button>
-          <button className={deleteButtonStyle} onClick={handleAbortClick}>
+          {/* <button className={deleteButtonStyle} onClick={handleAbortClick}>
             Abort Run
-          </button>
+          </button> */}
         </div>
       </div>
 
