@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import { SERVICES_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
 
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
 
@@ -18,7 +17,7 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
   const handleReRunClick = async () => {
     try {
       const response = await axiosPostAuthenticated(
-        `${SERVICES_URL}/${run.serviceId}/start`
+        `${SERVICES_PATH}/${run.serviceId}/start`
       );
 
       if (response.status !== 200) {

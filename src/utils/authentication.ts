@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig } from 'axios';
 import {
-  API_BASE_URL,
   AUTH_PATH,
   GITHUB_CLIENT_ID,
   GITHUB_OAUTH_URL,
@@ -24,7 +23,7 @@ export const tryAuthorize = async () => {
 
   if (codeParam && localStorage.getItem('accessToken') === null) {
     // Try to authenticate with proxy server
-    const ACCESS_TOKEN_URL = `${API_BASE_URL}/${AUTH_PATH}/access-token?code=${codeParam}`;
+    const ACCESS_TOKEN_URL = `${AUTH_PATH}/access-token?code=${codeParam}`;
     console.log(ACCESS_TOKEN_URL);
 
     const response = await axiosGetAuthenticated(ACCESS_TOKEN_URL);
@@ -35,9 +34,7 @@ export const tryAuthorize = async () => {
 };
 
 export const getUserData = async () => {
-  const GET_USER_URL = `${API_BASE_URL}/${USER_PATH}`;
-
-  const response = await axiosGetAuthenticated(GET_USER_URL, {
+  const response = await axiosGetAuthenticated(USER_PATH, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
@@ -46,7 +43,7 @@ export const getUserData = async () => {
 };
 
 export const logout = async () => {
-  const LOGOUT_URL = `${API_BASE_URL}/${AUTH_PATH}/logout`;
+  const LOGOUT_URL = `${AUTH_PATH}/logout`;
 
   try {
     await axiosGetAuthenticated(LOGOUT_URL);

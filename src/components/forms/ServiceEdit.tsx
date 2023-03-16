@@ -2,12 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  API_BASE_URL,
-  PIPELINES_PATH,
-  SERVICES_PATH,
-  WEBHOOKS_PATH,
-} from '../../constants';
+import { PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
 import {
   serviceEditFormSchema,
   ServiceEditFormType,
@@ -16,10 +11,6 @@ import {
   axiosGetAuthenticated,
   axiosPatchAuthenticated,
 } from '../../utils/authentication';
-
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
-const WEBHOOKS_URL = `${API_BASE_URL}/${WEBHOOKS_PATH}`;
 
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
@@ -74,8 +65,11 @@ const ServiceEdit = () => {
     };
 
     try {
-      await axiosPatchAuthenticated(WEBHOOKS_URL + '/patch', webhooksData);
-      await axiosPatchAuthenticated(`${SERVICES_URL}/${serviceId}`, editedData);
+      await axiosPatchAuthenticated(WEBHOOKS_PATH + '/patch', webhooksData);
+      await axiosPatchAuthenticated(
+        `${SERVICES_PATH}/${serviceId}`,
+        editedData
+      );
       alert('Service is being updated.');
       navigate('/services');
     } catch (e) {
@@ -87,7 +81,7 @@ const ServiceEdit = () => {
     const fetchData = async () => {
       try {
         const response = await axiosGetAuthenticated(
-          `${SERVICES_URL}/${serviceId}`
+          `${SERVICES_PATH}/${serviceId}`
         );
 
         editableFields.forEach((field) =>
@@ -101,7 +95,7 @@ const ServiceEdit = () => {
 
     // need pat to edit triggers
     const fetchPipeline = async () => {
-      const response = await axiosGetAuthenticated(PIPELINES_URL);
+      const response = await axiosGetAuthenticated(PIPELINES_PATH);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
       setPipelineIdId(response.data[0].id);
       setGithubPat(response.data[0].githubPat);

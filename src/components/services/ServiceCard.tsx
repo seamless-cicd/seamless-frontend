@@ -1,14 +1,12 @@
 import { CheckCircle, CircleSlashed } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import { SERVICES_PATH } from '../../constants';
 import { ServiceCardProps } from '../../schema/serviceSchema';
 import {
   axiosDeleteAuthenticated,
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
-
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
@@ -19,10 +17,11 @@ const deleteButtonStyle =
 const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const navigate = useNavigate();
 
+  // Doesn't start a pipeline; just creates a Run and Stages
   const handleRunClick = async () => {
     try {
       const response = await axiosPostAuthenticated(
-        `${SERVICES_URL}/${service.id}/start`
+        `${SERVICES_PATH}/${service.id}/start`
       );
 
       if (response.status !== 200) {
@@ -51,8 +50,8 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const handleDeleteClick = async () => {
     try {
       alert('Confirm delete:');
-      await axiosDeleteAuthenticated(`${SERVICES_URL}/${service.id}`);
-      const remainingServices = await axiosGetAuthenticated(SERVICES_URL);
+      await axiosDeleteAuthenticated(`${SERVICES_PATH}/${service.id}`);
+      const remainingServices = await axiosGetAuthenticated(SERVICES_PATH);
       setServices(remainingServices.data);
     } catch (e) {
       console.log(e);

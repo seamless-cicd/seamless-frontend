@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
 
-import { API_BASE_URL, PIPELINES_PATH } from '../../constants';
-const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
+import { PIPELINES_PATH } from '../../constants';
 
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
@@ -30,7 +29,7 @@ const PipelineSetUp = () => {
   const onSubmit: SubmitHandler<PipelineFormType> = async (data) => {
     try {
       console.log(data);
-      await axiosPostAuthenticated(PIPELINES_URL, data);
+      await axiosPostAuthenticated(PIPELINES_PATH, data);
       navigate('/service-set-up');
     } catch (e) {
       console.log(e);
