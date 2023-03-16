@@ -5,7 +5,7 @@ import { API_BASE_URL, LOGS_PATH } from '../../constants';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
-const STREAM_URL = `${LOGS_URL}/stream`;
+// const STREAM_URL = `${LOGS_URL}/stream`;
 
 const formatDateTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -26,7 +26,20 @@ const Logs = ({ stageId }: LogsProps) => {
 
   useEffect(() => {
     // get initial logs if any - needed
-    const getLogs = async () => {
+    // const getLogs = async () => {
+    //   try {
+    //     const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
+    //       params: { stageId },
+    //     });
+    //     setLogs(logsResponse.data);
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
+    // getLogs();
+
+    // Poll all logs
+    const pollInterval = setInterval(async () => {
       try {
         const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
           params: { stageId },
@@ -35,23 +48,24 @@ const Logs = ({ stageId }: LogsProps) => {
       } catch (e) {
         console.log(e);
       }
-    };
-    getLogs();
+    }, 2000); // edited to slow it down for testing
+
+    return () => clearInterval(pollInterval);
 
     // stream logs
-    const eventSource = new EventSource(STREAM_URL);
-    eventSource.onmessage = (e) => {
-      const logsArray = JSON.parse(e.data)
-      setLogs(logsArray);
-    };
+    // const eventSource = new EventSource(STREAM_URL);
+    // eventSource.onmessage = (e) => {
+    //   const logsArray = JSON.parse(e.data)
+    //   setLogs(logsArray);
+    // };
 
-    return () => {
-      eventSource.close();
-    };
+    // return () => {
+    //   eventSource.close();
+    // };
   }, []);
 
   return (
-    <div className="min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">
+    <div className="max-h-[400px] min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">
       {logs.map((log) => (
         <div key={log.id} className="mb-2 flex gap-x-3 font-mono text-xs">
           <p

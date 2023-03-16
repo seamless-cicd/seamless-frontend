@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Nav from './components/nav/Nav';
 import Run from './components/run/Run';
 import Service from './components/service/Service';
+import ServiceRollback from './components/service/ServiceRollback';
 import Services from './components/services/Services';
 
 function App() {
@@ -21,6 +22,10 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/services/:serviceId" element={<Service />} />
             <Route path="/services/:serviceId/edit" element={<ServiceEdit />} />
+            <Route
+              path="/services/:serviceId/rollback"
+              element={<ServiceRollback />}
+            />
             <Route path="/runs/:runId" element={<Run />} />
           </Routes>
         </div>

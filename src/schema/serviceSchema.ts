@@ -42,3 +42,7 @@ export interface ServiceCardProps {
 export interface ServicesHeaderProps {
   pipeline: PipelineType;
 }
+
+export interface ServiceRollbackProps {
+  service: ServiceType;
+}
