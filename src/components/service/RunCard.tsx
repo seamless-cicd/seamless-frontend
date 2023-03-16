@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
 import { RunCardProps } from '../../schema/runSchema';
-
-import { API_BASE_URL, RUNS_PATH } from '../../constants';
 import {
   axiosDeleteAuthenticated,
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
+
+const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const submitButtonStyle =
@@ -25,8 +26,16 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
 
   const handleReRunClick = async () => {
     try {
-      axiosPostAuthenticated(`${RUNS_URL}/${run.id}/start`);
-      navigate(`/runs/${run.id}`);
+      const response = await axiosPostAuthenticated(
+        `${SERVICES_URL}/${run.serviceId}/start`
+      );
+
+      if (response.status !== 200) {
+        window.alert(response.data.message);
+      } else {
+        const runId = response.data;
+        navigate(`/runs/${runId}`);
+      }
     } catch (e) {
       console.error(e);
     }

@@ -1,33 +1,17 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../../constants';
 import { RunType } from '../../schema/runSchema';
 import { StageType } from '../../schema/stageSchema';
+import { axiosGetAuthenticated } from '../../utils/authentication';
+import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
 
-import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../../constants';
-import { axiosGetAuthenticated } from '../../utils/authentication';
-import LoadingSpinner from '../ui/LoadingSpinner';
 const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
-
-const defaultRun = {
-  id: '',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  startedAt: new Date(),
-  endedAt: new Date(),
-  duration: 0,
-  commitHash: '',
-  commitMessage: '',
-  committer: '',
-  status: '',
-  triggerType: '',
-  serviceId: '',
-  stages: [],
-};
-
+const POLLING_RATE = 1000;
 const StageOrder = [
   'PREPARE',
   'CODE_QUALITY',
@@ -38,6 +22,7 @@ const StageOrder = [
   'DEPLOY_PROD',
 ];
 
+// Sort Stages in specified order
 const sortStages = (stages: StageType[]) => {
   return stages.sort((a, b) => {
     const aIndex = StageOrder.indexOf(a.type);
@@ -48,11 +33,12 @@ const sortStages = (stages: StageType[]) => {
 
 const Run = () => {
   const runId = useParams().runId;
-  const [run, setRun] = useState<RunType>(defaultRun);
+
+  const [run, setRun] = useState<RunType | null>(null);
   const [stages, setStages] = useState<StageType[]>([]);
 
   useEffect(() => {
-    // BOTH run and stages data polled to update status, happens continuously at intervals - the header also needs to be updated that's why both
+    // Poll for latest Run and Stages data
     const pollInterval = setInterval(async () => {
       try {
         const runRequest = axiosGetAuthenticated(`${RUNS_URL}/${runId}`);
@@ -70,23 +56,26 @@ const Run = () => {
       } catch (e) {
         console.log(e);
       }
-    }, 2000); // edited to slow it down for testing
+    }, POLLING_RATE);
 
     return () => clearInterval(pollInterval);
-  }, []);
+  }, [runId]);
 
   return (
     <div>
       <h1 className="text-3xl font-medium text-stone-700">
         Run <span className="text-xl text-stone-500">{runId}</span>
       </h1>
-      <RunHeaderCard run={run} />
+      {run && <RunHeaderCard run={run} />}
 
       <h2 className="mt-8 text-2xl font-medium text-stone-700">
         Stages of this Run
       </h2>
-      <StagesList stages={stages} />
-      {stages.length === 0 && <LoadingSpinner />}
+      {stages.length === 0 ? (
+        <LoadingSpinner />
+      ) : (
+        <StagesList stages={stages} />
+      )}
     </div>
   );
 };
