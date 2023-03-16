@@ -37,20 +37,6 @@ ChartJS.register(
   Legend
 );
 
-
-
-
-ChartJS.register(
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend
-);
-
-
-
 const defaultPipeline = {
   id: '',
   createdAt: new Date(),
@@ -64,7 +50,6 @@ const defaultPipeline = {
 
 const Home = () => {
   const { user } = useContext(UserContext);
-
   const [pipeline, setPipeline] = useState<PipelineType>(defaultPipeline);
   const [runs, setRuns] = useState<RunType[]>([]);
   const [services, setServices] = useState<ServiceType[]>([]);
@@ -85,7 +70,6 @@ const Home = () => {
         setServices(servicesRequest.data);
         // assuming one pipeline in the data structure
         setPipeline(pipelineRequest.data[0]);
-        console.log(pipeline.services[0].runs)
 
       } catch (e) {
         console.log(e);
@@ -94,7 +78,7 @@ const Home = () => {
     fetchData();
   }, []);
 
-
+  // uses data from existing routes and prisma queries
   const data = {
     labels: ["Services", "Runs", "Stages"],
     datasets: [
@@ -107,14 +91,12 @@ const Home = () => {
     ],
   };
 
-  console.log(services, '< services')
+  // can do a route to a prisma join query for this
   const radarData = {
-    // labels: pipeline.services.map(service => service.name),
     labels: ['payments', 'messages', 'inventory', 'users', 'admin'],
     datasets: [
       {
         label: '# Runs',
-        // data: services.map(service => service.runs.length),
         data: [5, 7, 11, 8, 9],
         backgroundColor: 'rgba(197, 202, 233, 0.2)',
         borderColor: 'rgba(63, 81, 181, 1)',
@@ -141,15 +123,15 @@ const Home = () => {
         <div className="flex flex-row">
 
         <div className="w-1/2 mt-4 mr-4 bg-white p-4 rounded-md shadow-md max-w-sm">
-        <h1 className="text-3xl font-medium text-stone-700">Data Breakdown</h1>
-        <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
-        <Pie data={data} />
+          <h1 className="text-3xl font-medium text-stone-700">Data Breakdown</h1>
+          <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
+          <Pie data={data} />
         </div>
 
         <div className="w-1/2 mt-4 mr-4 bg-white p-4 rounded-md shadow-md max-w-sm">
-        <h1 className="text-3xl font-medium text-stone-700">Data Breakdown</h1>
-        <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
-        <Radar data={radarData} />
+          <h1 className="text-3xl font-medium text-stone-700">Runs Per Service</h1>
+          <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
+          <Radar data={radarData} />
         </div>
 
         </div>
