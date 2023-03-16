@@ -64,7 +64,7 @@ const ServiceSetUp = () => {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     const fetchPipeline = async () => {
       const response = await axiosGetAuthenticated(PIPELINES_URL);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
@@ -73,9 +73,10 @@ const ServiceSetUp = () => {
     };
     fetchPipeline();
   }, []);
+  
 
   return (
-    <div className="w-[900px]">
+      <div className="w-[900px]">
       <h1 className="text-3xl font-medium text-stone-700">Service Setup</h1>
       <p className="mt-4 max-w-prose text-stone-600">
         Your new Pipeline ID is:{' '}

@@ -25,9 +25,12 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  // if statement added for when not logged in they need to be redirected, else it will try to set the user without any data
   useEffect(() => {
     tryGetUserData().then((userData) => {
-      setUser({ login: userData.login, avatar_url: userData.avatar_url });
+      if (userData) {
+        setUser({ login: userData.login, avatar_url: userData.avatar_url });
+      }
     });
   }, []);
 
