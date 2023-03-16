@@ -28,16 +28,14 @@ const StageCard = ({ stage, viewType, setViewType }: StageCardProps) => {
         StatusToName[stage.status]
       }`}</h3>
       <div className="mt-5 flex flex-col gap-y-2">
-        <p className="">
+        <p>
           Start:{' '}
           {stage.startedAt
             ? `${new Date(stage.startedAt).toLocaleString()}`
             : 'Not yet started'}
         </p>
-        <p className="">{`End: ${
-          stage.endedAt || 'Not yet started, or still running'
-        }`}</p>
-        <p className="">{`Duration: ${
+        <p>{`End: ${stage.endedAt || 'Not yet started, or still running'}`}</p>
+        <p>{`Duration: ${
           stage.duration || 'Not yet started, or still running'
         }`}</p>
       </div>

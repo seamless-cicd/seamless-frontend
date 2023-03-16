@@ -35,7 +35,7 @@ const PipelineSetUp = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <h1 className="text-3xl font-medium text-stone-700">Pipeline Setup</h1>
       <p className="mt-4 max-w-prose text-stone-600">
         Please enter your credentials so we can clone code and provision AWS
@@ -43,9 +43,7 @@ const PipelineSetUp = () => {
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-8 flex w-80 flex-col gap-2">
-          <label htmlFor="name" className="">
-            Pipeline Name
-          </label>
+          <label htmlFor="name">Pipeline Name</label>
           <input
             className={inputBorderStyle}
             type="text"

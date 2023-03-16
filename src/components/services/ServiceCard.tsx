@@ -100,13 +100,13 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
       </div>
       <div className="mt-5 flex flex-col gap-y-2">
         <p className="font-semibold uppercase text-stone-500">Pipeline Flow</p>
-        <p className="">
+        <p>
           Use Staging Environment?{' '}
           <span className="font-semibold">
             {service.useStaging ? 'Yes' : 'No'}
           </span>
         </p>
-        <p className="">
+        <p>
           Auto deploy to Prod?{' '}
           <span className="font-semibold">
             {service.autoDeploy ? 'Yes' : 'No'}
@@ -115,19 +115,19 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
       </div>
       <div className="mt-5 flex flex-col gap-y-2">
         <p className="font-semibold uppercase text-stone-500">Commands</p>
-        <p className="">
+        <p>
           Code quality:{' '}
           <span className="font-mono font-medium text-indigo-700">
             {service.codeQualityCommand}
           </span>
         </p>
-        <p className="">
+        <p>
           Unit testing:{' '}
           <span className="font-mono font-medium text-indigo-700">
             {service.unitTestCommand}
           </span>
         </p>
-        <p className="">
+        <p>
           Integration testing:{' '}
           <span className="font-mono font-medium text-indigo-700">
             {service.integrationTestCommand || 'None'}
@@ -136,13 +136,13 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
       </div>
       <div className="mt-5 flex flex-col gap-y-2">
         <p className="font-semibold uppercase text-stone-500">Docker</p>
-        <p className="">
+        <p>
           Dockerfile path:{' '}
           <span className="font-mono font-medium text-indigo-700">
             {service.dockerfilePath || 'None'}
           </span>
         </p>
-        <p className="">
+        <p>
           Docker Compose file path:{' '}
           <span className="font-mono font-medium text-indigo-700">
             {service.dockerComposeFilePath || 'None'}

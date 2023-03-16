@@ -91,6 +91,7 @@ const ServiceRollback = () => {
             <RollbackCard
               key={rollback.image.imageDigest}
               rollback={rollback}
+              serviceId={service.id}
             />
           ))}
         </div>

@@ -76,7 +76,7 @@ const Run = () => {
   }, []);
 
   return (
-    <div className="">
+    <div>
       <h1 className="text-3xl font-medium text-stone-700">
         Run <span className="text-xl text-stone-500">{runId}</span>
       </h1>
