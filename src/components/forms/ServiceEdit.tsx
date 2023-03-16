@@ -2,19 +2,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import {
+  API_BASE_URL,
+  PIPELINES_PATH,
+  SERVICES_PATH,
+  WEBHOOKS_PATH,
+} from '../../constants';
 import {
   serviceEditFormSchema,
   ServiceEditFormType,
 } from '../../schema/formSchema';
-
-
 import {
   axiosGetAuthenticated,
   axiosPatchAuthenticated,
 } from '../../utils/authentication';
-
-import { API_BASE_URL, SERVICES_PATH, PIPELINES_PATH, WEBHOOKS_PATH } from '../../constants';
 
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
@@ -28,7 +29,7 @@ const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
 const inputBorderStyle =
   'border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
 
-const editableFields = [
+const editableFields: Array<keyof ServiceEditFormType> = [
   'name',
   'triggerOnMain',
   'triggerOnPrOpen',
@@ -64,10 +65,14 @@ const ServiceEdit = () => {
     const triggerOnPrSync = editedData.triggerOnPrSync;
     const triggerOnPrOpen = editedData.triggerOnPrOpen;
     const githubRepoUrl = editedData.githubRepoUrl;
-    const webhooksData = { 
-      triggerOnMain, triggerOnPrOpen, triggerOnPrSync, githubPat, githubRepoUrl
-    }
-    
+    const webhooksData = {
+      triggerOnMain,
+      triggerOnPrOpen,
+      triggerOnPrSync,
+      githubPat,
+      githubRepoUrl,
+    };
+
     try {
       await axiosPatchAuthenticated(WEBHOOKS_URL + '/patch', webhooksData);
       await axiosPatchAuthenticated(`${SERVICES_URL}/${serviceId}`, editedData);
@@ -109,9 +114,7 @@ const ServiceEdit = () => {
       <h1 className="text-3xl font-medium text-stone-700">Edit Service</h1>
       <p className="mt-4 max-w-prose text-stone-600">
         Pipeline ID:{' '}
-        <span className="font-mono text-indigo-700">
-           {pipelineId}
-        </span>
+        <span className="font-mono text-indigo-700">{pipelineId}</span>
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-8 flex w-96 flex-col gap-2">
