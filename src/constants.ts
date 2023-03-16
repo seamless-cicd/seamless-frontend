@@ -1,6 +1,6 @@
-// export const API_BASE_URL = 'http://localhost:3000';
-export const API_BASE_URL =
-  'https://42mvylbopg.execute-api.us-east-1.amazonaws.com';
+export const API_BASE_URL = 'http://localhost:3000';
+// export const API_BASE_URL =
+//   'https://42mvylbopg.execute-api.us-east-1.amazonaws.com';
 export const PIPELINES_PATH = 'api/pipelines';
 export const SERVICES_PATH = 'api/services';
 export const RUNS_PATH = 'api/runs';

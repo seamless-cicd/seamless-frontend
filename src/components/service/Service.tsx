@@ -68,7 +68,7 @@ const Service = () => {
   }, []);
 
   return (
-    <div className="">
+    <div>
       <h1 className="text-3xl font-medium text-stone-700">
         Service: <span className="text-indigo-700">{service.name}</span>
       </h1>

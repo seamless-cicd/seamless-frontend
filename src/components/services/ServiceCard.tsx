@@ -44,7 +44,7 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   };
 
   const handleRollBackClick = () => {
-    console.log('starting to roll back...');
+    navigate(`/services/${service.id}/rollbacks`);
   };
 
   const handleDeleteClick = async () => {
