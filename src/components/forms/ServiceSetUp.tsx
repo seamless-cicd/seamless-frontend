@@ -68,11 +68,11 @@ const ServiceSetUp = () => {
   };
 
   useEffect(() => {
-    console.log(user, '<ServiceSetUp user in use effect/>');
-    if (!user) {
-      navigate('/');
-      return
-    }
+    // console.log(user, '<ServiceSetUp user in use effect/>');
+    // if (!user) {
+    //   navigate('/');
+    //   return
+    // }
     
     const fetchPipeline = async () => {
       const response = await axiosGetAuthenticated(PIPELINES_URL);
