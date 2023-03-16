@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { RunType } from '../../schema/runSchema';
+import { Rollback } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
-import RunsList from './RunsList';
-
-import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
 import { axiosGetAuthenticated } from '../../utils/authentication';
+import RollbackCard from './RollbackCard';
+
+import { API_BASE_URL, SERVICES_PATH } from '../../constants';
 import LoadingSpinner from '../ui/LoadingSpinner';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const defaultService = {
   id: '',
@@ -31,14 +30,17 @@ const defaultService = {
   runs: [],
 };
 
-const Service = () => {
+const ServiceRollback = () => {
+  // Present list of possible rollback targets
+  // User selects one
+  // createAll() Runs and Stages, as if we were performing a new Run
+  // Navigate to the new Run's page
   const serviceId = useParams().serviceId;
 
-  const [runs, setRuns] = useState<RunType[]>([]);
   const [service, setService] = useState<ServiceType>(defaultService);
+  const [rollbacks, setRollbacks] = useState<Rollback[]>([]);
 
   useEffect(() => {
-    // service data fetched once - no need to poll, this is header info
     const fetchData = async () => {
       try {
         const serviceResponse = await axiosGetAuthenticated(
@@ -50,21 +52,20 @@ const Service = () => {
       }
     };
     fetchData();
+  }, []);
 
-    // run data polled to update status, happens continuously at intervals
-    const pollInterval = setInterval(async () => {
+  useEffect(() => {
+    const fetchRollbacks = async () => {
       try {
-        const runsResponse = await axiosGetAuthenticated(RUNS_URL, {
-          params: { serviceId },
-        });
-
-        setRuns(runsResponse.data);
+        const rollbacksResponse = await axiosGetAuthenticated(
+          `${SERVICES_URL}/${serviceId}/rollbacks`
+        );
+        setRollbacks(rollbacksResponse.data);
       } catch (e) {
         console.log(e);
       }
-    }, 1000);
-
-    return () => clearInterval(pollInterval);
+    };
+    fetchRollbacks();
   }, []);
 
   return (
@@ -80,12 +81,23 @@ const Service = () => {
       >{`${service.githubRepoUrl}`}</a>
 
       <h2 className="mt-8 text-2xl font-medium text-stone-700">
-        Pipeline Runs for this Service
+        Rollback Images Available for this Service
       </h2>
-      <RunsList runs={runs} setRuns={setRuns} />
-      {runs.length === 0 && <LoadingSpinner />}
+      {rollbacks.length === 0 ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="mt-4 w-full">
+          {rollbacks.map((rollback) => (
+            <RollbackCard
+              key={rollback.image.imageDigest}
+              rollback={rollback}
+              serviceId={service.id}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default Service;
+export default ServiceRollback;

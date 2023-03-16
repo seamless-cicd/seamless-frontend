@@ -1,3 +1,4 @@
+import { ImageDetail } from '@aws-sdk/client-ecr';
 import { z } from 'zod';
 import { stageSchema } from './stageSchema';
 
@@ -32,3 +33,8 @@ export interface RunCardProps {
 export interface RunHeaderProps {
   run: RunType;
 }
+
+export type Rollback = {
+  runs: RunType[];
+  image: ImageDetail;
+};

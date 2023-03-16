@@ -47,7 +47,7 @@ const Services = () => {
   }, []);
 
   return (
-    <div className="">
+    <div>
       <h1 className="text-3xl font-medium text-stone-700">
         Pipeline: <span className="text-indigo-700">{pipeline.name}</span>
       </h1>

@@ -28,6 +28,24 @@ const defaultRun = {
   stages: [],
 };
 
+const StageOrder = [
+  'PREPARE',
+  'CODE_QUALITY',
+  'UNIT_TEST',
+  'BUILD',
+  'INTEGRATION_TEST',
+  'DEPLOY_STAGING',
+  'DEPLOY_PROD',
+];
+
+const sortStages = (stages: StageType[]) => {
+  return stages.sort((a, b) => {
+    const aIndex = StageOrder.indexOf(a.type);
+    const bIndex = StageOrder.indexOf(b.type);
+    return aIndex - bIndex;
+  });
+};
+
 const Run = () => {
   const runId = useParams().runId;
   const [run, setRun] = useState<RunType>(defaultRun);
@@ -48,17 +66,17 @@ const Run = () => {
         ]);
 
         setRun(runResponse.data);
-        setStages(stagesResponse.data);
+        setStages(sortStages(stagesResponse.data));
       } catch (e) {
         console.log(e);
       }
-    }, 1000); // edited to slow it down for testing
+    }, 2000); // edited to slow it down for testing
 
     return () => clearInterval(pollInterval);
   }, []);
 
   return (
-    <div className="">
+    <div>
       <h1 className="text-3xl font-medium text-stone-700">
         Run <span className="text-xl text-stone-500">{runId}</span>
       </h1>

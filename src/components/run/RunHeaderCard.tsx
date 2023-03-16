@@ -34,28 +34,26 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
 
       <div className="grid grid-cols-12">
         <div className="col-span-5 mt-5 flex flex-col gap-y-2">
-          <p className="">{`Start: ${new Date(
-            run.startedAt
-          ).toLocaleString()}`}</p>
-          <p className="">{`End: ${run.endedAt || 'Still running'}`}</p>
-          <p className="">{`Duration: ${run.duration || 'Still running'}`}</p>
+          <p>{`Start: ${new Date(run.startedAt).toLocaleString()}`}</p>
+          <p>{`End: ${run.endedAt || 'Still running'}`}</p>
+          <p>{`Duration: ${run.duration || 'Still running'}`}</p>
         </div>
 
         <div className="col-span-7 mt-5 flex flex-col gap-y-2 pl-2">
           <p className="font-semibold uppercase text-stone-500">GIT COMMIT</p>
-          <p className="">
+          <p>
             Message: <span className="font-semibold">{run.commitMessage}</span>
           </p>
-          <p className="">
+          <p>
             Committer: <span className="font-semibold">{run.committer}</span>
           </p>
-          <p className="">
+          <p>
             Hash:{' '}
             <span className="font-mono font-medium text-indigo-700">
               {run.commitHash}
             </span>
           </p>
-          <p className="">
+          <p>
             Trigger Type:{' '}
             <span className="font-semibold">{run.triggerType}</span>
           </p>
