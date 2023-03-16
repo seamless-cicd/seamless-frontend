@@ -1,11 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRightCircle } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
-import { useContext, useEffect } from 'react';
-import { UserContext } from '../context_providers/UserContextProvider';
 
 import { API_BASE_URL, PIPELINES_PATH } from '../../constants';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
@@ -19,16 +16,6 @@ const inputBorderStyle =
   'border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
 
 const PipelineSetUp = () => {
-  const { user } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/');
-      return
-    }
-  });
-
   const {
     register,
     handleSubmit,

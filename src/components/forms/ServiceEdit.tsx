@@ -2,8 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useContext } from 'react';
-import { UserContext } from '../context_providers/UserContextProvider';
 
 import {
   serviceEditFormSchema,
@@ -46,7 +44,6 @@ const editableFields = [
 ];
 
 const ServiceEdit = () => {
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const { serviceId } = useParams();
   const [githubPat, setGithubPat] = useState('');
@@ -82,11 +79,6 @@ const ServiceEdit = () => {
   };
 
   useEffect(() => {
-    if (!user) {
-      navigate('/');
-      return
-    }
-    
     const fetchData = async () => {
       try {
         const response = await axiosGetAuthenticated(

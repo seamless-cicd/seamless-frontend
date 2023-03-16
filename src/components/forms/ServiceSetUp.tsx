@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
-import { useContext } from 'react';
-import { UserContext } from '../context_providers/UserContextProvider';
 
 import { ArrowRightCircle } from 'lucide-react';
 import {
@@ -30,7 +28,6 @@ const inputBorderStyle =
   'border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
 
 const ServiceSetUp = () => {
-  const { user } = useContext(UserContext);
   const [pipelineId, setPipelineId] = useState('');
   const [githubPat, setGithubPat] = useState('');
   const navigate = useNavigate();
@@ -67,13 +64,7 @@ const ServiceSetUp = () => {
     }
   };
 
-  useEffect(() => {
-    // console.log(user, '<ServiceSetUp user in use effect/>');
-    // if (!user) {
-    //   navigate('/');
-    //   return
-    // }
-    
+  useEffect(() => {    
     const fetchPipeline = async () => {
       const response = await axiosGetAuthenticated(PIPELINES_URL);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
