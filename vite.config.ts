@@ -8,6 +8,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:3000/',
+        // target: 'https://42mvylbopg.execute-api.us-east-1.amazonaws.com/',
         changeOrigin: true,
         secure: false,
       },
