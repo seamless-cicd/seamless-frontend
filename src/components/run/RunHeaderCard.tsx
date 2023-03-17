@@ -1,24 +1,21 @@
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import { SERVICES_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
-
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
+import { Button } from '../ui/Button';
 
 const RunHeaderCard = ({ run }: RunHeaderProps) => {
   const navigate = useNavigate();
 
-  // const handleAbortClick = (): void => {
-  //   window.alert('The Abort feature is under development.');
-  // };
+  const handleAbortClick = (): void => {
+    window.alert('The Abort feature is under development.');
+  };
 
   const handleReRunClick = async () => {
     try {
       const response = await axiosPostAuthenticated(
-        `${SERVICES_URL}/${run.serviceId}/start`
+        `${SERVICES_PATH}/${run.serviceId}/start`,
       );
 
       if (response.status !== 200) {
@@ -39,12 +36,12 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
           {`Status: ${StatusToName[run.status]}`}
         </h3>
         <div className="flex gap-x-3">
-          <button className={submitButtonStyle} onClick={handleReRunClick}>
+          <Button variant="subtle" onClick={handleReRunClick}>
             Re-Run
-          </button>
-          {/* <button className={deleteButtonStyle} onClick={handleAbortClick}>
+          </Button>
+          <Button variant="destructive" onClick={handleAbortClick}>
             Abort Run
-          </button> */}
+          </Button>
         </div>
       </div>
 

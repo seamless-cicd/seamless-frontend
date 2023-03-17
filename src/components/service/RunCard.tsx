@@ -1,20 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
+import { RUNS_PATH } from '../../constants';
 import { RunCardProps } from '../../schema/runSchema';
 import {
   axiosDeleteAuthenticated,
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
-
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
-
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
-
-const deleteButtonStyle =
-  'bg-transparent hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded';
+import { Button } from '../ui/Button';
 
 const RunCard = ({ run, setRuns }: RunCardProps) => {
   const navigate = useNavigate();
@@ -27,12 +19,14 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
   const handleReRunClick = async () => {
     try {
       const response = await axiosPostAuthenticated(
-        `${SERVICES_URL}/${run.serviceId}/start`
+        `${RUNS_PATH}/${run.id}/rerun`,
+        { data: run },
       );
 
       if (response.status !== 200) {
         window.alert(response.data.message);
       } else {
+        // Navigate to the newly-created Run's page
         const runId = response.data;
         navigate(`/runs/${runId}`);
       }
@@ -44,8 +38,8 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
   const handleDeleteClick = async () => {
     try {
       if (window.confirm('Are you sure you want to delete this Run?')) {
-        await axiosDeleteAuthenticated(`${RUNS_URL}/${run.id}`);
-        const remainingRuns = await axiosGetAuthenticated(RUNS_URL, {
+        await axiosDeleteAuthenticated(`${RUNS_PATH}/${run.id}`);
+        const remainingRuns = await axiosGetAuthenticated(RUNS_PATH, {
           params: { serviceId },
         });
         setRuns(remainingRuns.data);
@@ -89,16 +83,14 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
 
       <div className="mt-8 flex justify-between">
         <div className="flex gap-x-3">
-          <button className={submitButtonStyle} onClick={handleViewClick}>
-            View
-          </button>
-          <button className={submitButtonStyle} onClick={handleReRunClick}>
+          <Button onClick={handleViewClick}>View</Button>
+          <Button variant="subtle" onClick={handleReRunClick}>
             Re-Run
-          </button>
+          </Button>
         </div>
-        <button className={deleteButtonStyle} onClick={handleDeleteClick}>
+        <Button variant="destructive" onClick={handleDeleteClick}>
           Delete
-        </button>
+        </Button>
       </div>
     </div>
   );

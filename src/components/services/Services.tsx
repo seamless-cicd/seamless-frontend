@@ -1,14 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { API_BASE_URL, PIPELINES_PATH, SERVICES_PATH } from '../../constants';
+import { PIPELINES_PATH, SERVICES_PATH } from '../../constants';
 import { PipelineType } from '../../schema/pipelineSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ServicesList from './ServicesList';
-
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 
 const Services = () => {
   const [services, setServices] = useState<ServiceType[]>([]);
@@ -17,8 +14,8 @@ const Services = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const servicesRequest = axiosGetAuthenticated(SERVICES_URL);
-        const pipelineRequest = axiosGetAuthenticated(PIPELINES_URL);
+        const servicesRequest = axiosGetAuthenticated(SERVICES_PATH);
+        const pipelineRequest = axiosGetAuthenticated(PIPELINES_PATH);
 
         const [servicesResponse, pipelineResponse] = await axios.all([
           servicesRequest,

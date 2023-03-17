@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../../constants';
+import { RUNS_PATH, STAGES_PATH } from '../../constants';
 import { RunType } from '../../schema/runSchema';
 import { StageType } from '../../schema/stageSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
@@ -9,8 +9,6 @@ import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
 
-const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
-const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 const POLLING_RATE = 1000;
 const StageOrder = [
   'PREPARE',
@@ -41,8 +39,8 @@ const Run = () => {
     // Poll for latest Run and Stages data
     const pollInterval = setInterval(async () => {
       try {
-        const runRequest = axiosGetAuthenticated(`${RUNS_URL}/${runId}`);
-        const stagesRequest = axiosGetAuthenticated(STAGES_URL, {
+        const runRequest = axiosGetAuthenticated(`${RUNS_PATH}/${runId}`);
+        const stagesRequest = axiosGetAuthenticated(STAGES_PATH, {
           params: { runId },
         });
 

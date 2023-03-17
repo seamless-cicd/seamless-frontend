@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import { SERVICES_PATH } from '../../constants';
 import { Rollback } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RollbackCard from './RollbackCard';
-
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 
 const ServiceRollback = () => {
   const serviceId = useParams().serviceId || '';
@@ -19,7 +17,7 @@ const ServiceRollback = () => {
     const fetchData = async () => {
       try {
         const serviceResponse = await axiosGetAuthenticated(
-          `${SERVICES_URL}/${serviceId}`
+          `${SERVICES_PATH}/${serviceId}`
         );
         setService(serviceResponse.data);
       } catch (e) {
@@ -31,7 +29,7 @@ const ServiceRollback = () => {
     const fetchRollbacks = async () => {
       try {
         const rollbacksResponse = await axiosGetAuthenticated(
-          `${SERVICES_URL}/${serviceId}/rollbacks`
+          `${SERVICES_PATH}/${serviceId}/rollbacks`
         );
         setRollbacks(rollbacksResponse.data);
       } catch (e) {

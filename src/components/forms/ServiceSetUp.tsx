@@ -1,26 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowRightCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
 import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
-
-import { ArrowRightCircle } from 'lucide-react';
-import {
-  API_BASE_URL,
-  PIPELINES_PATH,
-  SERVICES_PATH,
-  WEBHOOKS_PATH,
-} from '../../constants';
 import {
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
-const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const WEBHOOKS_URL = `${API_BASE_URL}/${WEBHOOKS_PATH}`;
-
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
+import { Button } from '../ui/Button';
 
 const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
 
@@ -56,27 +45,26 @@ const ServiceSetUp = () => {
     data.pipelineId = pipelineId;
 
     try {
-      await axiosPostAuthenticated(WEBHOOKS_URL + '/create', webhooksData);
-      await axiosPostAuthenticated(SERVICES_URL, data);
+      await axiosPostAuthenticated(WEBHOOKS_PATH + '/create', webhooksData);
+      await axiosPostAuthenticated(SERVICES_PATH, data);
       navigate('/services');
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     const fetchPipeline = async () => {
-      const response = await axiosGetAuthenticated(PIPELINES_URL);
+      const response = await axiosGetAuthenticated(PIPELINES_PATH);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
       setPipelineId(response.data[0].id);
       setGithubPat(response.data[0].githubPat);
     };
     fetchPipeline();
   }, []);
-  
 
   return (
-      <div className="w-[900px]">
+    <div className="w-[900px]">
       <h1 className="text-3xl font-medium text-stone-700">Service Setup</h1>
       <p className="mt-4 max-w-prose text-stone-600">
         Your new Pipeline ID is:{' '}
@@ -299,12 +287,12 @@ const ServiceSetUp = () => {
             )}
           </div>
         </div>
-        <button
-          className={submitButtonStyle + ` mt-16 flex items-center gap-x-2`}
-          type="submit"
-        >
-          <span>Continue To View Services</span> <ArrowRightCircle />
-        </button>
+        <div className="mt-16">
+          <Button type="submit">
+            Continue To View Services
+            <ArrowRightCircle className="ml-2" />
+          </Button>
+        </div>
       </form>
     </div>
   );

@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { LogsProps, LogType } from '../../schema/logSchema';
 
-import { API_BASE_URL, LOGS_PATH } from '../../constants';
+import { LOGS_PATH } from '../../constants';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
-const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
-// const STREAM_URL = `${LOGS_URL}/stream`;
 
 const formatDateTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -28,7 +26,7 @@ const Logs = ({ stageId }: LogsProps) => {
     // get initial logs if any - needed
     // const getLogs = async () => {
     //   try {
-    //     const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
+    //     const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
     //       params: { stageId },
     //     });
     //     setLogs(logsResponse.data);
@@ -41,7 +39,7 @@ const Logs = ({ stageId }: LogsProps) => {
     // Poll all logs
     const pollInterval = setInterval(async () => {
       try {
-        const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
+        const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
           params: { stageId },
         });
         setLogs(logsResponse.data);

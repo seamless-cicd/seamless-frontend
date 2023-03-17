@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
+import { RUNS_PATH, SERVICES_PATH } from '../../constants';
 import { RunType } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunsList from './RunsList';
 
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 const POLLING_RATE = 1000;
 
 const Service = () => {
@@ -21,7 +19,7 @@ const Service = () => {
     const fetchData = async () => {
       try {
         const serviceResponse = await axiosGetAuthenticated(
-          `${SERVICES_URL}/${serviceId}`
+          `${SERVICES_PATH}/${serviceId}`
         );
         setService(serviceResponse.data);
       } catch (e) {
@@ -33,7 +31,7 @@ const Service = () => {
     // Poll for latest Run data
     const pollInterval = setInterval(async () => {
       try {
-        const runsResponse = await axiosGetAuthenticated(RUNS_URL, {
+        const runsResponse = await axiosGetAuthenticated(RUNS_PATH, {
           params: { serviceId },
         });
 
