@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
+import { API_BASE_URL } from '../../utils/config';
+
+import { RUNS_PATH, SERVICES_PATH } from '../../constants';
 import { RunCardProps } from '../../schema/runSchema';
 import {
   axiosDeleteAuthenticated,

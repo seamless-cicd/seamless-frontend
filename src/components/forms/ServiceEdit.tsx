@@ -2,12 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  API_BASE_URL,
-  PIPELINES_PATH,
-  SERVICES_PATH,
-  WEBHOOKS_PATH,
-} from '../../constants';
+import { API_BASE_URL } from '../../utils/config';
+
+import { PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
 import {
   serviceEditFormSchema,
   ServiceEditFormType,

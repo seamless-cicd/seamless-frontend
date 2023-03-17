@@ -2,10 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRightCircle } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { PIPELINES_PATH } from '../../constants';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
-
-import { API_BASE_URL, PIPELINES_PATH } from '../../constants';
+import { API_BASE_URL } from '../../utils/config';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 
 const submitButtonStyle =

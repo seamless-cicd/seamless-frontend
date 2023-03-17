@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import { API_BASE_URL } from '../../utils/config';
+
+import { SERVICES_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';

@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LogsProps, LogType } from '../../schema/logSchema';
 
-import { API_BASE_URL, LOGS_PATH } from '../../constants';
+import { LOGS_PATH } from '../../constants';
 import { axiosGetAuthenticated } from '../../utils/authentication';
+import { API_BASE_URL } from '../../utils/config';
+import { SocketContext } from '../context_providers/SockerContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
-// const STREAM_URL = `${LOGS_URL}/stream`;
 
 const formatDateTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -24,22 +25,10 @@ const formatDateTime = (dateString: string) => {
 const Logs = ({ stageId }: LogsProps) => {
   const [logs, setLogs] = useState<LogType[]>([]);
 
-  useEffect(() => {
-    // get initial logs if any - needed
-    // const getLogs = async () => {
-    //   try {
-    //     const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
-    //       params: { stageId },
-    //     });
-    //     setLogs(logsResponse.data);
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // };
-    // getLogs();
+  const socket = useContext(SocketContext);
 
-    // Poll all logs
-    const pollInterval = setInterval(async () => {
+  useEffect(() => {
+    const fetchLogs = async () => {
       try {
         const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
           params: { stageId },
@@ -48,21 +37,25 @@ const Logs = ({ stageId }: LogsProps) => {
       } catch (e) {
         console.log(e);
       }
-    }, 2000); // edited to slow it down for testing
+    };
 
-    return () => clearInterval(pollInterval);
-
-    // stream logs
-    // const eventSource = new EventSource(STREAM_URL);
-    // eventSource.onmessage = (e) => {
-    //   const logsArray = JSON.parse(e.data)
-    //   setLogs(logsArray);
-    // };
-
-    // return () => {
-    //   eventSource.close();
-    // };
+    fetchLogs();
   }, []);
+
+  useEffect(() => {
+    const onMessage = async (event: MessageEvent) => {
+      const eventData = JSON.parse(event.data);
+      console.log('Socket message: ', eventData);
+
+      // Set logs if incoming message is correct
+      if (eventData.type === 'log' && eventData.data[0].stageId === stageId) {
+        setLogs(eventData.data);
+      }
+    };
+
+    socket.addEventListener('message', onMessage);
+    return () => socket.removeEventListener('message', onMessage);
+  }, [logs]);
 
   return (
     <div className="max-h-[400px] min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">

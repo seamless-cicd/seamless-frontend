@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import { SERVICES_PATH } from '../../constants';
 import { Rollback } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
+import { API_BASE_URL } from '../../utils/config';
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 
 const submitButtonStyle =

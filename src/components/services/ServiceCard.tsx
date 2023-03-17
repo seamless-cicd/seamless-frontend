@@ -1,12 +1,13 @@
 import { CheckCircle, CircleSlashed } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, SERVICES_PATH } from '../../constants';
+import { SERVICES_PATH } from '../../constants';
 import { ServiceCardProps } from '../../schema/serviceSchema';
 import {
   axiosDeleteAuthenticated,
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
+import { API_BASE_URL } from '../../utils/config';
 
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 

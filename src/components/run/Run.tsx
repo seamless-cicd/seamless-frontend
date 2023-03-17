@@ -1,17 +1,20 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { API_BASE_URL, RUNS_PATH, STAGES_PATH } from '../../constants';
+import { RUNS_PATH, STAGES_PATH } from '../../constants';
 import { RunType } from '../../schema/runSchema';
 import { StageType } from '../../schema/stageSchema';
+import RunStatusSchema from '../../schema/statusUpdateSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
+import { API_BASE_URL } from '../../utils/config';
+import { SocketContext } from '../context_providers/SockerContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
 
 const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
 const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
-const POLLING_RATE = 1000;
+
 const StageOrder = [
   'PREPARE',
   'CODE_QUALITY',
@@ -37,9 +40,10 @@ const Run = () => {
   const [run, setRun] = useState<RunType | null>(null);
   const [stages, setStages] = useState<StageType[]>([]);
 
+  const socket = useContext(SocketContext);
+
   useEffect(() => {
-    // Poll for latest Run and Stages data
-    const pollInterval = setInterval(async () => {
+    const fetchRunsAndStages = async () => {
       try {
         const runRequest = axiosGetAuthenticated(`${RUNS_URL}/${runId}`);
         const stagesRequest = axiosGetAuthenticated(STAGES_URL, {
@@ -56,10 +60,48 @@ const Run = () => {
       } catch (e) {
         console.log(e);
       }
-    }, POLLING_RATE);
+    };
 
-    return () => clearInterval(pollInterval);
+    fetchRunsAndStages();
   }, [runId]);
+
+  useEffect(() => {
+    const onMessage = async (event: MessageEvent) => {
+      const eventData = JSON.parse(event.data);
+      console.log('Socket message: ', event.data);
+
+      if (eventData.type === 'status_update') {
+        const parsedStatusUpdate = RunStatusSchema.parse(eventData.data);
+
+        // Ignore messages for other runs
+        if (parsedStatusUpdate.run.id !== runId) {
+          return;
+        }
+
+        // Only update run if it exists
+        if (!run) {
+          return;
+        }
+
+        setRun({ ...run, status: parsedStatusUpdate.run.status });
+        setStages(
+          stages.map((stage) => {
+            const stageUpdate = Object.values(parsedStatusUpdate.stages).find(
+              (stageUpdate) => stageUpdate.id === stage.id
+            );
+
+            if (stageUpdate) {
+              return { ...stage, status: stageUpdate.status };
+            } else {
+              return stage;
+            }
+          })
+        );
+      }
+    };
+    socket.addEventListener('message', onMessage);
+    return () => socket.removeEventListener('message', onMessage);
+  }, [run]);
 
   return (
     <div>

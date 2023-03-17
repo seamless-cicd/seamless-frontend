@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { API_BASE_URL, RUNS_PATH, SERVICES_PATH } from '../../constants';
+import { RUNS_PATH, SERVICES_PATH } from '../../constants';
 import { RunType } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
+import { API_BASE_URL } from '../../utils/config';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunsList from './RunsList';
 

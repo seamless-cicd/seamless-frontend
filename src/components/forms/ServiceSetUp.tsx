@@ -5,16 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
 
 import { ArrowRightCircle } from 'lucide-react';
-import {
-  API_BASE_URL,
-  PIPELINES_PATH,
-  SERVICES_PATH,
-  WEBHOOKS_PATH,
-} from '../../constants';
+import { PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
 import {
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
+import { API_BASE_URL } from '../../utils/config';
 const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
 const WEBHOOKS_URL = `${API_BASE_URL}/${WEBHOOKS_PATH}`;
@@ -64,7 +60,7 @@ const ServiceSetUp = () => {
     }
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     const fetchPipeline = async () => {
       const response = await axiosGetAuthenticated(PIPELINES_URL);
       // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
@@ -73,10 +69,9 @@ const ServiceSetUp = () => {
     };
     fetchPipeline();
   }, []);
-  
 
   return (
-      <div className="w-[900px]">
+    <div className="w-[900px]">
       <h1 className="text-3xl font-medium text-stone-700">Service Setup</h1>
       <p className="mt-4 max-w-prose text-stone-600">
         Your new Pipeline ID is:{' '}
