@@ -71,7 +71,7 @@ const ServiceSetUp = () => {
         testing commands.
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mt-8 flex w-96 flex-col gap-2">
+        <div className="mt-8 flex w-[450px] flex-col gap-2">
           <label htmlFor="name">Service Name </label>
           <input
             type="text"
@@ -149,7 +149,7 @@ const ServiceSetUp = () => {
           </div>
 
           <h3 className="mt-8 text-xl font-medium text-indigo-700">GitHub</h3>
-          <div className="mt-4 flex w-96 flex-col gap-2">
+          <div className="mt-4 flex w-[450px] flex-col gap-2">
             <label htmlFor="githubRepoUrl">Github Repository URL</label>
             <input
               type="text"
@@ -165,7 +165,7 @@ const ServiceSetUp = () => {
           </div>
 
           <h3 className="mt-8 text-xl font-medium text-indigo-700">Commands</h3>
-          <div className="mt-4 flex w-96 flex-col gap-2">
+          <div className="mt-4 flex w-[450px] flex-col gap-2">
             <label htmlFor="unitTestCommand">Unit Test Command: </label>
             <input
               type="text"
@@ -179,7 +179,7 @@ const ServiceSetUp = () => {
               </FormErrorMessage>
             )}
           </div>
-          <div className="mt-6 flex w-96 flex-col gap-2">
+          <div className="mt-6 flex w-[450px] flex-col gap-2">
             <label htmlFor="integrationTestCommand">
               Integration Test Command:{' '}
             </label>
@@ -195,7 +195,7 @@ const ServiceSetUp = () => {
               </FormErrorMessage>
             )}
           </div>
-          <div className="mt-6 flex w-96 flex-col gap-2">
+          <div className="mt-6 flex w-[450px] flex-col gap-2">
             <label htmlFor="codeQualityCommand">Code Quality Command: </label>
             <input
               type="text"
@@ -211,7 +211,7 @@ const ServiceSetUp = () => {
           </div>
 
           <h3 className="mt-8 text-xl font-medium text-indigo-700">Docker</h3>
-          <div className="mt-4 flex w-96 flex-col gap-2">
+          <div className="mt-4 flex w-[450px] flex-col gap-2">
             <label htmlFor="dockerfilePath">Dockerfile Path</label>
             <input
               type="text"
@@ -225,7 +225,7 @@ const ServiceSetUp = () => {
               </FormErrorMessage>
             )}
           </div>
-          <div className="mt-6 flex w-96 flex-col gap-2">
+          <div className="mt-6 flex w-[450px] flex-col gap-2">
             <label htmlFor="dockerComposeFilePath">
               Docker Compose File Path
             </label>
@@ -245,7 +245,7 @@ const ServiceSetUp = () => {
           <h3 className="mt-8 text-xl font-medium text-indigo-700">
             AWS Cluster
           </h3>
-          <div className="mt-4 flex w-96 flex-col gap-2">
+          <div className="mt-4 flex w-[450px] flex-col gap-2">
             <label htmlFor="awsEcsService">AWS ECS Service Name</label>
             <input
               type="text"
@@ -259,7 +259,7 @@ const ServiceSetUp = () => {
               </FormErrorMessage>
             )}
           </div>
-          <div className="mt-6 flex w-96 flex-col gap-2">
+          <div className="mt-6 flex w-[450px] flex-col gap-2">
             <label htmlFor="awsEcrRepo">AWS ECR Repository Name</label>
             <input
               type="text"

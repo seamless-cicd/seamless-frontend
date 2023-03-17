@@ -37,7 +37,7 @@ const PipelineSetUp = () => {
         infrastructure on your behalf.
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mt-8 flex w-80 flex-col gap-2">
+        <div className="mt-8 flex w-96 flex-col gap-2">
           <label htmlFor="name">Pipeline Name</label>
           <input type="text" id="name" {...register('name')} />
           {errors.name && (
@@ -45,7 +45,7 @@ const PipelineSetUp = () => {
           )}
         </div>
 
-        <div className="mt-6 flex w-80 flex-col gap-2">
+        <div className="mt-6 flex w-96 flex-col gap-2">
           <label htmlFor="githubPat">GitHub PAT (Classic)</label>
           <input type="text" id="githubPat" {...register('githubPat')} />
           {errors.githubPat && (
@@ -53,7 +53,7 @@ const PipelineSetUp = () => {
           )}
         </div>
 
-        <div className="mt-6 flex w-80 flex-col gap-2">
+        <div className="mt-6 flex w-96 flex-col gap-2">
           <label htmlFor="awsAccessKey">AWS Access Key</label>
           <input type="text" id="awsAccessKey" {...register('awsAccessKey')} />
           {errors.awsAccessKey && (
@@ -61,7 +61,7 @@ const PipelineSetUp = () => {
           )}
         </div>
 
-        <div className="mt-6 flex w-80 flex-col gap-2">
+        <div className="mt-6 flex w-96 flex-col gap-2">
           <label htmlFor="awsSecretAccessKey">AWS Secret Access Key</label>
           <input
             type="text"
