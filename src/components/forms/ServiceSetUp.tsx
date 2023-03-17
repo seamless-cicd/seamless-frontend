@@ -1,18 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowRightCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
-
-import { ArrowRightCircle } from 'lucide-react';
 import { PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
+import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
 import {
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
-
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
+import { Button } from '../ui/Button';
 
 const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
 
@@ -290,12 +287,12 @@ const ServiceSetUp = () => {
             )}
           </div>
         </div>
-        <button
-          className={submitButtonStyle + ` mt-16 flex items-center gap-x-2`}
-          type="submit"
-        >
-          <span>Continue To View Services</span> <ArrowRightCircle />
-        </button>
+        <div className="mt-16">
+          <Button type="submit">
+            Continue To View Services
+            <ArrowRightCircle className="ml-2" />
+          </Button>
+        </div>
       </form>
     </div>
   );

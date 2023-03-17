@@ -6,12 +6,7 @@ import {
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
-
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
-
-const deleteButtonStyle =
-  'bg-transparent hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded';
+import { Button } from '../ui/Button';
 
 const RunCard = ({ run, setRuns }: RunCardProps) => {
   const navigate = useNavigate();
@@ -25,7 +20,7 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
     try {
       const response = await axiosPostAuthenticated(
         `${RUNS_PATH}/${run.id}/rerun`,
-        { data: run }
+        { data: run },
       );
 
       if (response.status !== 200) {
@@ -88,16 +83,14 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
 
       <div className="mt-8 flex justify-between">
         <div className="flex gap-x-3">
-          <button className={submitButtonStyle} onClick={handleViewClick}>
-            View
-          </button>
-          <button className={submitButtonStyle} onClick={handleReRunClick}>
+          <Button onClick={handleViewClick}>View</Button>
+          <Button variant="subtle" onClick={handleReRunClick}>
             Re-Run
-          </button>
+          </Button>
         </div>
-        <button className={deleteButtonStyle} onClick={handleDeleteClick}>
+        <Button variant="destructive" onClick={handleDeleteClick}>
           Delete
-        </button>
+        </Button>
       </div>
     </div>
   );

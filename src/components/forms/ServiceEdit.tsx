@@ -11,9 +11,7 @@ import {
   axiosGetAuthenticated,
   axiosPatchAuthenticated,
 } from '../../utils/authentication';
-
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
+import { Button } from '../ui/Button';
 
 const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
 
@@ -68,7 +66,7 @@ const ServiceEdit = () => {
       await axiosPatchAuthenticated(WEBHOOKS_PATH + '/patch', webhooksData);
       await axiosPatchAuthenticated(
         `${SERVICES_PATH}/${serviceId}`,
-        editedData
+        editedData,
       );
       alert('Service is being updated.');
       navigate('/services');
@@ -81,11 +79,11 @@ const ServiceEdit = () => {
     const fetchData = async () => {
       try {
         const response = await axiosGetAuthenticated(
-          `${SERVICES_PATH}/${serviceId}`
+          `${SERVICES_PATH}/${serviceId}`,
         );
 
         editableFields.forEach((field) =>
-          setValue(field, response.data[field])
+          setValue(field, response.data[field]),
         );
       } catch (e) {
         console.log(e);
@@ -287,9 +285,9 @@ const ServiceEdit = () => {
             </div>
           </div>
         </div>
-        <button className={submitButtonStyle + ' mt-16'} type="submit">
-          Update Service
-        </button>
+        <div className="mt-16">
+          <Button type="submit">Update Service</Button>
+        </div>
       </form>
     </div>
   );

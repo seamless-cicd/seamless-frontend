@@ -2,13 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRightCircle } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { PIPELINES_PATH } from '../../constants';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
-
-import { PIPELINES_PATH } from '../../constants';
-
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
+import { Button } from '../ui/Button';
 
 const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
 
@@ -100,12 +97,12 @@ const PipelineSetUp = () => {
           )}
         </div>
 
-        <button
-          className={submitButtonStyle + ` mt-16 flex items-center gap-x-2`}
-          type="submit"
-        >
-          <span>Continue To Service Setup</span> <ArrowRightCircle />
-        </button>
+        <div className="mt-16">
+          <Button type="submit">
+            Continue To Service Setup
+            <ArrowRightCircle className="ml-2" />
+          </Button>
+        </div>
       </form>
     </div>
   );

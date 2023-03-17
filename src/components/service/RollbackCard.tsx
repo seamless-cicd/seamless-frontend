@@ -3,6 +3,7 @@ import { SERVICES_PATH } from '../../constants';
 import { Rollback } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
+import { Button } from '../ui/Button';
 
 const submitButtonStyle =
   'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
@@ -20,10 +21,10 @@ const RollbackCard = ({ rollback, serviceId }: RollbackCardProps) => {
 
   const handleRollback = async () => {
     await axiosPostAuthenticated(
-      `${SERVICES_PATH}/${serviceId}/rollbacks/${tags[0]}`
+      `${SERVICES_PATH}/${serviceId}/rollbacks/${tags[0]}`,
     );
     window.alert(
-      'Rollback initiated. Check the ECS Service for the latest status.'
+      'Rollback initiated. Check the ECS Service for the latest status.',
     );
     navigate(`/services/${serviceId}`);
   };
@@ -50,14 +51,14 @@ const RollbackCard = ({ rollback, serviceId }: RollbackCardProps) => {
 
           <div>
             <p>{`Pushed at: ${new Date(
-              String(image.imagePushedAt)
+              String(image.imagePushedAt),
             ).toLocaleString()}`}</p>
           </div>
         </div>
         <div>
-          <button className={submitButtonStyle} onClick={handleRollback}>
+          <Button variant="subtle" onClick={handleRollback}>
             Rollback to this Image
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -78,7 +79,7 @@ const RollbackCard = ({ rollback, serviceId }: RollbackCardProps) => {
                 </span>
               </p>
               <p>{`Last run at ${new Date(
-                String(run.startedAt)
+                String(run.startedAt),
               ).toLocaleString()}`}</p>
               <p>{`Status: ${StatusToName[run.status]}`}</p>
             </div>
