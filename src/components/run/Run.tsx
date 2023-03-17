@@ -12,8 +12,6 @@ import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
 
-const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
-const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
 
 const StageOrder = [
   'PREPARE',
@@ -45,8 +43,8 @@ const Run = () => {
   useEffect(() => {
     const fetchRunsAndStages = async () => {
       try {
-        const runRequest = axiosGetAuthenticated(`${RUNS_URL}/${runId}`);
-        const stagesRequest = axiosGetAuthenticated(STAGES_URL, {
+        const runRequest = axiosGetAuthenticated(`${RUNS_PATH}/${runId}`);
+        const stagesRequest = axiosGetAuthenticated(STAGES_PATH, {
           params: { runId },
         });
 

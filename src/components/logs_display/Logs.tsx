@@ -3,10 +3,8 @@ import { LogsProps, LogType } from '../../schema/logSchema';
 
 import { LOGS_PATH } from '../../constants';
 import { axiosGetAuthenticated } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
 import { SocketContext } from '../context_providers/SockerContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
-const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
 
 const formatDateTime = (dateString: string) => {
   const date = new Date(dateString);
@@ -30,7 +28,7 @@ const Logs = ({ stageId }: LogsProps) => {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const logsResponse = await axiosGetAuthenticated(LOGS_URL, {
+        const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
           params: { stageId },
         });
         setLogs(logsResponse.data);

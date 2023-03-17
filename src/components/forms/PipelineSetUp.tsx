@@ -5,16 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { PIPELINES_PATH } from '../../constants';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
-const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
 
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
-
-const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
-
-const inputBorderStyle =
-  'border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
+import { Button } from '../ui/Button';
+import FormErrorMessage from './ErrorMessage';
 
 const PipelineSetUp = () => {
   const navigate = useNavigate();
@@ -30,7 +23,7 @@ const PipelineSetUp = () => {
   const onSubmit: SubmitHandler<PipelineFormType> = async (data) => {
     try {
       console.log(data);
-      await axiosPostAuthenticated(PIPELINES_URL, data);
+      await axiosPostAuthenticated(PIPELINES_PATH, data);
       navigate('/service-set-up');
     } catch (e) {
       console.log(e);
@@ -45,68 +38,50 @@ const PipelineSetUp = () => {
         infrastructure on your behalf.
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mt-8 flex w-80 flex-col gap-2">
+        <div className="mt-8 flex w-96 flex-col gap-2">
           <label htmlFor="name">Pipeline Name</label>
-          <input
-            className={inputBorderStyle}
-            type="text"
-            id="name"
-            {...register('name')}
-          />
+          <input type="text" id="name" {...register('name')} />
           {errors.name && (
-            <span className={errorMsgStyle}>{errors.name?.message}</span>
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           )}
         </div>
 
-        <div className="mt-6 flex w-80 flex-col gap-2">
+        <div className="mt-6 flex w-96 flex-col gap-2">
           <label htmlFor="githubPat">GitHub PAT (Classic)</label>
-          <input
-            className={inputBorderStyle}
-            type="text"
-            id="githubPat"
-            {...register('githubPat')}
-          />
+          <input type="text" id="githubPat" {...register('githubPat')} />
           {errors.githubPat && (
-            <span className={errorMsgStyle}>{errors.githubPat?.message}</span>
+            <FormErrorMessage>{errors.githubPat?.message}</FormErrorMessage>
           )}
         </div>
 
-        <div className="mt-6 flex w-80 flex-col gap-2">
+        <div className="mt-6 flex w-96 flex-col gap-2">
           <label htmlFor="awsAccessKey">AWS Access Key</label>
-          <input
-            className={inputBorderStyle}
-            type="text"
-            id="awsAccessKey"
-            {...register('awsAccessKey')}
-          />
+          <input type="text" id="awsAccessKey" {...register('awsAccessKey')} />
           {errors.awsAccessKey && (
-            <span className={errorMsgStyle}>
-              {errors.awsAccessKey?.message}
-            </span>
+            <FormErrorMessage>{errors.awsAccessKey?.message}</FormErrorMessage>
           )}
         </div>
 
-        <div className="mt-6 flex w-80 flex-col gap-2">
+        <div className="mt-6 flex w-96 flex-col gap-2">
           <label htmlFor="awsSecretAccessKey">AWS Secret Access Key</label>
           <input
-            className={inputBorderStyle}
             type="text"
             id="awsSecretAccessKey"
             {...register('awsSecretAccessKey')}
           />
           {errors.awsSecretAccessKey && (
-            <span className={errorMsgStyle}>
+            <FormErrorMessage>
               {errors.awsSecretAccessKey?.message}
-            </span>
+            </FormErrorMessage>
           )}
         </div>
 
-        <button
-          className={submitButtonStyle + ` mt-16 flex items-center gap-x-2`}
-          type="submit"
-        >
-          <span>Continue To Service Setup</span> <ArrowRightCircle />
-        </button>
+        <div className="mt-16">
+          <Button type="submit">
+            Continue To Service Setup
+            <ArrowRightCircle className="ml-2" />
+          </Button>
+        </div>
       </form>
     </div>
   );

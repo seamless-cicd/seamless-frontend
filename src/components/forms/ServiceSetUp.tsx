@@ -1,27 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowRightCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
 import { serviceFormSchema, ServiceFormType } from '../../schema/formSchema';
 
-import { ArrowRightCircle } from 'lucide-react';
-import { PIPELINES_PATH, SERVICES_PATH, WEBHOOKS_PATH } from '../../constants';
 import {
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
-const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const WEBHOOKS_URL = `${API_BASE_URL}/${WEBHOOKS_PATH}`;
-
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
-
-const errorMsgStyle = 'bg-red-100 px-4 py-2 text-red-700 rounded-md text-sm';
-
-const inputBorderStyle =
-  'border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500';
+import { Button } from '../ui/Button';
+import FormErrorMessage from './ErrorMessage';
 
 const ServiceSetUp = () => {
   const [pipelineId, setPipelineId] = useState('');
@@ -52,8 +42,8 @@ const ServiceSetUp = () => {
     data.pipelineId = pipelineId;
 
     try {
-      await axiosPostAuthenticated(WEBHOOKS_URL + '/create', webhooksData);
-      await axiosPostAuthenticated(SERVICES_URL, data);
+      await axiosPostAuthenticated(WEBHOOKS_PATH + '/create', webhooksData);
+      await axiosPostAuthenticated(SERVICES_PATH, data);
       navigate('/services');
     } catch (e) {
       console.log(e);
@@ -62,8 +52,8 @@ const ServiceSetUp = () => {
 
   useEffect(() => {
     const fetchPipeline = async () => {
-      const response = await axiosGetAuthenticated(PIPELINES_URL);
-      // NOTE THESE ASSUME ONE PIPELINE - TAKES FIRST FROM QUERY
+      const response = await axiosGetAuthenticated(PIPELINES_PATH);
+      // Assumes only 1 pipeline exists, and selects the first Service found
       setPipelineId(response.data[0].id);
       setGithubPat(response.data[0].githubPat);
     };
@@ -74,25 +64,24 @@ const ServiceSetUp = () => {
     <div className="w-[900px]">
       <h1 className="text-3xl font-medium text-stone-700">Service Setup</h1>
       <p className="mt-4 max-w-prose text-stone-600">
-        Your new Pipeline ID is:{' '}
+        Pipeline ID:{' '}
         <span className="font-mono text-indigo-700">{pipelineId}</span>
       </p>
       <p className="mt-4 max-w-prose text-stone-600">
-        Now let's get some details about your microservice, pipeline trigger
-        methods, and testing commands.
+        Please provide details about your service, pipeline trigger options, and
+        testing commands.
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mt-8 flex w-96 flex-col gap-2">
+        <div className="mt-8 flex w-[450px] flex-col gap-2">
           <label htmlFor="name">Service Name </label>
           <input
-            className={inputBorderStyle}
             type="text"
             id="name"
             placeholder="My Service"
             {...register('name')}
           />
           {errors.name && (
-            <span className={errorMsgStyle}>{errors.name?.message}</span>
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           )}
         </div>
 
@@ -161,145 +150,135 @@ const ServiceSetUp = () => {
           </div>
 
           <h3 className="mt-8 text-xl font-medium text-indigo-700">GitHub</h3>
-          <div className="mt-4 flex w-96 flex-col gap-2">
+          <div className="mt-4 flex w-[450px] flex-col gap-2">
             <label htmlFor="githubRepoUrl">Github Repository URL</label>
             <input
-              className={inputBorderStyle}
               type="text"
               id="githubRepoUrl"
               placeholder="https://github.com/user-org/repo-name"
               {...register('githubRepoUrl')}
             />
             {errors.githubRepoUrl && (
-              <span className={errorMsgStyle}>
+              <FormErrorMessage>
                 {errors.githubRepoUrl?.message}
-              </span>
+              </FormErrorMessage>
             )}
           </div>
 
           <h3 className="mt-8 text-xl font-medium text-indigo-700">Commands</h3>
-          <div className="mt-4 flex w-96 flex-col gap-2">
+          <div className="mt-4 flex w-[450px] flex-col gap-2">
             <label htmlFor="unitTestCommand">Unit Test Command: </label>
             <input
-              className={inputBorderStyle}
               type="text"
               id="unitTestCommand"
               placeholder="npm run test"
               {...register('unitTestCommand')}
             />
             {errors.unitTestCommand && (
-              <span className={errorMsgStyle}>
+              <FormErrorMessage>
                 {errors.unitTestCommand?.message}
-              </span>
+              </FormErrorMessage>
             )}
           </div>
-          <div className="mt-6 flex w-96 flex-col gap-2">
+          <div className="mt-6 flex w-[450px] flex-col gap-2">
             <label htmlFor="integrationTestCommand">
               Integration Test Command:{' '}
             </label>
             <input
-              className={inputBorderStyle}
               type="text"
               id="integrationTestCommand"
               placeholder="npm run integration test"
               {...register('integrationTestCommand')}
             />
             {errors.integrationTestCommand && (
-              <span className={errorMsgStyle}>
+              <FormErrorMessage>
                 {errors.integrationTestCommand?.message}
-              </span>
+              </FormErrorMessage>
             )}
           </div>
-          <div className="mt-6 flex w-96 flex-col gap-2">
+          <div className="mt-6 flex w-[450px] flex-col gap-2">
             <label htmlFor="codeQualityCommand">Code Quality Command: </label>
             <input
-              className={inputBorderStyle}
               type="text"
               id="codeQualityCommand"
               placeholder="npm run lint"
               {...register('codeQualityCommand')}
             />
             {errors.codeQualityCommand && (
-              <span className={errorMsgStyle}>
+              <FormErrorMessage>
                 {errors.codeQualityCommand?.message}
-              </span>
+              </FormErrorMessage>
             )}
           </div>
 
           <h3 className="mt-8 text-xl font-medium text-indigo-700">Docker</h3>
-          <div className="mt-4 flex w-96 flex-col gap-2">
+          <div className="mt-4 flex w-[450px] flex-col gap-2">
             <label htmlFor="dockerfilePath">Dockerfile Path</label>
             <input
-              className={inputBorderStyle}
               type="text"
               id="dockerfilePath"
               placeholder="./"
               {...register('dockerfilePath')}
             />
             {errors.dockerfilePath && (
-              <span className={errorMsgStyle}>
+              <FormErrorMessage>
                 {errors.dockerfilePath?.message}
-              </span>
+              </FormErrorMessage>
             )}
           </div>
-          <div className="mt-6 flex w-96 flex-col gap-2">
+          <div className="mt-6 flex w-[450px] flex-col gap-2">
             <label htmlFor="dockerComposeFilePath">
               Docker Compose File Path
             </label>
             <input
-              className={inputBorderStyle}
               type="text"
               id="dockerComposefilePath"
               placeholder="./"
               {...register('dockerComposeFilePath')}
             />
             {errors.dockerComposeFilePath && (
-              <span className={errorMsgStyle}>
+              <FormErrorMessage>
                 {errors.dockerComposeFilePath?.message}
-              </span>
+              </FormErrorMessage>
             )}
           </div>
 
           <h3 className="mt-8 text-xl font-medium text-indigo-700">
             AWS Cluster
           </h3>
-          <div className="mt-4 flex w-96 flex-col gap-2">
+          <div className="mt-4 flex w-[450px] flex-col gap-2">
             <label htmlFor="awsEcsService">AWS ECS Service Name</label>
             <input
-              className={inputBorderStyle}
               type="text"
               id="awsEcsService"
               placeholder="my-ecs-service-name"
               {...register('awsEcsService')}
             />
             {errors.awsEcsService && (
-              <span className={errorMsgStyle}>
+              <FormErrorMessage>
                 {errors.awsEcsService?.message}
-              </span>
+              </FormErrorMessage>
             )}
           </div>
-          <div className="mt-6 flex w-96 flex-col gap-2">
+          <div className="mt-6 flex w-[450px] flex-col gap-2">
             <label htmlFor="awsEcrRepo">AWS ECR Repository Name</label>
             <input
-              className={inputBorderStyle}
               type="text"
               id="awsEcrRepo"
               placeholder="my-ecr-repo-name"
               {...register('awsEcrRepo')}
             />
             {errors.awsEcrRepo && (
-              <span className={errorMsgStyle}>
-                {errors.awsEcrRepo?.message}
-              </span>
+              <FormErrorMessage>{errors.awsEcrRepo?.message}</FormErrorMessage>
             )}
           </div>
         </div>
-        <button
-          className={submitButtonStyle + ` mt-16 flex items-center gap-x-2`}
-          type="submit"
-        >
-          <span>Continue To View Services</span> <ArrowRightCircle />
-        </button>
+        <div className="mt-16">
+          <Button type="submit">
+            Continue To View Services
+            <ArrowRightCircle className="ml-2" />
+          </Button>
+        </div>
       </form>
     </div>
   );

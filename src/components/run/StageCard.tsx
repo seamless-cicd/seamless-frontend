@@ -6,9 +6,6 @@ import {
 } from '../../schema/stageSchema';
 import Logs from '../logs_display/Logs';
 
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
-
 const StageCard = ({ stage, viewType, setViewType }: StageCardProps) => {
   const handleViewLogsClick = (): void => {
     stage.type === viewType ? setViewType('') : setViewType(stage.type);
@@ -53,14 +50,7 @@ const StageCard = ({ stage, viewType, setViewType }: StageCardProps) => {
         </div>
       </button>
 
-      {/* This will only show one log at a time and can toggle */}
       {viewType === stage.type && <Logs stageId={stage.id} />}
-
-      {/* {(stage.status === 'SUCCESS' || stage.status === 'FAILURE') && (
-        <button className={submitButtonStyle} onClick={handleReRunClick}>
-          Re-Run
-        </button>
-      )} */}
     </div>
   );
 };

@@ -7,23 +7,16 @@ import {
   axiosGetAuthenticated,
   axiosPostAuthenticated,
 } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
-
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-
-const submitButtonStyle =
-  'bg-transparent hover:bg-indigo-800 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-600 hover:border-transparent rounded';
-
-const deleteButtonStyle =
-  'bg-transparent hover:bg-red-700 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-700 hover:border-transparent rounded';
+import { Button } from '../ui/Button';
 
 const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const navigate = useNavigate();
 
+  // Doesn't start a pipeline; just creates a Run and Stages
   const handleRunClick = async () => {
     try {
       const response = await axiosPostAuthenticated(
-        `${SERVICES_URL}/${service.id}/start`
+        `${SERVICES_PATH}/${service.id}/start`,
       );
 
       if (response.status !== 200) {
@@ -52,8 +45,8 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
   const handleDeleteClick = async () => {
     try {
       alert('Confirm delete:');
-      await axiosDeleteAuthenticated(`${SERVICES_URL}/${service.id}`);
-      const remainingServices = await axiosGetAuthenticated(SERVICES_URL);
+      await axiosDeleteAuthenticated(`${SERVICES_PATH}/${service.id}`);
+      const remainingServices = await axiosGetAuthenticated(SERVICES_PATH);
       setServices(remainingServices.data);
     } catch (e) {
       console.log(e);
@@ -153,23 +146,21 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
 
       <div className="mt-8 flex justify-between">
         <div className="flex gap-x-3">
-          <button className={submitButtonStyle} onClick={handleRunClick}>
-            Run
-          </button>
-          <button className={submitButtonStyle} onClick={handleViewClick}>
+          <Button onClick={handleRunClick}>Run</Button>
+          <Button variant="subtle" onClick={handleViewClick}>
             View
-          </button>
-          <button className={submitButtonStyle} onClick={handleEditClick}>
+          </Button>
+          <Button variant="subtle" onClick={handleEditClick}>
             Edit
-          </button>
-          <button className={submitButtonStyle} onClick={handleRollBackClick}>
-            Rollback
-          </button>
+          </Button>
         </div>
-        <div>
-          <button className={deleteButtonStyle} onClick={handleDeleteClick}>
+        <div className="flex gap-x-3">
+          <Button variant="outline" onClick={handleRollBackClick}>
+            Rollback
+          </Button>
+          <Button variant="destructive" onClick={handleDeleteClick}>
             Delete
-          </button>
+          </Button>
         </div>
       </div>
     </div>

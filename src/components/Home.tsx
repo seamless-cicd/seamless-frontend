@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
 import {
-  LOGS_PATH,
   PIPELINES_PATH,
   RUNS_PATH,
   SERVICES_PATH,
@@ -12,13 +11,7 @@ import { RunType } from '../schema/runSchema';
 import { ServiceType } from '../schema/serviceSchema';
 import { StageType } from '../schema/stageSchema';
 import { axiosGetAuthenticated, login } from '../utils/authentication';
-import { API_BASE_URL } from '../utils/config';
 import { UserContext } from './context_providers/UserContextProvider';
-const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const RUNS_URL = `${API_BASE_URL}/${RUNS_PATH}`;
-const STAGES_URL = `${API_BASE_URL}/${STAGES_PATH}`;
-const LOGS_URL = `${API_BASE_URL}/${LOGS_PATH}`;
 
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
@@ -59,10 +52,10 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const pipelineRequest = await axiosGetAuthenticated(PIPELINES_URL);
-        const servicesRequest = await axiosGetAuthenticated(SERVICES_URL);
-        const runsRequest = await axiosGetAuthenticated(RUNS_URL);
-        const stagesRequest = await axiosGetAuthenticated(STAGES_URL);
+        const pipelineRequest = await axiosGetAuthenticated(PIPELINES_PATH);
+        const servicesRequest = await axiosGetAuthenticated(SERVICES_PATH);
+        const runsRequest = await axiosGetAuthenticated(RUNS_PATH);
+        const stagesRequest = await axiosGetAuthenticated(STAGES_PATH);
 
         setRuns(runsRequest.data);
         setStages(stagesRequest.data);

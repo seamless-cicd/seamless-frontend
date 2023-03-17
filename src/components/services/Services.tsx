@@ -8,9 +8,6 @@ import { API_BASE_URL } from '../../utils/config';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ServicesList from './ServicesList';
 
-const SERVICES_URL = `${API_BASE_URL}/${SERVICES_PATH}`;
-const PIPELINES_URL = `${API_BASE_URL}/${PIPELINES_PATH}`;
-
 const Services = () => {
   const [services, setServices] = useState<ServiceType[]>([]);
   const [pipeline, setPipeline] = useState<PipelineType | null>(null);
@@ -18,8 +15,8 @@ const Services = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const servicesRequest = axiosGetAuthenticated(SERVICES_URL);
-        const pipelineRequest = axiosGetAuthenticated(PIPELINES_URL);
+        const servicesRequest = axiosGetAuthenticated(SERVICES_PATH);
+        const pipelineRequest = axiosGetAuthenticated(PIPELINES_PATH);
 
         const [servicesResponse, pipelineResponse] = await axios.all([
           servicesRequest,
