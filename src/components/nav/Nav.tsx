@@ -6,10 +6,11 @@ import { login, logout } from '../../utils/authentication';
 import { UserContext } from '../context_providers/UserContextProvider';
 
 const links = [
-  { to: '/', title: 'Home', icon: ArrowRightCircle },
+  { to: '/', title: 'Dashboard', icon: ArrowRightCircle },
+  { to: '/services', title: 'Services', icon: ArrowRightCircle },
+  { to: '/', title: 'Active Runs', icon: ArrowRightCircle },
   { to: '/pipeline-setup', title: 'Pipeline Setup', icon: Settings },
   { to: '/service-setup', title: 'Service Setup', icon: Settings },
-  { to: '/services', title: 'Services', icon: ArrowRightCircle },
 ];
 
 const NavIcon = ({ icon: Icon }: { icon: LucideIcon }) => {
