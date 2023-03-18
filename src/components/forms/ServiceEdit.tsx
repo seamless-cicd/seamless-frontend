@@ -27,6 +27,9 @@ const editableFields: Array<keyof ServiceEditFormType> = [
   'codeQualityCommand',
   'dockerfilePath',
   'dockerComposeFilePath',
+  'awsEcrRepo',
+  'awsEcsService',
+  'awsEcsServiceStaging',
 ];
 
 const ServiceEdit = () => {
@@ -64,7 +67,6 @@ const ServiceEdit = () => {
         `${SERVICES_PATH}/${serviceId}`,
         editedData,
       );
-      alert('Service is being updated.');
       navigate('/services');
     } catch (e) {
       console.log(e);
@@ -106,7 +108,7 @@ const ServiceEdit = () => {
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-8 flex w-[450px] flex-col gap-2">
-          <label htmlFor="name">Service Name: </label>
+          <label htmlFor="name">Service Name</label>
           <input type="text" id="name" {...register('name')} />
           {errors.name && (
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
@@ -122,7 +124,7 @@ const ServiceEdit = () => {
                 type="checkbox"
                 id="triggerOnMain"
                 {...register('triggerOnMain', { required: true })}
-                defaultChecked={false}
+                defaultChecked={true}
               />
               <label htmlFor="triggerOnMain">On Main</label>
             </div>
@@ -193,7 +195,7 @@ const ServiceEdit = () => {
               Commands
             </h3>
             <div className="mt-4 flex w-[450px] flex-col gap-2">
-              <label htmlFor="unitTestCommand">Unit Test Command: </label>
+              <label htmlFor="unitTestCommand">Unit Test Command</label>
               <input
                 type="text"
                 id="unitTestCommand"
@@ -208,7 +210,7 @@ const ServiceEdit = () => {
             </div>
             <div className="mt-6 flex w-[450px] flex-col gap-2">
               <label htmlFor="integrationTestCommand">
-                Integration Test Command:{' '}
+                Integration Test Command
               </label>
               <input
                 type="text"
@@ -223,7 +225,7 @@ const ServiceEdit = () => {
               )}
             </div>
             <div className="mt-6 flex w-[450px] flex-col gap-2">
-              <label htmlFor="codeQualityCommand">Code Quality Command: </label>
+              <label htmlFor="codeQualityCommand">Code Quality Command</label>
               <input
                 type="text"
                 id="codeQualityCommand"
@@ -265,6 +267,54 @@ const ServiceEdit = () => {
               {errors.dockerComposeFilePath && (
                 <FormErrorMessage>
                   {errors.dockerComposeFilePath?.message}
+                </FormErrorMessage>
+              )}
+            </div>
+
+            <h3 className="mt-8 text-xl font-medium text-indigo-700">
+              AWS Services and Container Registry
+            </h3>
+            <div className="mt-4 flex w-[450px] flex-col gap-2">
+              <label htmlFor="awsEcsService">AWS ECS Service Name</label>
+              <input
+                type="text"
+                id="awsEcsService"
+                placeholder="my-ecs-service-name"
+                {...register('awsEcsService')}
+              />
+              {errors.awsEcsService && (
+                <FormErrorMessage>
+                  {errors.awsEcsService?.message}
+                </FormErrorMessage>
+              )}
+            </div>
+            <div className="mt-4 flex w-[450px] flex-col gap-2">
+              <label htmlFor="awsEcsService">
+                AWS ECS Service (Staging) Name
+              </label>
+              <input
+                type="text"
+                id="awsEcsServiceStaging"
+                placeholder="my-ecs-service-staging-name"
+                {...register('awsEcsServiceStaging')}
+              />
+              {errors.awsEcsServiceStaging && (
+                <FormErrorMessage>
+                  {errors.awsEcsServiceStaging?.message}
+                </FormErrorMessage>
+              )}
+            </div>
+            <div className="mt-6 flex w-[450px] flex-col gap-2">
+              <label htmlFor="awsEcrRepo">AWS ECR Repository Name</label>
+              <input
+                type="text"
+                id="awsEcrRepo"
+                placeholder="my-ecr-repo-name"
+                {...register('awsEcrRepo')}
+              />
+              {errors.awsEcrRepo && (
+                <FormErrorMessage>
+                  {errors.awsEcrRepo?.message}
                 </FormErrorMessage>
               )}
             </div>
