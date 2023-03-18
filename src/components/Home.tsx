@@ -31,6 +31,22 @@ ChartJS.register(
   Legend
 );
 
+import {
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+);
+
 const defaultPipeline = {
   id: '',
   createdAt: new Date(),
@@ -83,32 +99,48 @@ const Home = () => {
     fetchData();
   }, []);
 
-  // uses data from existing routes and prisma queries
+  const setBackgroundColor = (status) => {
+    if (status === 'IDLE') {
+      return '#C5CAE9';
+    } else if (status === 'IN_PROGRESS') {
+      return '#3F51B5';
+    } else if (status === 'FAILURE') {
+      return '#EE9090';
+    } else if (status === 'SUCCESS') {
+      return '#90EE90';
+    }
+  }
+ 
   const runData = {
     labels: runStatus.map(run => run.status),
     datasets: [
       {
         label: 'Count',
-        data: runStatus.map(run => run._count.status),
-        backgroundColor: ['#C5CAE9', '#3F51B5', '#1A237E'],
-        hoverBackgroundColor: ['#C5CAE9', '#3F51B5', '#1A237E'],
+        data: runStatus.sort().map(run => run._count.status),
+        backgroundColor: runStatus.map(run => setBackgroundColor(run.status)),
       },
     ],
   };
 
+  console.log(runStatus, '< run status')
+
+
+
+
   const stageData = {
-    labels: runStatus.map(stage => stage.status),
+    labels: stageStatus.map(stage => stage.status),
     datasets: [
       {
         label: 'Count',
-        data: stageStatus.map(stage => stage._count.status),
-        backgroundColor: ['#C5CAE9', '#3F51B5', '#1A237E'],
-        hoverBackgroundColor: ['#C5CAE9', '#3F51B5', '#1A237E'],
+        data: stageStatus.sort().map(stage => stage._count.status),
+        backgroundColor: stageStatus.map(stage => setBackgroundColor(stage.status)),
       },
     ],
   };
 
-  // can do a route to a prisma join query for this
+  console.log(stageStatus, '< stage status')
+
+
   const radarData = {
     labels: services.map(service => service.name),
     datasets: [
