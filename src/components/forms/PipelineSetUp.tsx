@@ -45,18 +45,24 @@ const PipelineSetUp = () => {
         </div>
 
         <div className="mt-6 flex w-96 flex-col gap-2">
-          <label htmlFor="githubPat">AWS ECS Cluster Name</label>
-          <input type="text" id="githubPat" {...register('awsEcsCluster')} />
+          <label htmlFor="awsEcsCluster">AWS ECS Cluster Name</label>
+          <input
+            type="text"
+            id="awsEcsCluster"
+            {...register('awsEcsCluster')}
+          />
           {errors.awsEcsCluster && (
             <FormErrorMessage>{errors.awsEcsCluster?.message}</FormErrorMessage>
           )}
         </div>
 
         <div className="mt-6 flex w-96 flex-col gap-2">
-          <label htmlFor="awsAccessKey">AWS ECS Cluster (Staging) Name</label>
+          <label htmlFor="awsEcsClusterStaging">
+            AWS ECS Cluster (Staging) Name
+          </label>
           <input
             type="text"
-            id="awsAccessKey"
+            id="awsEcsClusterStaging"
             {...register('awsEcsClusterStaging')}
           />
           {errors.awsEcsClusterStaging && (
