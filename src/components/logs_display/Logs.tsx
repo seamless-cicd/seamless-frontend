@@ -1,43 +1,15 @@
 import { useEffect, useState } from 'react';
-import { LogsProps, LogType } from '../../schema/logSchema';
-
 import { LOGS_PATH } from '../../constants';
+import { LogsProps, LogType } from '../../schema/logSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
+import { formatDateTime } from '../../utils/utils';
 import LoadingSpinner from '../ui/LoadingSpinner';
-
-const formatDateTime = (dateString: string) => {
-  const date = new Date(dateString);
-  const formattedDateTime = date.toLocaleString('en-US', {
-    month: '2-digit',
-    day: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: true,
-  });
-  return formattedDateTime;
-};
 
 const Logs = ({ stageId }: LogsProps) => {
   const [logs, setLogs] = useState<LogType[]>([]);
 
   useEffect(() => {
-    // get initial logs if any - needed
-    // const getLogs = async () => {
-    //   try {
-    //     const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
-    //       params: { stageId },
-    //     });
-    //     setLogs(logsResponse.data);
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // };
-    // getLogs();
-
-    // Poll all logs
-    const pollInterval = setInterval(async () => {
+    const getLogs = async () => {
       try {
         const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
           params: { stageId },
@@ -46,20 +18,22 @@ const Logs = ({ stageId }: LogsProps) => {
       } catch (e) {
         console.log(e);
       }
-    }, 2000); // edited to slow it down for testing
+    };
+    getLogs();
 
-    return () => clearInterval(pollInterval);
+    // Poll all logs
+    // const pollInterval = setInterval(async () => {
+    //   try {
+    //     const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
+    //       params: { stageId },
+    //     });
+    //     setLogs(logsResponse.data);
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // }, 2000); // edited to slow it down for testing
 
-    // stream logs
-    // const eventSource = new EventSource(STREAM_URL);
-    // eventSource.onmessage = (e) => {
-    //   const logsArray = JSON.parse(e.data)
-    //   setLogs(logsArray);
-    // };
-
-    // return () => {
-    //   eventSource.close();
-    // };
+    // return () => clearInterval(pollInterval);
   }, []);
 
   return (

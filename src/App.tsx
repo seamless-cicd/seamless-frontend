@@ -22,8 +22,8 @@ function App() {
           {user ? (
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/pipeline-set-up" element={<PipelineSetUp />} />
-              <Route path="/service-set-up" element={<ServiceSetUp />} />
+              <Route path="/pipeline-setup" element={<PipelineSetUp />} />
+              <Route path="/service-setup" element={<ServiceSetUp />} />
               <Route path="/services" element={<Services />} />
               <Route path="/services/:serviceId" element={<Service />} />
               <Route

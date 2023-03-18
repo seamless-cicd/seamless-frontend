@@ -7,10 +7,9 @@ import { UserContext } from '../context_providers/UserContextProvider';
 
 const links = [
   { to: '/', title: 'Home', icon: ArrowRightCircle },
-  { to: '/pipeline-set-up', title: 'Pipeline Setup', icon: Settings },
-  { to: '/service-set-up', title: 'Service Setup', icon: Settings },
+  { to: '/pipeline-setup', title: 'Pipeline Setup', icon: Settings },
+  { to: '/service-setup', title: 'Service Setup', icon: Settings },
   { to: '/services', title: 'Services', icon: ArrowRightCircle },
-  { to: '/', title: '🚧 Pipelines 🚧', icon: ArrowRightCircle },
 ];
 
 const NavIcon = ({ icon: Icon }: { icon: LucideIcon }) => {

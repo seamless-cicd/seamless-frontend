@@ -12,7 +12,7 @@ import {
 export const login = () => {
   window.location.assign(
     GITHUB_OAUTH_URL +
-      `?client_id=${GITHUB_CLIENT_ID}&scope=repo%20write:repo_hook`
+      `?client_id=${GITHUB_CLIENT_ID}&scope=repo%20write:repo_hook`,
   );
 };
 
@@ -47,8 +47,8 @@ export const logout = async () => {
 
   try {
     await axiosGetAuthenticated(LOGOUT_URL);
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.log(e);
   } finally {
     localStorage.removeItem('accessToken');
     window.location.reload();
@@ -57,7 +57,7 @@ export const logout = async () => {
 
 export const axiosGetAuthenticated = (
   url: string,
-  config?: AxiosRequestConfig<any> | undefined
+  config?: AxiosRequestConfig<any> | undefined,
 ) => {
   return axios.get(url, {
     ...config,
@@ -68,7 +68,7 @@ export const axiosGetAuthenticated = (
 export const axiosPostAuthenticated = (
   url: string,
   data?: any,
-  config?: AxiosRequestConfig<any> | undefined
+  config?: AxiosRequestConfig<any> | undefined,
 ) => {
   return axios.post(url, data, {
     ...config,
@@ -78,7 +78,7 @@ export const axiosPostAuthenticated = (
 export const axiosPatchAuthenticated = (
   url: string,
   data?: any,
-  config?: AxiosRequestConfig<any> | undefined
+  config?: AxiosRequestConfig<any> | undefined,
 ) => {
   return axios.patch(url, data, {
     ...config,
@@ -88,7 +88,7 @@ export const axiosPatchAuthenticated = (
 
 export const axiosDeleteAuthenticated = (
   url: string,
-  config?: AxiosRequestConfig<any> | undefined
+  config?: AxiosRequestConfig<any> | undefined,
 ) => {
   return axios.delete(url, {
     ...config,
