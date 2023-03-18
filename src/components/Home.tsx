@@ -4,6 +4,7 @@ import {
   RUNS_PATH,
   SERVICES_PATH,
   STAGES_PATH,
+  DASHBOARD_PATH,
 } from '../constants';
 import { LogType } from '../schema/logSchema';
 import { PipelineType } from '../schema/pipelineSchema';
@@ -44,24 +45,37 @@ const defaultPipeline = {
 const Home = () => {
   const { user } = useContext(UserContext);
   const [pipeline, setPipeline] = useState<PipelineType>(defaultPipeline);
-  const [runs, setRuns] = useState<RunType[]>([]);
+  // const [runs, setRuns] = useState<RunType[]>([]);
   const [services, setServices] = useState<ServiceType[]>([]);
-  const [stages, setStages] = useState<StageType[]>([]);
-  const [logs, setLogs] = useState<LogType[]>([]);
+  // const [stages, setStages] = useState<StageType[]>([]);
+  // const [logs, setLogs] = useState<LogType[]>([]);
+  // const [servicesNames, setServicesNames] = useState<string[]>([]);
+
+  const [runStatus, setRunStatus] = useState([]);
+  const [stageStatus, setStageStatus] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const pipelineRequest = await axiosGetAuthenticated(PIPELINES_PATH);
-        const servicesRequest = await axiosGetAuthenticated(SERVICES_PATH);
-        const runsRequest = await axiosGetAuthenticated(RUNS_PATH);
-        const stagesRequest = await axiosGetAuthenticated(STAGES_PATH);
+        // const servicesRequest = await axiosGetAuthenticated(SERVICES_PATH);
+        // const runsRequest = await axiosGetAuthenticated(RUNS_PATH);
+        // const stagesRequest = await axiosGetAuthenticated(STAGES_PATH);
 
-        setRuns(runsRequest.data);
-        setStages(stagesRequest.data);
-        setServices(servicesRequest.data);
-        // assuming one pipeline in the data structure
-        setPipeline(pipelineRequest.data[0]);
+        // setRuns(runsRequest.data);
+        // setStages(stagesRequest.data);
+        // setServices(servicesRequest.data);
+        // // assuming one pipeline in the data structure
+        // setPipeline(pipelineRequest.data[0]);
+        const servicesWithRuns = await axiosGetAuthenticated(DASHBOARD_PATH + '/servicesWithRuns');
+        setServices(servicesWithRuns.data);
+
+        const runStatusCount = await axiosGetAuthenticated(DASHBOARD_PATH + '/runStatusCount');
+        setRunStatus(runStatusCount.data);
+
+        const stageStatusCount = await axiosGetAuthenticated(DASHBOARD_PATH + '/stageStatusCount');
+        setStageStatus(stageStatusCount.data);
+        
       } catch (e) {
         console.log(e);
       }
@@ -70,12 +84,24 @@ const Home = () => {
   }, []);
 
   // uses data from existing routes and prisma queries
-  const data = {
-    labels: ['Services', 'Runs', 'Stages'],
+  const runData = {
+    labels: runStatus.map(run => run.status),
     datasets: [
       {
         label: 'Count',
-        data: [services.length, runs.length, stages.length],
+        data: runStatus.map(run => run._count.status),
+        backgroundColor: ['#C5CAE9', '#3F51B5', '#1A237E'],
+        hoverBackgroundColor: ['#C5CAE9', '#3F51B5', '#1A237E'],
+      },
+    ],
+  };
+
+  const stageData = {
+    labels: runStatus.map(stage => stage.status),
+    datasets: [
+      {
+        label: 'Count',
+        data: stageStatus.map(stage => stage._count.status),
         backgroundColor: ['#C5CAE9', '#3F51B5', '#1A237E'],
         hoverBackgroundColor: ['#C5CAE9', '#3F51B5', '#1A237E'],
       },
@@ -84,11 +110,11 @@ const Home = () => {
 
   // can do a route to a prisma join query for this
   const radarData = {
-    labels: ['payments', 'messages', 'inventory', 'users', 'admin'],
+    labels: services.map(service => service.name),
     datasets: [
       {
         label: '# Runs',
-        data: [5, 7, 11, 8, 9],
+        data: services.map(service => service.runs.length),
         backgroundColor: 'rgba(197, 202, 233, 0.2)',
         borderColor: 'rgba(63, 81, 181, 1)',
         borderWidth: 1,
@@ -114,10 +140,18 @@ const Home = () => {
         <div className="flex flex-row">
           <div className="mt-4 mr-4 w-1/2 max-w-sm rounded-md bg-white p-4 shadow-md">
             <h1 className="text-3xl font-medium text-stone-700">
-              Data Breakdown
+              Run Status
             </h1>
             <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
-            <Pie data={data} />
+            <Pie data={runData} />
+          </div>
+
+          <div className="mt-4 mr-4 w-1/2 max-w-sm rounded-md bg-white p-4 shadow-md">
+            <h1 className="text-3xl font-medium text-stone-700">
+              Stage Status
+            </h1>
+            <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
+            <Pie data={stageData} />
           </div>
 
           <div className="mt-4 mr-4 w-1/2 max-w-sm rounded-md bg-white p-4 shadow-md">
