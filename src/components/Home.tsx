@@ -1,16 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
-import {
-  PIPELINES_PATH,
-  RUNS_PATH,
-  SERVICES_PATH,
-  STAGES_PATH,
-  DASHBOARD_PATH,
-} from '../constants';
-import { LogType } from '../schema/logSchema';
+import { PIPELINES_PATH, DASHBOARD_PATH } from '../constants';
 import { PipelineType } from '../schema/pipelineSchema';
-import { RunType } from '../schema/runSchema';
 import { ServiceType } from '../schema/serviceSchema';
-import { StageType } from '../schema/stageSchema';
 import { axiosGetAuthenticated, login } from '../utils/authentication';
 import { UserContext } from './context_providers/UserContextProvider';
 
@@ -20,7 +11,6 @@ import { Pie } from 'react-chartjs-2';
 import { Filler, LineElement, PointElement, RadialLinearScale } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
 
-// ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
   ArcElement,
   RadialLinearScale,
@@ -29,22 +19,6 @@ ChartJS.register(
   Filler,
   Tooltip,
   Legend
-);
-
-import {
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
 );
 
 const defaultPipeline = {
@@ -61,12 +35,7 @@ const defaultPipeline = {
 const Home = () => {
   const { user } = useContext(UserContext);
   const [pipeline, setPipeline] = useState<PipelineType>(defaultPipeline);
-  // const [runs, setRuns] = useState<RunType[]>([]);
   const [services, setServices] = useState<ServiceType[]>([]);
-  // const [stages, setStages] = useState<StageType[]>([]);
-  // const [logs, setLogs] = useState<LogType[]>([]);
-  // const [servicesNames, setServicesNames] = useState<string[]>([]);
-
   const [runStatus, setRunStatus] = useState([]);
   const [stageStatus, setStageStatus] = useState([]);
 
@@ -74,15 +43,9 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const pipelineRequest = await axiosGetAuthenticated(PIPELINES_PATH);
-        // const servicesRequest = await axiosGetAuthenticated(SERVICES_PATH);
-        // const runsRequest = await axiosGetAuthenticated(RUNS_PATH);
-        // const stagesRequest = await axiosGetAuthenticated(STAGES_PATH);
 
-        // setRuns(runsRequest.data);
-        // setStages(stagesRequest.data);
-        // setServices(servicesRequest.data);
         // // assuming one pipeline in the data structure
-        // setPipeline(pipelineRequest.data[0]);
+        setPipeline(pipelineRequest.data[0]);
         const servicesWithRuns = await axiosGetAuthenticated(DASHBOARD_PATH + '/servicesWithRuns');
         setServices(servicesWithRuns.data);
 
@@ -122,11 +85,6 @@ const Home = () => {
     ],
   };
 
-  console.log(runStatus, '< run status')
-
-
-
-
   const stageData = {
     labels: stageStatus.map(stage => stage.status),
     datasets: [
@@ -137,9 +95,6 @@ const Home = () => {
       },
     ],
   };
-
-  console.log(stageStatus, '< stage status')
-
 
   const radarData = {
     labels: services.map(service => service.name),
