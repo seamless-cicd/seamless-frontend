@@ -30,26 +30,15 @@ ChartJS.register(
   Legend
 );
 
-const defaultPipeline = {
-  id: '',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  name: '',
-  githubPat: '',
-  awsAccessKey: '',
-  awsSecretAccessKey: '',
-  services: [],
-};
-
 const Home = () => {
   const { user } = useContext(UserContext);
-  const [pipeline, setPipeline] = useState<PipelineType>(defaultPipeline);
+  const [pipeline, setPipeline] = useState<PipelineType | null>(null);
   const [runs, setRuns] = useState<RunType[]>([]);
   const [services, setServices] = useState<ServiceType[]>([]);
   const [stages, setStages] = useState<StageType[]>([]);
-  const [logs, setLogs] = useState<LogType[]>([]);
 
   useEffect(() => {
+    // TODO: Move fetching data logic to the backend
     const fetchData = async () => {
       try {
         const pipelineRequest = await axiosGetAuthenticated(PIPELINES_PATH);
@@ -60,8 +49,8 @@ const Home = () => {
         setRuns(runsRequest.data);
         setStages(stagesRequest.data);
         setServices(servicesRequest.data);
-        // assuming one pipeline in the data structure
-        setPipeline(pipelineRequest.data[0]);
+
+        if (pipelineRequest.data.length > 0) setPipeline(pipelineRequest.data[0]);
       } catch (e) {
         console.log(e);
       }
@@ -110,7 +99,13 @@ const Home = () => {
         </p>
       )}
 
-      {user && (
+      {user && !pipeline && (
+        <p className="mt-3 text-lg text-gray-500">
+          Setup a pipeline to get started!
+        </p>
+      )}
+
+      {user && pipeline && (
         <div className="flex flex-row">
           <div className="mt-4 mr-4 w-1/2 max-w-sm rounded-md bg-white p-4 shadow-md">
             <h1 className="text-3xl font-medium text-stone-700">
