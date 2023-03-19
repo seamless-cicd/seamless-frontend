@@ -5,24 +5,13 @@ import { axiosGetAuthenticated } from '../../utils/authentication';
 import { formatDateTime } from '../../utils/utils';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
+const POLLING_RATE = 2000;
+
 const Logs = ({ stageId }: LogsProps) => {
   const [logs, setLogs] = useState<LogType[]>([]);
 
   useEffect(() => {
-    const getLogs = async () => {
-      try {
-        const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
-          params: { stageId },
-        });
-        setLogs(logsResponse.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getLogs();
-
-    // Poll all logs
-    // const pollInterval = setInterval(async () => {
+    // const getLogs = async () => {
     //   try {
     //     const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
     //       params: { stageId },
@@ -31,9 +20,22 @@ const Logs = ({ stageId }: LogsProps) => {
     //   } catch (e) {
     //     console.log(e);
     //   }
-    // }, 2000); // edited to slow it down for testing
+    // };
+    // getLogs();
 
-    // return () => clearInterval(pollInterval);
+    // Poll all logs
+    const pollInterval = setInterval(async () => {
+      try {
+        const logsResponse = await axiosGetAuthenticated(LOGS_PATH, {
+          params: { stageId },
+        });
+        setLogs(logsResponse.data);
+      } catch (e) {
+        console.log(e);
+      }
+    }, POLLING_RATE);
+
+    return () => clearInterval(pollInterval);
   }, []);
 
   return (
