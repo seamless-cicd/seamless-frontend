@@ -24,7 +24,7 @@ const PipelineSetUp = () => {
     try {
       console.log(data);
       await axiosPostAuthenticated(PIPELINES_PATH, data);
-      navigate('/service-set-up');
+      navigate('/service-setup');
     } catch (e) {
       console.log(e);
     }
@@ -34,8 +34,7 @@ const PipelineSetUp = () => {
     <div>
       <h1 className="text-3xl font-medium text-stone-700">Pipeline Setup</h1>
       <p className="mt-4 max-w-prose text-stone-600">
-        Please enter your credentials so we can clone code and provision AWS
-        infrastructure on your behalf.
+        Please provide details about your pipeline and AWS infrastructure.
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-8 flex w-96 flex-col gap-2">
@@ -47,31 +46,29 @@ const PipelineSetUp = () => {
         </div>
 
         <div className="mt-6 flex w-96 flex-col gap-2">
-          <label htmlFor="githubPat">GitHub PAT (Classic)</label>
-          <input type="text" id="githubPat" {...register('githubPat')} />
-          {errors.githubPat && (
-            <FormErrorMessage>{errors.githubPat?.message}</FormErrorMessage>
-          )}
-        </div>
-
-        <div className="mt-6 flex w-96 flex-col gap-2">
-          <label htmlFor="awsAccessKey">AWS Access Key</label>
-          <input type="text" id="awsAccessKey" {...register('awsAccessKey')} />
-          {errors.awsAccessKey && (
-            <FormErrorMessage>{errors.awsAccessKey?.message}</FormErrorMessage>
-          )}
-        </div>
-
-        <div className="mt-6 flex w-96 flex-col gap-2">
-          <label htmlFor="awsSecretAccessKey">AWS Secret Access Key</label>
+          <label htmlFor="awsEcsCluster">AWS ECS Cluster Name</label>
           <input
             type="text"
-            id="awsSecretAccessKey"
-            {...register('awsSecretAccessKey')}
+            id="awsEcsCluster"
+            {...register('awsEcsCluster')}
           />
-          {errors.awsSecretAccessKey && (
+          {errors.awsEcsCluster && (
+            <FormErrorMessage>{errors.awsEcsCluster?.message}</FormErrorMessage>
+          )}
+        </div>
+
+        <div className="mt-6 flex w-96 flex-col gap-2">
+          <label htmlFor="awsEcsClusterStaging">
+            AWS ECS Cluster (Staging) Name
+          </label>
+          <input
+            type="text"
+            id="awsEcsClusterStaging"
+            {...register('awsEcsClusterStaging')}
+          />
+          {errors.awsEcsClusterStaging && (
             <FormErrorMessage>
-              {errors.awsSecretAccessKey?.message}
+              {errors.awsEcsClusterStaging?.message}
             </FormErrorMessage>
           )}
         </div>

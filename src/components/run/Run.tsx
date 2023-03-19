@@ -6,12 +6,10 @@ import { RunType } from '../../schema/runSchema';
 import { StageType } from '../../schema/stageSchema';
 import RunStatusSchema from '../../schema/statusUpdateSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
 import { SocketContext } from '../context_providers/SockerContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
-
 
 const StageOrder = [
   'PREPARE',
@@ -85,7 +83,7 @@ const Run = () => {
         setStages(
           stages.map((stage) => {
             const stageUpdate = Object.values(parsedStatusUpdate.stages).find(
-              (stageUpdate) => stageUpdate.id === stage.id
+              (stageUpdate) => stageUpdate.id === stage.id,
             );
 
             if (stageUpdate) {
@@ -93,7 +91,7 @@ const Run = () => {
             } else {
               return stage;
             }
-          })
+          }),
         );
       }
     };

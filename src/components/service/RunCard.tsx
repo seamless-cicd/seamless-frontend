@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { RUNS_PATH } from '../../constants';
 import { RunCardProps } from '../../schema/runSchema';
+import { StatusToName } from '../../schema/stageSchema';
 import {
   axiosDeleteAuthenticated,
   axiosGetAuthenticated,
@@ -53,7 +54,7 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
     <div className="rounded-lg border border-stone-200 bg-white p-8 text-sm text-stone-600 shadow-lg shadow-stone-200">
       <h2 className="text-lg text-stone-400">Run {run.id}</h2>
       <h3 className="mt-2 text-xl font-semibold text-indigo-700">
-        Status: {run.status}
+        Status: {StatusToName[run.status]}
       </h3>
 
       <div className="mt-5 flex flex-col gap-y-2">

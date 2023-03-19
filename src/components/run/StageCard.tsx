@@ -11,10 +11,6 @@ const StageCard = ({ stage, viewType, setViewType }: StageCardProps) => {
     stage.type === viewType ? setViewType('') : setViewType(stage.type);
   };
 
-  // const handleReRunClick = (): void => {
-  //   window.alert('The Re-Run feature is under development.');
-  // };
-
   return (
     <div className="rounded-lg border border-stone-200 bg-white p-8 text-sm text-stone-600 shadow-lg shadow-stone-200">
       <h2 className="text-2xl font-medium text-indigo-700">
