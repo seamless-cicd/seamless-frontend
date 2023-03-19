@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { PIPELINES_PATH, DASHBOARD_PATH } from '../constants';
+import { DASHBOARD_PATH, PIPELINES_PATH } from '../constants';
 import { PipelineType } from '../schema/pipelineSchema';
 import { ServiceType } from '../schema/serviceSchema';
 import { axiosGetAuthenticated, login } from '../utils/authentication';
@@ -18,7 +18,7 @@ ChartJS.register(
   LineElement,
   Filler,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const defaultPipeline = {
@@ -46,15 +46,20 @@ const Home = () => {
 
         // // assuming one pipeline in the data structure
         setPipeline(pipelineRequest.data[0]);
-        const servicesWithRuns = await axiosGetAuthenticated(DASHBOARD_PATH + '/servicesWithRuns');
+        const servicesWithRuns = await axiosGetAuthenticated(
+          DASHBOARD_PATH + '/servicesWithRuns',
+        );
         setServices(servicesWithRuns.data);
 
-        const runStatusCount = await axiosGetAuthenticated(DASHBOARD_PATH + '/runStatusCount');
+        const runStatusCount = await axiosGetAuthenticated(
+          DASHBOARD_PATH + '/runStatusCount',
+        );
         setRunStatus(runStatusCount.data);
 
-        const stageStatusCount = await axiosGetAuthenticated(DASHBOARD_PATH + '/stageStatusCount');
+        const stageStatusCount = await axiosGetAuthenticated(
+          DASHBOARD_PATH + '/stageStatusCount',
+        );
         setStageStatus(stageStatusCount.data);
-        
       } catch (e) {
         console.log(e);
       }
@@ -72,36 +77,38 @@ const Home = () => {
     } else if (status === 'SUCCESS') {
       return '#90EE90';
     }
-  }
- 
+  };
+
   const runData = {
-    labels: runStatus.map(run => run.status),
+    labels: runStatus.map((run) => run.status),
     datasets: [
       {
         label: 'Count',
-        data: runStatus.sort().map(run => run._count.status),
-        backgroundColor: runStatus.map(run => setBackgroundColor(run.status)),
+        data: runStatus.sort().map((run) => run._count.status),
+        backgroundColor: runStatus.map((run) => setBackgroundColor(run.status)),
       },
     ],
   };
 
   const stageData = {
-    labels: stageStatus.map(stage => stage.status),
+    labels: stageStatus.map((stage) => stage.status),
     datasets: [
       {
         label: 'Count',
-        data: stageStatus.sort().map(stage => stage._count.status),
-        backgroundColor: stageStatus.map(stage => setBackgroundColor(stage.status)),
+        data: stageStatus.sort().map((stage) => stage._count.status),
+        backgroundColor: stageStatus.map((stage) =>
+          setBackgroundColor(stage.status),
+        ),
       },
     ],
   };
 
   const radarData = {
-    labels: services.map(service => service.name),
+    labels: services.map((service) => service.name),
     datasets: [
       {
         label: '# Runs',
-        data: services.map(service => service.runs.length),
+        data: services.map((service) => service.runs.length),
         backgroundColor: 'rgba(197, 202, 233, 0.2)',
         borderColor: 'rgba(63, 81, 181, 1)',
         borderWidth: 1,
@@ -126,9 +133,7 @@ const Home = () => {
       {user && (
         <div className="flex flex-row">
           <div className="mt-4 mr-4 w-1/2 max-w-sm rounded-md bg-white p-4 shadow-md">
-            <h1 className="text-3xl font-medium text-stone-700">
-              Run Status
-            </h1>
+            <h1 className="text-3xl font-medium text-stone-700">Run Status</h1>
             <p className="mt-2 font-mono text-xs text-stone-400">{`${pipeline.name}`}</p>
             <Pie data={runData} />
           </div>

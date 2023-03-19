@@ -9,7 +9,7 @@ import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
 
-const POLLING_RATE = 1000;
+const POLLING_RATE = 2000;
 const StageOrder = [
   'PREPARE',
   'CODE_QUALITY',
