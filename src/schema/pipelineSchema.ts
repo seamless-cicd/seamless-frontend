@@ -6,9 +6,9 @@ export const pipelineSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   name: z.string().optional(),
-  githubPat: z.string(),
-  awsAccessKey: z.string(),
-  awsSecretAccessKey: z.string(),
+  githubClientId: z.string().optional(),
+  githubClientSecret: z.string().optional(),
+  githubOauthToken: z.string().optional(),
   services: z.array(serviceSchema),
 });
 
