@@ -36,6 +36,7 @@ const Run = () => {
 
   const [run, setRun] = useState<RunType | null>(null);
   const [stages, setStages] = useState<StageType[]>([]);
+
   const [showApproveDeploymentAlert, setShowApproveDeploymentAlert] =
     useState(false);
 
@@ -55,6 +56,11 @@ const Run = () => {
         ]);
 
         setRun(runResponse.data);
+
+        if (run?.status === 'AWAITING_APPROVAL') {
+          setShowApproveDeploymentAlert(true);
+        }
+
         setStages(sortStages(stagesResponse.data));
       } catch (e) {
         console.log(e);
