@@ -10,3 +10,6 @@ export const DASHBOARD_PATH = '/api/dashboard';
 export const WEBSOCKETS_URL_PATH = '/api/websockets-url';
 export const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
 export const GITHUB_CLIENT_ID = '00f815f3b5fbdc1b6371';
+// For testing
+export const WEBSOCKETS_API_URL =
+  'wss://802p1ig0xc.execute-api.us-east-1.amazonaws.com/production';

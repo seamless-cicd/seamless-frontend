@@ -95,10 +95,8 @@ const Run = () => {
         );
       }
     };
-    if (socket) {
-      socket.addEventListener('message', onMessage);
-      return () => socket.removeEventListener('message', onMessage);
-    }
+    socket?.addEventListener('message', onMessage);
+    return () => socket.removeEventListener('message', onMessage);
   }, [run, socket]);
 
   return (
