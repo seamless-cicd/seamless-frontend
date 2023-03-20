@@ -6,7 +6,7 @@ import { RunType } from '../../schema/runSchema';
 import { StageType } from '../../schema/stageSchema';
 import RunStatusSchema from '../../schema/statusUpdateSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
-import { SocketContext } from '../context_providers/SockerContextProvider';
+import { SocketContext } from '../context_providers/SocketContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
@@ -95,9 +95,11 @@ const Run = () => {
         );
       }
     };
-    socket.addEventListener('message', onMessage);
-    return () => socket.removeEventListener('message', onMessage);
-  }, [run]);
+    if (socket) {
+      socket.addEventListener('message', onMessage);
+      return () => socket.removeEventListener('message', onMessage);
+    }
+  }, [run, socket]);
 
   return (
     <div>

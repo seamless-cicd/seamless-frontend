@@ -3,7 +3,7 @@ import { LOGS_PATH } from '../../constants';
 import { LogsProps, LogType } from '../../schema/logSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import { formatDateTime } from '../../utils/utils';
-import { SocketContext } from '../context_providers/SockerContextProvider';
+import { SocketContext } from '../context_providers/SocketContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 const Logs = ({ stageId }: LogsProps) => {
@@ -37,9 +37,11 @@ const Logs = ({ stageId }: LogsProps) => {
       }
     };
 
-    socket.addEventListener('message', onMessage);
-    return () => socket.removeEventListener('message', onMessage);
-  }, [logs]);
+    if (socket) {
+      socket.addEventListener('message', onMessage);
+      return () => socket.removeEventListener('message', onMessage);
+    }
+  }, [logs, socket]);
 
   return (
     <div className="max-h-[400px] min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">

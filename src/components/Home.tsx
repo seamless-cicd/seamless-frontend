@@ -28,33 +28,35 @@ const Home = () => {
   const [runStatus, setRunStatus] = useState([]);
   const [stageStatus, setStageStatus] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const pipelineRequest = await axiosGetAuthenticated(PIPELINES_PATH);
+  // Disable until Backend dashboard routes are added.
 
-        // // assuming one pipeline in the data structure
-        setPipeline(pipelineRequest.data[0]);
-        const servicesWithRuns = await axiosGetAuthenticated(
-          DASHBOARD_PATH + '/servicesWithRuns',
-        );
-        setServices(servicesWithRuns.data);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const pipelineRequest = await axiosGetAuthenticated(PIPELINES_PATH);
 
-        const runStatusCount = await axiosGetAuthenticated(
-          DASHBOARD_PATH + '/runStatusCount',
-        );
-        setRunStatus(runStatusCount.data);
+  //       // // assuming one pipeline in the data structure
+  //       setPipeline(pipelineRequest.data[0]);
+  //       const servicesWithRuns = await axiosGetAuthenticated(
+  //         DASHBOARD_PATH + '/servicesWithRuns',
+  //       );
+  //       setServices(servicesWithRuns.data);
 
-        const stageStatusCount = await axiosGetAuthenticated(
-          DASHBOARD_PATH + '/stageStatusCount',
-        );
-        setStageStatus(stageStatusCount.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchData();
-  }, []);
+  //       const runStatusCount = await axiosGetAuthenticated(
+  //         DASHBOARD_PATH + '/runStatusCount',
+  //       );
+  //       setRunStatus(runStatusCount.data);
+
+  //       const stageStatusCount = await axiosGetAuthenticated(
+  //         DASHBOARD_PATH + '/stageStatusCount',
+  //       );
+  //       setStageStatus(stageStatusCount.data);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   const setBackgroundColor = (status) => {
     if (status === 'IDLE') {

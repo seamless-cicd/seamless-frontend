@@ -4,7 +4,6 @@ import { PIPELINES_PATH, SERVICES_PATH } from '../../constants';
 import { PipelineType } from '../../schema/pipelineSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ServicesList from './ServicesList';
 

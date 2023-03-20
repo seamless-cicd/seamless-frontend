@@ -4,7 +4,6 @@ import { SERVICES_PATH } from '../../constants';
 import { Rollback } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RollbackCard from './RollbackCard';
 
@@ -18,7 +17,7 @@ const ServiceRollback = () => {
     const fetchData = async () => {
       try {
         const serviceResponse = await axiosGetAuthenticated(
-          `${SERVICES_PATH}/${serviceId}`
+          `${SERVICES_PATH}/${serviceId}`,
         );
         setService(serviceResponse.data);
       } catch (e) {
@@ -30,7 +29,7 @@ const ServiceRollback = () => {
     const fetchRollbacks = async () => {
       try {
         const rollbacksResponse = await axiosGetAuthenticated(
-          `${SERVICES_PATH}/${serviceId}/rollbacks`
+          `${SERVICES_PATH}/${serviceId}/rollbacks`,
         );
         setRollbacks(rollbacksResponse.data);
       } catch (e) {

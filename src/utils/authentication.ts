@@ -6,7 +6,6 @@ import {
   GITHUB_OAUTH_URL,
   USER_PATH,
 } from '../constants';
-import { API_BASE_URL } from '../utils/config';
 
 // If user is not logged in, directs to Github
 // If user is logged in, immediately redirects back to app
