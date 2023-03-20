@@ -75,13 +75,6 @@ const Run = () => {
       const eventData = JSON.parse(event.data);
       console.log('Socket message: ', event.data);
 
-      switch (eventData.type) {
-        case 'status_update':
-          break;
-        default:
-          return;
-      }
-
       if (eventData.type === 'status_update') {
         const parsedStatusUpdate = RunStatusSchema.parse(eventData.data);
 
