@@ -58,9 +58,15 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
       </h3>
 
       <div className="mt-5 flex flex-col gap-y-2">
-        <p>{`Start: ${new Date(run.startedAt).toLocaleString()}`}</p>
-        <p>{`End: ${run.endedAt || 'Still running'}`}</p>
-        <p>{`Duration: ${run.duration || 'Still running'}`}</p>
+        <p>{`Start: ${
+          run.startedAt
+            ? new Date(run.startedAt).toLocaleString()
+            : 'Not started'
+        }`}</p>
+        <p>{`End: ${
+          run.endedAt ? new Date(run.endedAt).toLocaleString() : 'Still running'
+        }`}</p>
+        <p>{`Duration: ${run.duration + ' seconds' || 'Still running'}`}</p>
       </div>
 
       <div className="mt-5 flex flex-col gap-y-2">

@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-
 import { SERVICES_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
@@ -48,9 +47,17 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
 
       <div className="grid grid-cols-12">
         <div className="col-span-5 mt-5 flex flex-col gap-y-2">
-          <p>{`Start: ${new Date(run.startedAt).toLocaleString()}`}</p>
-          <p>{`End: ${run.endedAt || 'Still running'}`}</p>
-          <p>{`Duration: ${run.duration || 'Still running'}`}</p>
+          <p>{`Start: ${
+            run.startedAt
+              ? new Date(run.startedAt).toLocaleString()
+              : 'Not started'
+          }`}</p>
+          <p>{`End: ${
+            run.endedAt
+              ? new Date(run.endedAt).toLocaleString()
+              : 'Still running'
+          }`}</p>
+          <p>{`Duration: ${run.duration + ' seconds' || 'Still running'}`}</p>
         </div>
 
         <div className="col-span-7 mt-5 flex flex-col gap-y-2 pl-2">
