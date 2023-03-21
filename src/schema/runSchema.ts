@@ -4,18 +4,18 @@ import { stageSchema } from './stageSchema';
 
 export const runSchema = z.object({
   id: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-  startedAt: z.date(),
-  endedAt: z.date().optional(),
-  duration: z.number().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  startedAt: z.string().nullish(),
+  endedAt: z.string().nullish(),
+  duration: z.number().nullish(),
   commitHash: z.string().optional(),
   commitMessage: z.string().optional(),
   committer: z.string().optional(),
   status: z.string(),
   triggerType: z.string(),
   serviceId: z.string().optional(),
-  stages: z.array(stageSchema),
+  stages: z.array(stageSchema).optional(),
 });
 
 export type RunType = z.infer<typeof runSchema>;
@@ -38,3 +38,7 @@ export type Rollback = {
   runs: RunType[];
   image: ImageDetail;
 };
+
+// export const runStatusCountSchema = z.object({
+
+// })
