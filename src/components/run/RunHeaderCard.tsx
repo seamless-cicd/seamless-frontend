@@ -57,7 +57,9 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
               ? new Date(run.endedAt).toLocaleString()
               : 'Still running'
           }`}</p>
-          <p>{`Duration: ${run.duration + ' seconds' || 'Still running'}`}</p>
+          <p>{`Duration: ${
+            run.duration ? run.duration + ' seconds' : 'Still running'
+          }`}</p>
         </div>
 
         <div className="col-span-7 mt-5 flex flex-col gap-y-2 pl-2">

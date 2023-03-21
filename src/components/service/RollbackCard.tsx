@@ -27,7 +27,7 @@ const RollbackCard = ({ rollback, serviceId }: RollbackCardProps) => {
   };
 
   return (
-    <div className="mt-4 rounded-lg border border-stone-200 bg-white p-8 text-sm text-stone-600 shadow-lg shadow-stone-200">
+    <div className="rounded-lg border border-stone-200 bg-white p-8 text-sm text-stone-600 shadow-lg shadow-stone-200">
       <h2 className="text-sm text-stone-400">Digest {image.imageDigest}</h2>
       <h3 className="mt-2 text-xl font-semibold text-indigo-700">
         {image.repositoryName}

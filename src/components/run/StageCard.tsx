@@ -22,15 +22,18 @@ const StageCard = ({ stage, viewType, setViewType }: StageCardProps) => {
       }`}</h3>
 
       <div className="mt-5 flex flex-col gap-y-2">
-        <p>
-          Start:{' '}
-          {stage.startedAt
-            ? `${new Date(stage.startedAt).toLocaleString()}`
-            : 'Not yet started'}
-        </p>
-        <p>{`End: ${stage.endedAt || 'Not yet started, or still running'}`}</p>
+        <p>{`Start: ${
+          stage.startedAt
+            ? new Date(stage.startedAt).toLocaleString()
+            : 'Not started'
+        }`}</p>
+        <p>{`End: ${
+          stage.endedAt
+            ? new Date(stage.endedAt).toLocaleString()
+            : 'Still running'
+        }`}</p>
         <p>{`Duration: ${
-          stage.duration || 'Not yet started, or still running'
+          stage.duration ? stage.duration + ' seconds' : 'Still running'
         }`}</p>
       </div>
 

@@ -73,7 +73,7 @@ const ServiceRollback = () => {
       {rollbacks.length === 0 ? (
         <LoadingSpinner />
       ) : (
-        <div className="mt-4 w-full">
+        <div className="mt-4 w-full space-y-8">
           {rollbacks.map((rollback) => (
             <RollbackCard
               key={rollback.image.imageDigest}
