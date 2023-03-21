@@ -32,19 +32,7 @@ const ServiceRollback = () => {
           `${SERVICES_PATH}/${serviceId}/rollbacks`,
         );
 
-        const validatedRollbacks = RollbackSchema.array().safeParse(
-          rollbacksResponse.data,
-        );
-        if (!validatedRollbacks.success) return;
-
-        const sortedRollbacks = validatedRollbacks.data.sort((a, b) => {
-          return (
-            new Date(b.image.imagePushedAt).getTime() -
-            new Date(a.image.imagePushedAt).getTime()
-          );
-        });
-
-        setRollbacks(sortedRollbacks);
+        setRollbacks(rollbacksResponse.data);
       } catch (e) {
         console.log(e);
       }
@@ -67,9 +55,17 @@ const ServiceRollback = () => {
         >{`${service.githubRepoUrl}`}</a>
       )}
 
-      <h2 className="mt-8 text-2xl font-medium text-stone-700">
-        Rollback Images Available for this Service
+      <h2 className="mt-12 text-2xl font-medium text-stone-700">
+        Available Rollback Images
       </h2>
+      <p className="mt-2 text-stone-500">
+        These are tagged Docker images in AWS ECR which match the Service's
+        GitHub repository.
+      </p>
+      <p className="mt-2 text-stone-500">
+        Rolling back updates the ECS Task Definition by changing the container
+        image's tag to the tag you select below, and redeploys the Service.
+      </p>
       {rollbacks.length === 0 ? (
         <LoadingSpinner />
       ) : (

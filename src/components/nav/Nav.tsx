@@ -8,7 +8,7 @@ import { UserContext } from '../context_providers/UserContextProvider';
 const links = [
   { to: '/', title: 'Dashboard', icon: ArrowRightCircle },
   { to: '/services', title: 'Services', icon: ArrowRightCircle },
-  { to: '/', title: 'Active Runs', icon: ArrowRightCircle },
+  { to: '/activeruns', title: 'Active Runs', icon: ArrowRightCircle },
   { to: '/pipeline-setup', title: 'Pipeline Setup', icon: Settings },
   { to: '/service-setup', title: 'Service Setup', icon: Settings },
 ];
