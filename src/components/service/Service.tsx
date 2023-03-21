@@ -4,11 +4,10 @@ import { RUNS_PATH, SERVICES_PATH } from '../../constants';
 import { RunType } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunsList from './RunsList';
 
-const POLLING_RATE = 1000;
+const POLLING_RATE = 5000;
 
 const Service = () => {
   const serviceId = useParams().serviceId;
@@ -20,7 +19,7 @@ const Service = () => {
     const fetchData = async () => {
       try {
         const serviceResponse = await axiosGetAuthenticated(
-          `${SERVICES_PATH}/${serviceId}`
+          `${SERVICES_PATH}/${serviceId}`,
         );
         setService(serviceResponse.data);
       } catch (e) {

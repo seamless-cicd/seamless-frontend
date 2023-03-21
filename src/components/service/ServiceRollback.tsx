@@ -4,7 +4,6 @@ import { SERVICES_PATH } from '../../constants';
 import { Rollback } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RollbackCard from './RollbackCard';
 
@@ -18,7 +17,7 @@ const ServiceRollback = () => {
     const fetchData = async () => {
       try {
         const serviceResponse = await axiosGetAuthenticated(
-          `${SERVICES_PATH}/${serviceId}`
+          `${SERVICES_PATH}/${serviceId}`,
         );
         setService(serviceResponse.data);
       } catch (e) {
@@ -30,8 +29,9 @@ const ServiceRollback = () => {
     const fetchRollbacks = async () => {
       try {
         const rollbacksResponse = await axiosGetAuthenticated(
-          `${SERVICES_PATH}/${serviceId}/rollbacks`
+          `${SERVICES_PATH}/${serviceId}/rollbacks`,
         );
+        console.log(rollbacksResponse);
         setRollbacks(rollbacksResponse.data);
       } catch (e) {
         console.log(e);
@@ -55,13 +55,21 @@ const ServiceRollback = () => {
         >{`${service.githubRepoUrl}`}</a>
       )}
 
-      <h2 className="mt-8 text-2xl font-medium text-stone-700">
-        Rollback Images Available for this Service
+      <h2 className="mt-12 text-2xl font-medium text-stone-700">
+        Available Rollback Images
       </h2>
+      <p className="mt-2 text-stone-500">
+        These are tagged Docker images in AWS ECR which match the linked GitHub
+        repository
+      </p>
+      <p className="mt-2 text-stone-500">
+        Rolling back updates the ECS Task Definition by changing the container
+        image's tag to the tag you select below, and redeploys the Service.
+      </p>
       {rollbacks.length === 0 ? (
         <LoadingSpinner />
       ) : (
-        <div className="mt-4 w-full">
+        <div className="mt-4 w-full space-y-8">
           {rollbacks.map((rollback) => (
             <RollbackCard
               key={rollback.image.imageDigest}
