@@ -2,12 +2,12 @@ import { z } from 'zod';
 
 export const stageSchema = z.object({
   id: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
   type: z.string(),
-  startedAt: z.date().optional(),
-  endedAt: z.date().optional(),
-  duration: z.number().optional(),
+  startedAt: z.string().nullish(),
+  endedAt: z.string().nullish(),
+  duration: z.number().nullish(),
   status: z.string(),
   runId: z.string().optional(),
 });

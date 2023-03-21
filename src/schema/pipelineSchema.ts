@@ -3,9 +3,11 @@ import { serviceSchema } from './serviceSchema';
 
 export const pipelineSchema = z.object({
   id: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.string(),
+  updatedAt: z.string().nullish(),
   name: z.string().optional(),
+  awsEcsCluster: z.string(),
+  awsEcsClusterStaging: z.string().optional(),
   githubClientId: z.string().optional(),
   githubClientSecret: z.string().optional(),
   githubOauthToken: z.string().optional(),

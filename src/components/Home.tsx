@@ -1,15 +1,20 @@
+import {
+  ArcElement,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LineElement,
+  PointElement,
+  RadialLinearScale,
+  Tooltip,
+} from 'chart.js';
 import { useContext, useEffect, useState } from 'react';
+import { Pie, Radar } from 'react-chartjs-2';
 import { DASHBOARD_PATH, PIPELINES_PATH } from '../constants';
-import { PipelineType } from '../schema/pipelineSchema';
+import { pipelineSchema, PipelineType } from '../schema/pipelineSchema';
 import { ServiceType } from '../schema/serviceSchema';
 import { axiosGetAuthenticated, login } from '../utils/authentication';
 import { UserContext } from './context_providers/UserContextProvider';
-
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
-
-import { Filler, LineElement, PointElement, RadialLinearScale } from 'chart.js';
-import { Radar } from 'react-chartjs-2';
 
 ChartJS.register(
   ArcElement,
@@ -21,6 +26,8 @@ ChartJS.register(
   Legend,
 );
 
+const TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000;
+
 const Home = () => {
   const { user } = useContext(UserContext);
   const [pipeline, setPipeline] = useState<PipelineType | null>(null);
@@ -31,14 +38,19 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Get pipeline top-level data + services < 2 weeks old
+        // Todo: Fix backend routes
         const pipelineRequest = await axiosGetAuthenticated(PIPELINES_PATH);
+        const pipeline = pipelineSchema.parse(pipelineRequest.data[0]);
+        setPipeline(pipeline);
 
-        // // assuming one pipeline in the data structure
-        setPipeline(pipelineRequest.data[0]);
-        const servicesWithRuns = await axiosGetAuthenticated(
-          DASHBOARD_PATH + '/servicesWithRuns',
+        // Todo: Process and groupby services
+        const servicesWithRuns = pipeline.services.filter(
+          (service) =>
+            Date.now() - new Date(service.createdAt).getTime() <
+            TWO_WEEKS_IN_MS,
         );
-        setServices(servicesWithRuns.data);
+        setServices(servicesWithRuns);
 
         const runStatusCount = await axiosGetAuthenticated(
           DASHBOARD_PATH + '/runStatusCount',
@@ -56,7 +68,7 @@ const Home = () => {
     fetchData();
   }, []);
 
-  const setBackgroundColor = (status) => {
+  const setBackgroundColor = (status: string) => {
     if (status === 'IDLE') {
       return '#C5CAE9';
     } else if (status === 'IN_PROGRESS') {

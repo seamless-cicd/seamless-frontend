@@ -4,10 +4,12 @@ import { runSchema } from './runSchema';
 
 export const serviceSchema = z.object({
   id: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
   name: z.string().optional(),
-  lastRunAt: z.date().optional(),
+  lastRunAt: z.string().nullish(),
+  awsEcsService: z.string(),
+  awsEcsServiceStaging: z.string().optional(),
   triggerOnMain: z.boolean().optional(),
   triggerOnPrOpen: z.boolean(),
   triggerOnPrSync: z.boolean(),
@@ -15,10 +17,10 @@ export const serviceSchema = z.object({
   autoDeploy: z.boolean(),
   githubRepoUrl: z.string(),
   unitTestCommand: z.string().optional(),
-  integrationTestCommand: z.string().optional(),
+  integrationTestCommand: z.string().nullish(),
   codeQualityCommand: z.string().optional(),
   dockerfilePath: z.string(),
-  dockerComposeFilePath: z.string().optional(),
+  dockerComposeFilePath: z.string().nullish(),
   pipelineId: z.string().optional(),
   runs: z.array(runSchema),
 });
