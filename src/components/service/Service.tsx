@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RUNS_PATH, SERVICES_PATH } from '../../constants';
-import { RunType } from '../../schema/runSchema';
+import { runSchema, RunType } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunsList from './RunsList';
 
-const POLLING_RATE = 1000;
+const POLLING_RATE = 5000;
 
 const Service = () => {
   const serviceId = useParams().serviceId;
@@ -35,7 +35,19 @@ const Service = () => {
           params: { serviceId },
         });
 
-        setRuns(runsResponse.data);
+        const validatedRuns = runSchema
+          .omit({ stages: true })
+          .array()
+          .safeParse(runsResponse.data);
+        if (!validatedRuns.success) return;
+
+        const sortedRuns = validatedRuns.data.sort((a, b) => {
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        });
+
+        setRuns(sortedRuns);
       } catch (e) {
         console.log(e);
       }

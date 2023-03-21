@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { SERVICES_PATH } from '../../constants';
-import { Rollback } from '../../schema/runSchema';
+import { Rollback, RollbackSchema } from '../../schema/runSchema';
 import { ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -31,7 +31,20 @@ const ServiceRollback = () => {
         const rollbacksResponse = await axiosGetAuthenticated(
           `${SERVICES_PATH}/${serviceId}/rollbacks`,
         );
-        setRollbacks(rollbacksResponse.data);
+
+        const validatedRollbacks = RollbackSchema.array().safeParse(
+          rollbacksResponse.data,
+        );
+        if (!validatedRollbacks.success) return;
+
+        const sortedRollbacks = validatedRollbacks.data.sort((a, b) => {
+          return (
+            new Date(b.image.imagePushedAt).getTime() -
+            new Date(a.image.imagePushedAt).getTime()
+          );
+        });
+
+        setRollbacks(sortedRollbacks);
       } catch (e) {
         console.log(e);
       }

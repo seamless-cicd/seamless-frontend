@@ -37,8 +37,10 @@ const Logs = ({ stageId }: LogsProps) => {
       }
     };
 
-    socket?.addEventListener('message', onMessage);
-    return () => socket.removeEventListener('message', onMessage);
+    if (socket) {
+      socket?.addEventListener('message', onMessage);
+      return () => socket.removeEventListener('message', onMessage);
+    }
   }, [logs, socket]);
 
   return (

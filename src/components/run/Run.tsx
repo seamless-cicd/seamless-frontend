@@ -6,6 +6,7 @@ import { RunType } from '../../schema/runSchema';
 import { StageType } from '../../schema/stageSchema';
 import RunStatusSchema from '../../schema/statusUpdateSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
+import ApproveDeploymentAlert from '../alerts/ApproveDeploymentAlert';
 import { SocketContext } from '../context_providers/SocketContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
@@ -36,6 +37,9 @@ const Run = () => {
   const [run, setRun] = useState<RunType | null>(null);
   const [stages, setStages] = useState<StageType[]>([]);
 
+  const [showApproveDeploymentAlert, setShowApproveDeploymentAlert] =
+    useState(false);
+
   const socket = useContext(SocketContext);
 
   useEffect(() => {
@@ -52,6 +56,11 @@ const Run = () => {
         ]);
 
         setRun(runResponse.data);
+
+        if (run?.status === 'AWAITING_APPROVAL') {
+          setShowApproveDeploymentAlert(true);
+        }
+
         setStages(sortStages(stagesResponse.data));
       } catch (e) {
         console.log(e);
@@ -93,10 +102,14 @@ const Run = () => {
             }
           }),
         );
+      } else if (eventData.type === 'wait_for_approval') {
+        setShowApproveDeploymentAlert(true);
       }
     };
-    socket?.addEventListener('message', onMessage);
-    return () => socket.removeEventListener('message', onMessage);
+    if (socket) {
+      socket?.addEventListener('message', onMessage);
+      return () => socket.removeEventListener('message', onMessage);
+    }
   }, [run, socket]);
 
   return (
@@ -105,6 +118,13 @@ const Run = () => {
         Run <span className="text-xl text-stone-500">{runId}</span>
       </h1>
       {run && <RunHeaderCard run={run} />}
+
+      {run && showApproveDeploymentAlert && (
+        <ApproveDeploymentAlert
+          runId={run.id}
+          onApprove={() => setShowApproveDeploymentAlert(false)}
+        />
+      )}
 
       <h2 className="mt-8 text-2xl font-medium text-stone-700">
         Stages of this Run
