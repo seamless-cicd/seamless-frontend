@@ -6,6 +6,7 @@ import ServiceEdit from './components/forms/ServiceEdit';
 import ServiceSetUp from './components/forms/ServiceSetUp';
 import Home from './components/Home';
 import Nav from './components/nav/Nav';
+import ActiveRuns from './components/run/ActiveRuns';
 import Run from './components/run/Run';
 import Service from './components/service/Service';
 import ServiceRollback from './components/service/ServiceRollback';
@@ -35,6 +36,7 @@ function App() {
                 element={<ServiceRollback />}
               />
               <Route path="/runs/:runId" element={<Run />} />
+              <Route path="/activeruns" element={<ActiveRuns />} />
             </Routes>
           ) : (
             <Home />
