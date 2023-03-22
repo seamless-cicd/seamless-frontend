@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RUNS_PATH } from '../../constants';
 import { RunCardProps } from '../../schema/runSchema';
@@ -61,12 +62,17 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
         <p>
           Start:{' '}
           {run.startedAt
-            ? `${run.startedAt.toLocaleString()}`
+            ? `${moment(run.startedAt).format('dddd, MMMM Do YYYY, h:mm:ss a')}`
             : 'Not yet started'}
         </p>
-        <p>{`End: ${run.endedAt || 'Not yet started, or still running'}`}</p>
+        <p>{`End: ${
+          moment(run.endedAt).format('dddd, MMMM Do YYYY, h:mm:ss a') ||
+          'Not yet started, or still running'
+        }`}</p>
         <p>{`Duration: ${
-          run.duration || 'Not yet started, or still running'
+          run.duration
+            ? moment.duration(run.duration, 'seconds').humanize()
+            : 'Not yet started, or still running'
         }`}</p>
       </div>
 
