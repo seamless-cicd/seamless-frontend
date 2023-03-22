@@ -71,9 +71,9 @@ const RollbackCard = ({ rollback, serviceId }: RollbackCardProps) => {
                   {run.commitHash}
                 </span>
               </p>
-              <p>{`Last run at ${new Date(
-                String(run.startedAt),
-              ).toLocaleString()}`}</p>
+              <p>{`Last run at ${
+                run.startedAt ? run.startedAt.toLocaleString() : 'Not yet run'
+              }`}</p>
               <p>{`Status: ${StatusToName[run.status]}`}</p>
             </div>
             <div className="flex flex-col gap-y-2">

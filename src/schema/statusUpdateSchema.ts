@@ -1,6 +1,12 @@
 import { z } from 'zod';
 
-const StatusSchema = z.enum(['SUCCESS', 'FAILURE', 'IN_PROGRESS', 'IDLE']);
+const StatusSchema = z.enum([
+  'SUCCESS',
+  'FAILURE',
+  'IN_PROGRESS',
+  'IDLE',
+  'AWAITING_APPROVAL',
+]);
 
 const StageSchema = z.object({
   id: z.string(),

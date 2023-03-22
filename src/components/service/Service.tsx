@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RUNS_PATH, SERVICES_PATH } from '../../constants';
-import { RunType } from '../../schema/runSchema';
-import { ServiceType } from '../../schema/serviceSchema';
+import { runSchema, RunType } from '../../schema/runSchema';
+import { serviceSchema, ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunsList from './RunsList';
@@ -21,7 +21,10 @@ const Service = () => {
         const serviceResponse = await axiosGetAuthenticated(
           `${SERVICES_PATH}/${serviceId}`,
         );
-        setService(serviceResponse.data);
+
+        const validatedService = serviceSchema.parse(serviceResponse.data);
+
+        setService(validatedService);
       } catch (e) {
         console.log(e);
       }
@@ -35,7 +38,9 @@ const Service = () => {
           params: { serviceId },
         });
 
-        setRuns(runsResponse.data);
+        const validatedRuns = runSchema.array().parse(runsResponse.data);
+
+        setRuns(validatedRuns);
       } catch (e) {
         console.log(e);
       }
@@ -60,7 +65,7 @@ const Service = () => {
       )}
 
       <h2 className="mt-8 text-2xl font-medium text-stone-700">
-        Pipeline Runs for this Service
+        Runs for this Service
       </h2>
       {runs.length === 0 ? (
         <LoadingSpinner />

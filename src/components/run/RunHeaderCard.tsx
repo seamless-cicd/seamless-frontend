@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { SERVICES_PATH } from '../../constants';
+import { RUNS_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
 import { axiosPostAuthenticated } from '../../utils/authentication';
@@ -9,14 +9,28 @@ import { Button } from '../ui/Button';
 const RunHeaderCard = ({ run }: RunHeaderProps) => {
   const navigate = useNavigate();
 
-  const handleAbortClick = (): void => {
-    window.alert('The Abort feature is under development.');
+  const handleStopClick = async () => {
+    try {
+      const response = await axiosPostAuthenticated(
+        `${RUNS_PATH}/${run.id}/stop`,
+      );
+
+      if (response.status !== 200) {
+        window.alert(response.data.message);
+      } else {
+        window.alert(
+          `Executions stopped: ${response.data.executionsStopped || 'None'}`,
+        );
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleReRunClick = async () => {
     try {
       const response = await axiosPostAuthenticated(
-        `${SERVICES_PATH}/${run.serviceId}/start`,
+        `${RUNS_PATH}/${run.id}/rerun`,
       );
 
       if (response.status !== 200) {
@@ -40,17 +54,24 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
           <Button variant="subtle" onClick={handleReRunClick}>
             Re-Run
           </Button>
-          <Button variant="destructive" onClick={handleAbortClick}>
-            Abort Run
+          <Button variant="destructive" onClick={handleStopClick}>
+            Stop Run
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-12">
         <div className="col-span-5 mt-5 flex flex-col gap-y-2">
-          <p>{`Start: ${new Date(run.startedAt).toLocaleString()}`}</p>
-          <p>{`End: ${run.endedAt || 'Still running'}`}</p>
-          <p>{`Duration: ${run.duration || 'Still running'}`}</p>
+          <p>
+            Start:{' '}
+            {run.startedAt
+              ? `${run.startedAt.toLocaleString()}`
+              : 'Not yet started'}
+          </p>
+          <p>{`End: ${run.endedAt || 'Not yet started, or still running'}`}</p>
+          <p>{`Duration: ${
+            run.duration || 'Not yet started, or still running'
+          }`}</p>
         </div>
 
         <div className="col-span-7 mt-5 flex flex-col gap-y-2 pl-2">

@@ -1,15 +1,15 @@
 import { z } from 'zod';
 
 export const stageSchema = z.object({
-  id: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  id: z.string().uuid(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
   type: z.string(),
-  startedAt: z.string().nullish(),
-  endedAt: z.string().nullish(),
-  duration: z.number().nullish(),
+  startedAt: z.coerce.date().nullable(),
+  endedAt: z.coerce.date().nullable(),
+  duration: z.number().nullable(),
   status: z.string(),
-  runId: z.string().optional(),
+  runId: z.string().uuid().optional(),
 });
 
 export type StageType = z.infer<typeof stageSchema>;
@@ -29,6 +29,7 @@ export const StatusToName: Record<string, string> = {
   FAILURE: 'Failure',
   IN_PROGRESS: 'In Progress',
   IDLE: 'Idle',
+  AWAITING_APPROVAL: 'Awaiting Approval',
 };
 
 export const StageTypeToName: Record<string, string> = {
