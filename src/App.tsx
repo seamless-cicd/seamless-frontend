@@ -6,11 +6,11 @@ import ServiceEdit from './components/forms/ServiceEdit';
 import ServiceSetUp from './components/forms/ServiceSetUp';
 import Home from './components/Home';
 import Nav from './components/nav/Nav';
+import Services from './components/pipeline/Services';
 import ActiveRuns from './components/run/ActiveRuns';
 import Run from './components/run/Run';
 import Service from './components/service/Service';
 import ServiceRollback from './components/service/ServiceRollback';
-import Services from './components/services/Services';
 
 function App() {
   const { user } = useContext(UserContext);
@@ -36,7 +36,8 @@ function App() {
                 element={<ServiceRollback />}
               />
               <Route path="/runs/:runId" element={<Run />} />
-              <Route path="/activeruns" element={<ActiveRuns />} />
+              <Route path="/active-runs" element={<ActiveRuns />} />
+              <Route path="/*" element={<Home />} />
             </Routes>
           ) : (
             <Home />

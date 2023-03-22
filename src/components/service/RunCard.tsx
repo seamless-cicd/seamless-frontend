@@ -58,12 +58,19 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
       </h3>
 
       <div className="mt-5 flex flex-col gap-y-2">
-        <p>{`Start: ${new Date(run.startedAt).toLocaleString()}`}</p>
-        <p>{`End: ${run.endedAt || 'Still running'}`}</p>
-        <p>{`Duration: ${run.duration || 'Still running'}`}</p>
+        <p>
+          Start:{' '}
+          {run.startedAt
+            ? `${run.startedAt.toLocaleString()}`
+            : 'Not yet started'}
+        </p>
+        <p>{`End: ${run.endedAt || 'Not yet started, or still running'}`}</p>
+        <p>{`Duration: ${
+          run.duration || 'Not yet started, or still running'
+        }`}</p>
       </div>
 
-      <div className="mt-5 flex flex-col gap-y-2">
+      <div className="mt-8 flex flex-col gap-y-2">
         <p className="font-semibold uppercase text-stone-500">GIT COMMIT</p>
         <p>
           Message: <span className="font-semibold">{run.commitMessage}</span>
@@ -82,7 +89,7 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
         </p>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="mt-10 flex justify-between">
         <div className="flex gap-x-3">
           <Button onClick={handleViewClick}>View</Button>
           <Button variant="subtle" onClick={handleReRunClick}>

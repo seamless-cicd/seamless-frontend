@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { PIPELINES_PATH, SERVICES_PATH } from '../../constants';
-import { PipelineType } from '../../schema/pipelineSchema';
-import { ServiceType } from '../../schema/serviceSchema';
+import { pipelineSchema, PipelineType } from '../../schema/pipelineSchema';
+import { serviceSchema, ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
-import { API_BASE_URL } from '../../utils/config';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ServicesList from './ServicesList';
 
@@ -15,17 +14,22 @@ const Services = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const servicesRequest = axiosGetAuthenticated(SERVICES_PATH);
-        const pipelineRequest = axiosGetAuthenticated(PIPELINES_PATH);
-
-        const [servicesResponse, pipelineResponse] = await axios.all([
-          servicesRequest,
-          pipelineRequest,
+        const [servicesResponse, pipelinesResponse] = await axios.all([
+          axiosGetAuthenticated(SERVICES_PATH),
+          axiosGetAuthenticated(PIPELINES_PATH),
         ]);
 
-        setServices(servicesResponse.data);
+        const validatedServices = serviceSchema
+          .array()
+          .parse(servicesResponse.data);
+
         // Assumes only 1 pipeline exists
-        setPipeline(pipelineResponse.data[0]);
+        const validatedPipeline = pipelineSchema
+          .array()
+          .parse(pipelinesResponse.data)[0];
+
+        setServices(validatedServices);
+        setPipeline(validatedPipeline);
       } catch (e) {
         console.log(e);
       }

@@ -42,7 +42,7 @@ const Logs = ({ stageId }: LogsProps) => {
   }, [logs]);
 
   return (
-    <div className="max-h-[400px] min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">
+    <div className="max-h-[500px] min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">
       {logs.map((log) => (
         <div key={log.id} className="mb-2 flex gap-x-3 font-mono text-xs">
           <p

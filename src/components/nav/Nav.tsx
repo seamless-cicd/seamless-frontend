@@ -1,4 +1,10 @@
-import { ArrowRightCircle, LucideIcon, Settings } from 'lucide-react';
+import {
+  ArrowRightCircle,
+  Code,
+  LayoutDashboard,
+  LucideIcon,
+  Settings,
+} from 'lucide-react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logoWithText from '../../assets/logo/PNG 1.png';
@@ -6,9 +12,9 @@ import { login, logout } from '../../utils/authentication';
 import { UserContext } from '../context_providers/UserContextProvider';
 
 const links = [
-  { to: '/', title: 'Dashboard', icon: ArrowRightCircle },
-  { to: '/services', title: 'Services', icon: ArrowRightCircle },
-  { to: '/activeruns', title: 'Active Runs', icon: ArrowRightCircle },
+  { to: '/', title: 'Dashboard', icon: LayoutDashboard },
+  { to: '/services', title: 'Services', icon: Code },
+  { to: '/active-runs', title: 'Active Runs', icon: ArrowRightCircle },
   { to: '/pipeline-setup', title: 'Pipeline Setup', icon: Settings },
   { to: '/service-setup', title: 'Service Setup', icon: Settings },
 ];

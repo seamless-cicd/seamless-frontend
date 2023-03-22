@@ -2,16 +2,16 @@ import { z } from 'zod';
 import { serviceSchema } from './serviceSchema';
 
 export const pipelineSchema = z.object({
-  id: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string().nullish(),
-  name: z.string().optional(),
+  id: z.string().uuid(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  name: z.string().nullable(),
   awsEcsCluster: z.string(),
-  awsEcsClusterStaging: z.string().optional(),
-  githubClientId: z.string().optional(),
-  githubClientSecret: z.string().optional(),
-  githubOauthToken: z.string().optional(),
-  services: z.array(serviceSchema),
+  awsEcsClusterStaging: z.string().nullable(),
+  githubClientId: z.string().nullable(),
+  githubClientSecret: z.string().nullable(),
+  githubOauthToken: z.string().nullable(),
+  services: z.array(serviceSchema).optional(),
 });
 
 export type PipelineType = z.infer<typeof pipelineSchema>;
