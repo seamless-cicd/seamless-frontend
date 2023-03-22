@@ -1,9 +1,8 @@
 import { useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { UserContext } from './components/context_providers/UserContextProvider';
-import PipelineSetUp from './components/forms/PipelineSetUp';
-import ServiceEdit from './components/forms/ServiceEdit';
-import ServiceSetUp from './components/forms/ServiceSetUp';
+import PipelineSetup from './components/forms/PipelineSetup';
+import ServiceSetup from './components/forms/ServiceSetup';
 import Home from './components/Home';
 import Nav from './components/nav/Nav';
 import Services from './components/pipeline/Services';
@@ -23,14 +22,14 @@ function App() {
           {user ? (
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/pipeline-setup" element={<PipelineSetUp />} />
-              <Route path="/service-setup" element={<ServiceSetUp />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/services/:serviceId" element={<Service />} />
+              <Route path="/pipeline-setup" element={<PipelineSetup />} />
+              <Route path="/service-setup" element={<ServiceSetup />} />
               <Route
                 path="/services/:serviceId/edit"
-                element={<ServiceEdit />}
+                element={<ServiceSetup />}
               />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/:serviceId" element={<Service />} />
               <Route
                 path="/services/:serviceId/rollbacks"
                 element={<ServiceRollback />}
