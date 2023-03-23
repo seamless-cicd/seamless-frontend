@@ -13,20 +13,14 @@ import {
   Tooltip,
 } from 'chart.js';
 import { useContext, useEffect, useState } from 'react';
-import { Bar, Pie, Radar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { Link } from 'react-router-dom';
-import { DASHBOARD_PATH, PIPELINES_PATH } from '../constants';
+import { PIPELINES_PATH } from '../constants';
 import { pipelineSchema, PipelineType } from '../schema/pipelineSchema';
 import { RunType } from '../schema/runSchema';
 import { ServiceType } from '../schema/serviceSchema';
-import {
-  StageType,
-  StageTypeToName,
-  StatusToName,
-} from '../schema/stageSchema';
-import { Status, StatusSchema } from '../schema/statusUpdateSchema';
+import { StageType, StatusToName } from '../schema/stageSchema';
 import { axiosGetAuthenticated, login } from '../utils/authentication';
-import { groupBy } from '../utils/utils';
 import { UserContext } from './context_providers/UserContextProvider';
 
 ChartJS.register(
