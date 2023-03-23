@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RUNS_PATH } from '../../constants';
-import { RunType } from '../../schema/runSchema';
+import { runSchema, RunType } from '../../schema/runSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import RunsList from '../service/RunsList';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -16,7 +16,9 @@ const ActiveRuns = () => {
       try {
         const { data: allRuns } = await axiosGetAuthenticated(RUNS_PATH);
 
-        const activeRuns = allRuns.filter((run: RunType) =>
+        const validatedRuns = runSchema.array().parse(allRuns);
+
+        const activeRuns = validatedRuns.filter((run: RunType) =>
           ['IN_PROGRESS', 'AWAITING_APPROVAL'].includes(run.status),
         );
         setRuns(activeRuns);

@@ -25,13 +25,21 @@ const StageCard = ({ stage, viewType, setViewType }: StageCardProps) => {
         <p>
           Start:{' '}
           {stage.startedAt
-            ? `${stage.startedAt.toLocaleString()}`
+            ? stage.startedAt.toLocaleString()
             : 'Not yet started'}
         </p>
-        <p>{`End: ${stage.endedAt || 'Not yet started, or still running'}`}</p>
-        <p>{`Duration: ${
-          stage.duration || 'Not yet started, or still running'
-        }`}</p>
+        <p>
+          End:{' '}
+          {stage.endedAt
+            ? stage.endedAt.toLocaleString()
+            : 'Not yet started, or still running'}
+        </p>
+        <p>
+          Duration:{' '}
+          {stage.duration
+            ? `${stage.duration} min`
+            : 'Not yet started, or still running'}
+        </p>
       </div>
 
       <button

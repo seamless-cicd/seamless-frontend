@@ -18,7 +18,7 @@ function App() {
     <div className="flex min-h-screen">
       <Router>
         <Nav />
-        <div className="mb-10 w-[900px] pt-14 pl-12">
+        <div className="mb-10 w-[950px] pt-14 pl-12">
           {user ? (
             <Routes>
               <Route path="/" element={<Home />} />

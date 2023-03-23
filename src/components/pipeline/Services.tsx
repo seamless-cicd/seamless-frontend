@@ -14,9 +14,9 @@ const Services = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [servicesResponse, pipelinesResponse] = await axios.all([
+        const [servicesResponse, pipelineResponse] = await axios.all([
           axiosGetAuthenticated(SERVICES_PATH),
-          axiosGetAuthenticated(PIPELINES_PATH),
+          axiosGetAuthenticated(`${PIPELINES_PATH}/first`),
         ]);
 
         const validatedServices = serviceSchema
@@ -24,9 +24,7 @@ const Services = () => {
           .parse(servicesResponse.data);
 
         // Assumes only 1 pipeline exists
-        const validatedPipeline = pipelineSchema
-          .array()
-          .parse(pipelinesResponse.data)[0];
+        const validatedPipeline = pipelineSchema.parse(pipelineResponse.data);
 
         setServices(validatedServices);
         setPipeline(validatedPipeline);

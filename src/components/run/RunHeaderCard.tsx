@@ -64,14 +64,20 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
         <div className="col-span-5 mt-5 flex flex-col gap-y-2">
           <p>
             Start:{' '}
-            {run.startedAt
-              ? `${run.startedAt.toLocaleString()}`
-              : 'Not yet started'}
+            {run.startedAt ? run.startedAt.toLocaleString() : 'Not yet started'}
           </p>
-          <p>{`End: ${run.endedAt || 'Not yet started, or still running'}`}</p>
-          <p>{`Duration: ${
-            run.duration || 'Not yet started, or still running'
-          }`}</p>
+          <p>
+            End:{' '}
+            {run.endedAt
+              ? run.endedAt.toLocaleString()
+              : 'Not yet started, or still running'}
+          </p>
+          <p>
+            Duration:{' '}
+            {run.duration
+              ? `${run.duration} min`
+              : 'Not yet started, or still running'}
+          </p>
         </div>
 
         <div className="col-span-7 mt-5 flex flex-col gap-y-2 pl-2">

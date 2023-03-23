@@ -91,8 +91,8 @@ const ServiceSetup = () => {
     }
 
     const fetchPipeline = async () => {
-      const response = await axiosGetAuthenticated(PIPELINES_PATH);
-      setPipelineId(response.data[0].id);
+      const response = await axiosGetAuthenticated(`${PIPELINES_PATH}/first`);
+      setPipelineId(response.data.id);
     };
     fetchPipeline();
   }, []);
