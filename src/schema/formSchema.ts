@@ -17,6 +17,7 @@ export const serviceFormSchema = z.object({
   triggerOnPrSync: z.boolean().default(false),
   useStaging: z.boolean().default(false),
   autoDeploy: z.boolean().default(false),
+  autoMerge: z.boolean().default(false),
   githubRepoUrl: z.string().min(1, 'GitHub repo is required'),
   unitTestCommand: z.string().min(1, 'Unit test command is required'),
   codeQualityCommand: z.string().min(1, 'Code quality command is required'),
