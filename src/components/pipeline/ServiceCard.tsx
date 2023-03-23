@@ -152,17 +152,19 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
       )}
 
       <div className="mt-8 flex flex-col gap-y-2">
-        <p className="font-semibold uppercase text-stone-500">AWS ECS</p>
+        <p className="font-semibold uppercase text-stone-500">
+          AWS Elastic Container Service
+        </p>
+        <p>
+          Production Service:{' '}
+          <span className="font-mono font-medium text-indigo-700">
+            {service.awsEcsService || 'None'}
+          </span>
+        </p>
         <p>
           Staging Service:{' '}
           <span className="font-mono font-medium text-indigo-700">
             {service.awsEcsServiceStaging || 'None'}
-          </span>
-        </p>
-        <p>
-          Prod Service:{' '}
-          <span className="font-mono font-medium text-indigo-700">
-            {service.awsEcsService || 'None'}
           </span>
         </p>
       </div>
