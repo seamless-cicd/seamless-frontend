@@ -7,7 +7,7 @@ import { stageSchema, StageType } from '../../schema/stageSchema';
 import RunStatusSchema from '../../schema/statusUpdateSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import ApproveDeploymentAlert from '../alerts/ApproveDeploymentAlert';
-import { SocketContext } from '../context_providers/SockerContextProvider';
+import { SocketContext } from '../context_providers/SocketContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
@@ -73,7 +73,6 @@ const Run = () => {
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
       const eventData = JSON.parse(event.data);
-      console.log('Socket message: ', event.data);
 
       if (eventData.type === 'status_update') {
         const parsedStatusUpdate = RunStatusSchema.parse(eventData.data);
@@ -107,9 +106,11 @@ const Run = () => {
       }
     };
 
-    socket.addEventListener('message', onMessage);
-    return () => socket.removeEventListener('message', onMessage);
-  }, [run]);
+    if (socket) {
+      socket?.addEventListener('message', onMessage);
+      return () => socket.removeEventListener('message', onMessage);
+    }
+  }, [run, socket]);
 
   return (
     <div>

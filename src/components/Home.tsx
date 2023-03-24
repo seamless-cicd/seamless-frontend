@@ -59,7 +59,7 @@ const Home = () => {
         const validatedServices = validatedPipeline.services;
         setServices(validatedServices);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     };
     fetchData();
@@ -94,12 +94,10 @@ const Home = () => {
     service.runs?.forEach((run) => {
       runStatus[run.status].push(run);
       run.stages?.forEach((stage) => {
-        if (stage.type === 'IN_PROGRESS') stageTypes[stage.type].push(stage);
+        if (stage.status === 'IN_PROGRESS') stageTypes[stage.type].push(stage);
       });
     });
   });
-
-  console.log(stageTypes);
 
   // Chart options and data
   const chartOptions = {
