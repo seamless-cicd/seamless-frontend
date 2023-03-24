@@ -34,6 +34,16 @@ export interface RunHeaderProps {
   run: RunType;
 }
 
+export const RollbackSchema = z.object({
+  runs: z.array(runSchema),
+  image: z.object({
+    repositoryName: z.string(),
+    imagePushedAt: z.date(),
+    imageDigest: z.string(),
+    imageTags: z.array(z.string()),
+  }),
+});
+
 export type Rollback = {
   runs: RunType[];
   image: ImageDetail;

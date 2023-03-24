@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-
 import { RUNS_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
