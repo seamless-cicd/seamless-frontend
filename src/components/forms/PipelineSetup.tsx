@@ -1,20 +1,32 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRightCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PIPELINES_PATH } from '../../constants';
 import { pipelineFormSchema, PipelineFormType } from '../../schema/formSchema';
-import { axiosPostAuthenticated } from '../../utils/authentication';
-
+import {
+  axiosGetAuthenticated,
+  axiosPatchAuthenticated,
+  axiosPostAuthenticated,
+} from '../../utils/authentication';
 import { Button } from '../ui/Button';
 import FormErrorMessage from './ErrorMessage';
 
+const editableFields: Array<keyof PipelineFormType> = [
+  'name',
+  'awsEcsCluster',
+  'awsEcsClusterStaging',
+];
+
 const PipelineSetup = () => {
+  const [pipelineId, setPipelineId] = useState('');
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<PipelineFormType>({
     resolver: zodResolver(pipelineFormSchema),
@@ -22,12 +34,35 @@ const PipelineSetup = () => {
 
   const onSubmit: SubmitHandler<PipelineFormType> = async (data) => {
     try {
-      await axiosPostAuthenticated(PIPELINES_PATH, data);
+      if (pipelineId) {
+        await axiosPatchAuthenticated(`${PIPELINES_PATH}/${pipelineId}`, data);
+      } else {
+        await axiosPostAuthenticated(PIPELINES_PATH, data);
+      }
       navigate('/service-setup');
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
+
+  useEffect(() => {
+    const fetchPipeline = async () => {
+      try {
+        const response = await axiosGetAuthenticated(`${PIPELINES_PATH}/first`);
+        const pipeline = response.data;
+        if (pipeline) {
+          editableFields.forEach((field) =>
+            setValue(field, response.data[field]),
+          );
+
+          setPipelineId(pipeline.id);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchPipeline();
+  }, []);
 
   return (
     <div>
