@@ -55,7 +55,7 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
           className="text-base text-stone-500 underline hover:text-indigo-700"
         >{`${service.githubRepoUrl}`}</a>
         <p className="mt-1 text-base">
-          Last Run:{' '}
+          Created:{' '}
           {moment(service.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss a')}
         </p>
       </div>
