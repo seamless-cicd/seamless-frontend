@@ -1,4 +1,5 @@
 import { ChevronDown } from 'lucide-react';
+import moment from 'moment';
 import {
   StageCardProps,
   StageTypeToName,
@@ -25,21 +26,21 @@ const StageCard = ({ stage, viewType, setViewType }: StageCardProps) => {
         <p>
           Start:{' '}
           {stage.startedAt
-            ? stage.startedAt.toLocaleString()
+            ? `${moment(stage.startedAt).format(
+                'dddd, MMMM Do YYYY, h:mm:ss a',
+              )}`
             : 'Not yet started'}
         </p>
-        <p>
-          End:{' '}
-          {stage.endedAt
-            ? stage.endedAt.toLocaleString()
-            : 'Not yet started, or still running'}
-        </p>
-        <p>
-          Duration:{' '}
-          {stage.duration
-            ? `${stage.duration} min`
-            : 'Not yet started, or still running'}
-        </p>
+        <p>{`End: ${
+          stage.endedAt
+            ? moment(stage.endedAt).format('dddd, MMMM Do YYYY, h:mm:ss a')
+            : 'Not yet started, or still running'
+        }`}</p>
+        <p>{`Duration: ${
+          stage.duration
+            ? moment.duration(stage.duration, 'seconds').humanize()
+            : 'Not yet started, or still running'
+        }`}</p>
       </div>
 
       <button
