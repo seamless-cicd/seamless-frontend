@@ -74,6 +74,7 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
             ? moment.duration(run.duration, 'seconds').humanize()
             : 'Not yet started, or still running'
         }`}</p>
+
       </div>
 
       <div className="mt-8 flex flex-col gap-y-2">

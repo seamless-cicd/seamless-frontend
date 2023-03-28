@@ -38,9 +38,18 @@ const Service = () => {
           params: { serviceId },
         });
 
-        const validatedRuns = runSchema.array().parse(runsResponse.data);
+        const validatedRuns = runSchema
+          .omit({ stages: true })
+          .array()
+          .parse(runsResponse.data);
 
-        setRuns(validatedRuns);
+        const sortedRuns = validatedRuns.sort((a, b) => {
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        });
+
+        setRuns(sortedRuns);
       } catch (e) {
         console.log(e);
       }

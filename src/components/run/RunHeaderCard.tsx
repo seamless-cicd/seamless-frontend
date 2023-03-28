@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-
 import { RUNS_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
@@ -80,6 +79,7 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
               ? moment.duration(run.duration, 'seconds').humanize()
               : 'Not yet started, or still running'
           }`}</p>
+
         </div>
 
         <div className="col-span-7 mt-5 flex flex-col gap-y-2 pl-2">

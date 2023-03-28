@@ -5,7 +5,7 @@ export const pipelineSchema = z.object({
   id: z.string().uuid(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
-  name: z.string().nullable(),
+  name: z.string(),
   awsEcsCluster: z.string(),
   awsEcsClusterStaging: z.string().nullable(),
   githubClientId: z.string().nullable(),

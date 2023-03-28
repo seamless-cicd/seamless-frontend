@@ -9,7 +9,7 @@ import { axiosPostAuthenticated } from '../../utils/authentication';
 import { Button } from '../ui/Button';
 import FormErrorMessage from './ErrorMessage';
 
-const PipelineSetUp = () => {
+const PipelineSetup = () => {
   const navigate = useNavigate();
 
   const {
@@ -22,7 +22,6 @@ const PipelineSetUp = () => {
 
   const onSubmit: SubmitHandler<PipelineFormType> = async (data) => {
     try {
-      console.log(data);
       await axiosPostAuthenticated(PIPELINES_PATH, data);
       navigate('/service-setup');
     } catch (e) {
@@ -59,7 +58,7 @@ const PipelineSetUp = () => {
 
         <div className="mt-6 flex w-96 flex-col gap-2">
           <label htmlFor="awsEcsClusterStaging">
-            AWS ECS Cluster (Staging) Name
+            AWS ECS Staging Cluster Name
           </label>
           <input
             type="text"
@@ -84,4 +83,4 @@ const PipelineSetUp = () => {
   );
 };
 
-export default PipelineSetUp;
+export default PipelineSetup;

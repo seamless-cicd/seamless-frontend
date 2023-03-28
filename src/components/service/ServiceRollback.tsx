@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { SERVICES_PATH } from '../../constants';
-import { Rollback } from '../../schema/runSchema';
-import { ServiceType } from '../../schema/serviceSchema';
+import { Rollback, RollbackSchema } from '../../schema/runSchema';
+import { serviceSchema, ServiceType } from '../../schema/serviceSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RollbackCard from './RollbackCard';
@@ -19,7 +19,10 @@ const ServiceRollback = () => {
         const serviceResponse = await axiosGetAuthenticated(
           `${SERVICES_PATH}/${serviceId}`,
         );
-        setService(serviceResponse.data);
+
+        const validatedService = serviceSchema.parse(serviceResponse.data);
+
+        setService(validatedService);
       } catch (e) {
         console.log(e);
       }
@@ -31,8 +34,12 @@ const ServiceRollback = () => {
         const rollbacksResponse = await axiosGetAuthenticated(
           `${SERVICES_PATH}/${serviceId}/rollbacks`,
         );
-        console.log(rollbacksResponse);
-        setRollbacks(rollbacksResponse.data);
+
+        const validatedRollbacks = RollbackSchema.array().parse(
+          rollbacksResponse.data,
+        );
+
+        setRollbacks(validatedRollbacks);
       } catch (e) {
         console.log(e);
       }
@@ -59,8 +66,8 @@ const ServiceRollback = () => {
         Available Rollback Images
       </h2>
       <p className="mt-2 text-stone-500">
-        These are tagged Docker images in AWS ECR which match the linked GitHub
-        repository
+        These are tagged Docker images in AWS ECR which match the Service's
+        GitHub repository.
       </p>
       <p className="mt-2 text-stone-500">
         Rolling back updates the ECS Task Definition by changing the container

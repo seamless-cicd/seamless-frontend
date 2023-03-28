@@ -3,7 +3,7 @@ import { LOGS_PATH } from '../../constants';
 import { LogsProps, LogType } from '../../schema/logSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import { formatDateTime } from '../../utils/utils';
-import { SocketContext } from '../context_providers/SockerContextProvider';
+import { SocketContext } from '../context_providers/SocketContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 const Logs = ({ stageId }: LogsProps) => {
@@ -29,7 +29,6 @@ const Logs = ({ stageId }: LogsProps) => {
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
       const eventData = JSON.parse(event.data);
-      console.log('Socket message: ', eventData);
 
       // Set logs if incoming message is correct
       if (eventData.type === 'log' && eventData.data[0].stageId === stageId) {
@@ -37,9 +36,11 @@ const Logs = ({ stageId }: LogsProps) => {
       }
     };
 
-    socket.addEventListener('message', onMessage);
-    return () => socket.removeEventListener('message', onMessage);
-  }, [logs]);
+    if (socket) {
+      socket?.addEventListener('message', onMessage);
+      return () => socket.removeEventListener('message', onMessage);
+    }
+  }, [logs, socket]);
 
   return (
     <div className="max-h-[500px] min-h-[80px] overflow-auto rounded-b-lg bg-[#1b1439] p-4">
