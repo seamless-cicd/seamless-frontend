@@ -84,7 +84,7 @@ const ServiceSetup = () => {
             setValue(field, response.data[field]),
           );
         } catch (e) {
-          console.log(e);
+          console.error(e);
         }
       };
       fetchData();
@@ -247,7 +247,7 @@ const ServiceSetup = () => {
             <input
               type="text"
               id="dockerfilePath"
-              placeholder="./"
+              placeholder="."
               {...register('dockerfilePath')}
             />
             {errors.dockerfilePath && (

@@ -38,7 +38,7 @@ export const RollbackSchema = z.object({
   runs: z.array(runSchema),
   image: z.object({
     repositoryName: z.string(),
-    imagePushedAt: z.date(),
+    imagePushedAt: z.coerce.date(),
     imageDigest: z.string(),
     imageTags: z.array(z.string()),
   }),

@@ -71,15 +71,15 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
               : 'Not yet started'}
           </p>
           <p>{`End: ${
-            moment(run.endedAt).format('dddd, MMMM Do YYYY, h:mm:ss a') ||
-            'Not yet started, or still running'
+            run.endedAt
+              ? moment(run.endedAt).format('dddd, MMMM Do YYYY, h:mm:ss a')
+              : 'Not yet started, or still running'
           }`}</p>
           <p>{`Duration: ${
             run.duration
               ? moment.duration(run.duration, 'seconds').humanize()
               : 'Not yet started, or still running'
           }`}</p>
-
         </div>
 
         <div className="col-span-7 mt-5 flex flex-col gap-y-2 pl-2">
