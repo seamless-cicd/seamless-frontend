@@ -14,7 +14,9 @@ After login you will have access to the navigation bar. First, setup a pipeline 
 
 ![menu](https://user-images.githubusercontent.com/74154385/228921767-91e8f772-fba5-42a1-a252-5c82e9d86219.png)
 
-Once Services have been setup the Runs for each Service can be monitored. The Services item in the navigation bar will allow the user to monitor the Service on different levels through the Runs, Stages and Logs.
+
+
+Once Services have been setup they can be monitored. The Services item in the navigation bar will allow the user to monitor the Service on different levels moving down through the Runs, Stages and Logs.
 
 ![view](https://user-images.githubusercontent.com/74154385/228922551-ddb25a8f-71db-4cc6-9982-90bea1252607.png)
 
