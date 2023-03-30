@@ -6,9 +6,13 @@
 
 To use the Seamless's Dashboard User Interface the Seamless Infrastructure must first be provisioned. You can visit the seamless-infrastructure repository to complete this step if needed. Once set up is completed Seamless's CLI tool will provide you with a URL for your Dashboard.
 
+### Login
+
 First authenticate and login using GitHub to access Seamless's Dashboard.
 
 ![login](https://user-images.githubusercontent.com/74154385/228920180-5dae20ff-0171-44fd-b189-4f4149dbfa37.png)
+
+### Navigation
 
 After login you will have access to the navigation bar. First, setup a pipeline and after set up the services that will use that pipeline.
 
