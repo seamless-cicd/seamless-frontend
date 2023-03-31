@@ -16,9 +16,7 @@ First authenticate and login using GitHub to access Seamless's Dashboard.
 
 After login you will have access to the navigation bar. First, setup a pipeline and after set up the services that will use that pipeline.
 
-![menu](https://user-images.githubusercontent.com/74154385/228921767-91e8f772-fba5-42a1-a252-5c82e9d86219.png)
-
-
+![menu](https://user-images.githubusercontent.com/74154385/229147946-d0958a39-deb5-4a12-a19b-33a22c136f6f.png)
 
 Once Services have been setup they can be monitored. The Services item in the navigation bar will allow the user to monitor the Service on different levels moving down through the Runs, Stages and Logs.
 
