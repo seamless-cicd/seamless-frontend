@@ -42,31 +42,31 @@ const Run = () => {
 
   const socket = useContext(SocketContext);
 
-  useEffect(() => {
-    const fetchRunsAndStages = async () => {
-      try {
-        const [runResponse, stagesResponse] = await axios.all([
-          axiosGetAuthenticated(`${RUNS_PATH}/${runId}`),
-          axiosGetAuthenticated(STAGES_PATH, {
-            params: { runId },
-          }),
-        ]);
+  const fetchRunsAndStages = async () => {
+    try {
+      const [runResponse, stagesResponse] = await axios.all([
+        axiosGetAuthenticated(`${RUNS_PATH}/${runId}`),
+        axiosGetAuthenticated(STAGES_PATH, {
+          params: { runId },
+        }),
+      ]);
 
-        const validatedRun = runSchema.parse(runResponse.data);
-        const validatedStages = stageSchema.array().parse(stagesResponse.data);
+      const validatedRun = runSchema.parse(runResponse.data);
+      const validatedStages = stageSchema.array().parse(stagesResponse.data);
 
-        setRun(validatedRun);
+      setRun(validatedRun);
 
-        if (run?.status === 'AWAITING_APPROVAL') {
-          setShowApproveDeploymentAlert(true);
-        }
-
-        setStages(sortStages(validatedStages));
-      } catch (e) {
-        console.log(e);
+      if (run?.status === 'AWAITING_APPROVAL') {
+        setShowApproveDeploymentAlert(true);
       }
-    };
 
+      setStages(sortStages(validatedStages));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
     fetchRunsAndStages();
   }, [runId]);
 
@@ -75,32 +75,7 @@ const Run = () => {
       const eventData = JSON.parse(event.data);
 
       if (eventData.type === 'status_update') {
-        const parsedStatusUpdate = RunStatusSchema.parse(eventData.data);
-
-        // Ignore messages for other runs
-        if (parsedStatusUpdate.run.id !== runId) {
-          return;
-        }
-
-        // Only update run if it exists
-        if (!run) {
-          return;
-        }
-
-        setRun({ ...run, status: parsedStatusUpdate.run.status });
-        setStages(
-          stages.map((stage) => {
-            const stageUpdate = Object.values(parsedStatusUpdate.stages).find(
-              (stageUpdate) => stageUpdate.id === stage.id,
-            );
-
-            if (stageUpdate) {
-              return { ...stage, status: stageUpdate.status };
-            } else {
-              return stage;
-            }
-          }),
-        );
+        fetchRunsAndStages();
       } else if (eventData.type === 'wait_for_approval') {
         setShowApproveDeploymentAlert(true);
       }
