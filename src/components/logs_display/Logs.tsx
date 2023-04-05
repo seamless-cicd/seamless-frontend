@@ -29,6 +29,7 @@ const Logs = ({ stageId }: LogsProps) => {
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
       const eventData = JSON.parse(event.data);
+      console.log('logs event:', eventData);
 
       // Set logs if incoming message is correct
       if (eventData.type === 'log' && eventData.data[0].stageId === stageId) {

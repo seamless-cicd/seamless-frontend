@@ -73,6 +73,7 @@ const Run = () => {
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
       const eventData = JSON.parse(event.data);
+      console.log('runs event:', eventData);
 
       if (eventData.type === 'status_update') {
         fetchRunsAndStages();
