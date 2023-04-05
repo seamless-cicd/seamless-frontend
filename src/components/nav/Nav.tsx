@@ -6,7 +6,7 @@ import {
   Settings,
 } from 'lucide-react';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logoWithText from '../../assets/logo/PNG 1.png';
 import { login, logout } from '../../utils/authentication';
 import { UserContext } from '../context_providers/UserContextProvider';
@@ -55,11 +55,13 @@ const Nav = () => {
 };
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
   const logoutUser = async () => {
     await logout();
     setUser(null);
+    navigate('/');
   };
 
   return (
