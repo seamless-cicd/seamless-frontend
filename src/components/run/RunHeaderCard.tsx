@@ -31,6 +31,7 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
     try {
       const response = await axiosPostAuthenticated(
         `${RUNS_PATH}/${run.id}/rerun`,
+        { data: run },
       );
 
       if (response.status !== 200) {
