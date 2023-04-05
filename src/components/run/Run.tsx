@@ -76,6 +76,7 @@ const Run = () => {
 
       if (eventData.type === 'status_update') {
         fetchRunsAndStages();
+        setShowApproveDeploymentAlert(false);
       } else if (eventData.type === 'wait_for_approval') {
         setShowApproveDeploymentAlert(true);
       }
