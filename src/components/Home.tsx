@@ -175,7 +175,7 @@ const Home = () => {
         Seamless CI/CD Pipeline Dashboard
       </h1>
       {!user && (
-        <p className="mt-3 text-lg text-gray-500">
+        <p className="mt-3 text-lg text-stone-500">
           <a className="cursor-pointer underline" onClick={login}>
             Login
           </a>{' '}
