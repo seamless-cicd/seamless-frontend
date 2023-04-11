@@ -7,7 +7,7 @@ import {
   USER_PATH,
 } from '../constants';
 
-// If user is not logged in, directs to Github
+// If user is not logged in, directs to GitHub
 // If user is logged in, immediately redirects back to app
 export const login = () => {
   window.location.assign(
