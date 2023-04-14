@@ -13,6 +13,7 @@ export const serviceSchema = z.object({
   triggerOnPrSync: z.boolean(),
   useStaging: z.boolean(),
   autoDeploy: z.boolean(),
+  autoMerge: z.boolean(),
   githubRepoUrl: z.string(),
   unitTestCommand: z.string(),
   codeQualityCommand: z.string(),

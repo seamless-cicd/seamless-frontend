@@ -20,6 +20,7 @@ const editableFields: Array<keyof ServiceFormType> = [
   'triggerOnPrSync',
   'useStaging',
   'autoDeploy',
+  'autoMerge',
   'githubRepoUrl',
   'unitTestCommand',
   'codeQualityCommand',
@@ -163,8 +164,18 @@ const ServiceSetup = () => {
           </div>
 
           <h3 className="mt-10 text-xl font-medium text-indigo-700">
-            Staging and Auto-Deploy
+            Auto-Merging, Staging, and Auto-Deploy
           </h3>
+          <div className="mt-4 flex items-center">
+            <input
+              className="mr-2 h-4 w-4"
+              type="checkbox"
+              id="autoMerge"
+              {...register('autoMerge', { required: true })}
+              defaultChecked={false}
+            />
+            <label htmlFor="autoMerge">Auto-Merge Pull Requests</label>
+          </div>
           <div className="mt-4 flex items-center">
             <input
               className="mr-2 h-4 w-4"
