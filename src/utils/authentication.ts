@@ -6,9 +6,8 @@ import {
   GITHUB_OAUTH_URL,
   USER_PATH,
 } from '../constants';
-import { API_BASE_URL } from '../utils/config';
 
-// If user is not logged in, directs to Github
+// If user is not logged in, directs to GitHub
 // If user is logged in, immediately redirects back to app
 export const login = () => {
   window.location.assign(
@@ -25,7 +24,6 @@ export const tryAuthorize = async () => {
   if (codeParam && localStorage.getItem('accessToken') === null) {
     // Try to authenticate with proxy server
     const ACCESS_TOKEN_URL = `${AUTH_PATH}/access-token?code=${codeParam}`;
-    console.log(ACCESS_TOKEN_URL);
 
     const response = await axiosGetAuthenticated(ACCESS_TOKEN_URL);
     if (response.data.token) {

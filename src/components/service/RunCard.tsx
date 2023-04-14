@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RUNS_PATH } from '../../constants';
 import { RunCardProps } from '../../schema/runSchema';
@@ -60,20 +61,20 @@ const RunCard = ({ run, setRuns }: RunCardProps) => {
       <div className="mt-5 flex flex-col gap-y-2">
         <p>
           Start:{' '}
-          {run.startedAt ? run.startedAt.toLocaleString() : 'Not yet started'}
+          {run.startedAt
+            ? `${moment(run.startedAt).format('dddd, MMMM Do YYYY, h:mm:ss a')}`
+            : 'Not yet started'}
         </p>
-        <p>
-          End:{' '}
-          {run.endedAt
-            ? run.endedAt.toLocaleString()
-            : 'Not yet started, or still running'}
-        </p>
-        <p>
-          Duration:{' '}
-          {run.duration
-            ? `${run.duration} min`
-            : 'Not yet started, or still running'}
-        </p>
+        <p>{`End: ${
+          run.endedAt
+            ? moment(run.endedAt).format('dddd, MMMM Do YYYY, h:mm:ss a')
+            : 'Not yet started, or still running'
+        }`}</p>
+        <p>{`Duration: ${
+          run.duration
+            ? moment.duration(run.duration, 'seconds').humanize()
+            : 'Not yet started, or still running'
+        }`}</p>
       </div>
 
       <div className="mt-8 flex flex-col gap-y-2">

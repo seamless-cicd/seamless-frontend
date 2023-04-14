@@ -1,4 +1,5 @@
 import { CheckCircle, CircleSlashed } from 'lucide-react';
+import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { SERVICES_PATH } from '../../constants';
 import { ServiceCardProps } from '../../schema/serviceSchema';
@@ -54,7 +55,8 @@ const ServiceCard = ({ service, setServices }: ServiceCardProps) => {
           className="text-base text-stone-500 underline hover:text-indigo-700"
         >{`${service.githubRepoUrl}`}</a>
         <p className="mt-1 text-base">
-          Last Run: {service.createdAt.toLocaleString()}
+          Created:{' '}
+          {moment(service.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss a')}
         </p>
       </div>
 

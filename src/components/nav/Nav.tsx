@@ -6,7 +6,7 @@ import {
   Settings,
 } from 'lucide-react';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logoWithText from '../../assets/logo/PNG 1.png';
 import { login, logout } from '../../utils/authentication';
 import { UserContext } from '../context_providers/UserContextProvider';
@@ -55,11 +55,13 @@ const Nav = () => {
 };
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
   const logoutUser = async () => {
     await logout();
     setUser(null);
+    navigate('/');
   };
 
   return (
@@ -71,7 +73,7 @@ const UserProfile = () => {
             <p className="text-sm font-medium text-stone-700">{user.login}</p>
             <a
               onClick={logoutUser}
-              className="cursor-pointer text-sm text-red-500 hover:text-red-700"
+              className="cursor-pointer text-sm text-stone-400 hover:text-stone-500"
             >
               Logout
             </a>
@@ -79,7 +81,7 @@ const UserProfile = () => {
         </>
       ) : (
         <button
-          className="rounded border border-gray-400 bg-white py-2 px-4 font-semibold text-gray-800 shadow hover:bg-gray-100"
+          className="rounded border border-stone-300 bg-white py-2 px-4 font-semibold text-stone-700 shadow hover:bg-stone-100"
           onClick={login}
         >
           Login with GitHub

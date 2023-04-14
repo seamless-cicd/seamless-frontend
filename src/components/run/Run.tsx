@@ -7,7 +7,7 @@ import { stageSchema, StageType } from '../../schema/stageSchema';
 import RunStatusSchema from '../../schema/statusUpdateSchema';
 import { axiosGetAuthenticated } from '../../utils/authentication';
 import ApproveDeploymentAlert from '../alerts/ApproveDeploymentAlert';
-import { SocketContext } from '../context_providers/SockerContextProvider';
+import { SocketContext } from '../context_providers/SocketContextProvider';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import RunHeaderCard from './RunHeaderCard';
 import StagesList from './StagesList';
@@ -42,74 +42,51 @@ const Run = () => {
 
   const socket = useContext(SocketContext);
 
-  useEffect(() => {
-    const fetchRunsAndStages = async () => {
-      try {
-        const [runResponse, stagesResponse] = await axios.all([
-          axiosGetAuthenticated(`${RUNS_PATH}/${runId}`),
-          axiosGetAuthenticated(STAGES_PATH, {
-            params: { runId },
-          }),
-        ]);
+  const fetchRunsAndStages = async () => {
+    try {
+      const [runResponse, stagesResponse] = await axios.all([
+        axiosGetAuthenticated(`${RUNS_PATH}/${runId}`),
+        axiosGetAuthenticated(STAGES_PATH, {
+          params: { runId },
+        }),
+      ]);
 
-        const validatedRun = runSchema.parse(runResponse.data);
-        const validatedStages = stageSchema.array().parse(stagesResponse.data);
+      const validatedRun = runSchema.parse(runResponse.data);
+      const validatedStages = stageSchema.array().parse(stagesResponse.data);
 
-        setRun(validatedRun);
+      setRun(validatedRun);
 
-        if (run?.status === 'AWAITING_APPROVAL') {
-          setShowApproveDeploymentAlert(true);
-        }
-
-        setStages(sortStages(validatedStages));
-      } catch (e) {
-        console.log(e);
+      if (run?.status === 'AWAITING_APPROVAL') {
+        setShowApproveDeploymentAlert(true);
       }
-    };
 
+      setStages(sortStages(validatedStages));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
     fetchRunsAndStages();
   }, [runId]);
 
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
       const eventData = JSON.parse(event.data);
-      console.log('Socket message: ', event.data);
 
       if (eventData.type === 'status_update') {
-        const parsedStatusUpdate = RunStatusSchema.parse(eventData.data);
-
-        // Ignore messages for other runs
-        if (parsedStatusUpdate.run.id !== runId) {
-          return;
-        }
-
-        // Only update run if it exists
-        if (!run) {
-          return;
-        }
-
-        setRun({ ...run, status: parsedStatusUpdate.run.status });
-        setStages(
-          stages.map((stage) => {
-            const stageUpdate = Object.values(parsedStatusUpdate.stages).find(
-              (stageUpdate) => stageUpdate.id === stage.id,
-            );
-
-            if (stageUpdate) {
-              return { ...stage, status: stageUpdate.status };
-            } else {
-              return stage;
-            }
-          }),
-        );
+        fetchRunsAndStages();
+        setShowApproveDeploymentAlert(false);
       } else if (eventData.type === 'wait_for_approval') {
         setShowApproveDeploymentAlert(true);
       }
     };
 
-    socket.addEventListener('message', onMessage);
-    return () => socket.removeEventListener('message', onMessage);
-  }, [run]);
+    if (socket) {
+      socket?.addEventListener('message', onMessage);
+      return () => socket.removeEventListener('message', onMessage);
+    }
+  }, [run, socket]);
 
   return (
     <div>

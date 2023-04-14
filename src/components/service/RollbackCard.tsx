@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { SERVICES_PATH } from '../../constants';
 import { Rollback } from '../../schema/runSchema';
@@ -45,9 +46,9 @@ const RollbackCard = ({ rollback, serviceId }: RollbackCardProps) => {
           </ul>
 
           <div>
-            <p>{`Pushed at: ${new Date(
-              String(image.imagePushedAt),
-            ).toLocaleString()}`}</p>
+            <p>{`Pushed at: ${moment(image.imagePushedAt).format(
+              'dddd, MMMM Do YYYY, h:mm:ss a',
+            )}`}</p>
           </div>
         </div>
         <div className="flex-shrink-0">
@@ -72,7 +73,11 @@ const RollbackCard = ({ rollback, serviceId }: RollbackCardProps) => {
                 </span>
               </p>
               <p>{`Last run at ${
-                run.startedAt ? run.startedAt.toLocaleString() : 'Not yet run'
+                run.startedAt
+                  ? `${moment(run.startedAt).format(
+                      'dddd, MMMM Do YYYY, h:mm:ss a',
+                    )}`
+                  : 'Not yet run'
               }`}</p>
               <p>{`Status: ${StatusToName[run.status]}`}</p>
             </div>

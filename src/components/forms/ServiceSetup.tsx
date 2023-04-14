@@ -85,7 +85,7 @@ const ServiceSetup = () => {
             setValue(field, response.data[field]),
           );
         } catch (e) {
-          console.log(e);
+          console.error(e);
         }
       };
       fetchData();
@@ -203,7 +203,7 @@ const ServiceSetup = () => {
 
           <h3 className="mt-10 text-xl font-medium text-indigo-700">GitHub</h3>
           <div className="mt-4 flex w-[450px] flex-col gap-2">
-            <label htmlFor="githubRepoUrl">Github Repository URL</label>
+            <label htmlFor="githubRepoUrl">GitHub Repository URL</label>
             <input
               type="text"
               id="githubRepoUrl"
@@ -258,7 +258,7 @@ const ServiceSetup = () => {
             <input
               type="text"
               id="dockerfilePath"
-              placeholder="./"
+              placeholder="."
               {...register('dockerfilePath')}
             />
             {errors.dockerfilePath && (

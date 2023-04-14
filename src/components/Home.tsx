@@ -19,7 +19,11 @@ import { PIPELINES_PATH } from '../constants';
 import { pipelineSchema, PipelineType } from '../schema/pipelineSchema';
 import { RunType } from '../schema/runSchema';
 import { ServiceType } from '../schema/serviceSchema';
-import { StageType, StatusToName } from '../schema/stageSchema';
+import {
+  StageType,
+  StageTypeToName,
+  StatusToName,
+} from '../schema/stageSchema';
 import { axiosGetAuthenticated, login } from '../utils/authentication';
 import { UserContext } from './context_providers/UserContextProvider';
 
@@ -59,7 +63,7 @@ const Home = () => {
         const validatedServices = validatedPipeline.services;
         setServices(validatedServices);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     };
     fetchData();
@@ -94,15 +98,13 @@ const Home = () => {
     service.runs?.forEach((run) => {
       runStatus[run.status].push(run);
       run.stages?.forEach((stage) => {
-        if (stage.type === 'IN_PROGRESS') stageTypes[stage.type].push(stage);
+        if (stage.status === 'IN_PROGRESS') stageTypes[stage.type].push(stage);
       });
     });
   });
 
-  console.log(stageTypes);
-
   // Chart options and data
-  const chartOptions = {
+  const runStatusChartOptions = {
     responsive: true,
     plugins: {
       legend: {
@@ -113,6 +115,28 @@ const Home = () => {
       y: {
         ticks: {
           stepSize: 1,
+        },
+      },
+    },
+  };
+
+  const stageStatusChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        ticks: {
+          stepSize: 1,
+        },
+      },
+      x: {
+        ticks: {
+          maxRotation: 90,
+          minRotation: 60,
         },
       },
     },
@@ -135,7 +159,7 @@ const Home = () => {
   };
 
   const stageStatusChartData = {
-    labels: stageStatusLabels.map((label) => StatusToName[label]),
+    labels: stageStatusLabels.map((label) => StageTypeToName[label]),
     datasets: [
       {
         label: 'Count',
@@ -151,7 +175,7 @@ const Home = () => {
         Seamless CI/CD Pipeline Dashboard
       </h1>
       {!user && (
-        <p className="mt-3 text-lg text-gray-500">
+        <p className="mt-3 text-lg text-stone-500">
           <a className="cursor-pointer underline" onClick={login}>
             Login
           </a>{' '}
@@ -196,7 +220,10 @@ const Home = () => {
               </div>
               <div className="w-7/12 rounded-md bg-white p-4 shadow-md">
                 {stageStatusChartData && (
-                  <Bar data={stageStatusChartData} options={chartOptions} />
+                  <Bar
+                    data={stageStatusChartData}
+                    options={stageStatusChartOptions}
+                  />
                 )}
               </div>
             </div>
@@ -207,7 +234,10 @@ const Home = () => {
             </h1>
             <div className="mt-8 w-full rounded-md bg-white p-4 shadow-md">
               {runStatusChartData && (
-                <Bar data={runStatusChartData} options={chartOptions} />
+                <Bar
+                  data={runStatusChartData}
+                  options={runStatusChartOptions}
+                />
               )}
             </div>
           </div>

@@ -1,5 +1,5 @@
+import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-
 import { RUNS_PATH } from '../../constants';
 import { RunHeaderProps } from '../../schema/runSchema';
 import { StatusToName } from '../../schema/stageSchema';
@@ -31,6 +31,7 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
     try {
       const response = await axiosPostAuthenticated(
         `${RUNS_PATH}/${run.id}/rerun`,
+        { data: run },
       );
 
       if (response.status !== 200) {
@@ -64,20 +65,22 @@ const RunHeaderCard = ({ run }: RunHeaderProps) => {
         <div className="col-span-5 mt-5 flex flex-col gap-y-2">
           <p>
             Start:{' '}
-            {run.startedAt ? run.startedAt.toLocaleString() : 'Not yet started'}
+            {run.startedAt
+              ? `${moment(run.startedAt).format(
+                  'dddd, MMMM Do YYYY, h:mm:ss a',
+                )}`
+              : 'Not yet started'}
           </p>
-          <p>
-            End:{' '}
-            {run.endedAt
-              ? run.endedAt.toLocaleString()
-              : 'Not yet started, or still running'}
-          </p>
-          <p>
-            Duration:{' '}
-            {run.duration
-              ? `${run.duration} min`
-              : 'Not yet started, or still running'}
-          </p>
+          <p>{`End: ${
+            run.endedAt
+              ? moment(run.endedAt).format('dddd, MMMM Do YYYY, h:mm:ss a')
+              : 'Not yet started, or still running'
+          }`}</p>
+          <p>{`Duration: ${
+            run.duration
+              ? moment.duration(run.duration, 'seconds').humanize()
+              : 'Not yet started, or still running'
+          }`}</p>
         </div>
 
         <div className="col-span-7 mt-5 flex flex-col gap-y-2 pl-2">
