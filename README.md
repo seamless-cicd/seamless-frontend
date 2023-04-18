@@ -5,7 +5,7 @@
 > _Seamless automates the deployment process from push to Prod_
 
 Seamless' user interface is built with [React](https://reactjs.org/),
-[React Router](https://reactrouter.com/en/main),
+[React Router](https://reactrouter.com/en/main), [Tailwind](https://tailwindcss.com/)
 [TypeScript](https://www.typescriptlang.org/), [Zod](https://github.com/colinhacks/zod) and [Vite](https://vitejs.dev/).
 
 To use the Seamless's Dashboard User Interface the Seamless Infrastructure must first be provisioned. You can visit the seamless-infrastructure repository to complete this step if needed. Once set up is completed Seamless's CLI tool will provide you with a URL for your Dashboard.
